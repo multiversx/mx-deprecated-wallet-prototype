@@ -1,0 +1,10 @@
+body {
+  @extend %font__primary;
+
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  @extend %font__primary;
+}

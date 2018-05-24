@@ -1,0 +1,61 @@
+// Fonts
+//
+
+// Vars
+// ---------------
+
+$font-path: '/assets/fonts';
+
+
+// Base
+// ---------------
+
+
+@import url("//hello.myfonts.net/count/3664d6");
+
+@font-face {
+  font-family: 'Nexa-Bold';
+  src: url('#{$font-path}/3664D6_3_0.eot');
+  src: url('#{$font-path}/3664D6_3_0.eot?#iefix') format('embedded-opentype'), url('#{$font-path}/3664D6_3_0.woff2') format('woff2'), url('#{$font-path}/3664D6_3_0.woff') format('woff'), url('#{$font-path}/3664D6_3_0.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nexa-Light';
+  src: url('#{$font-path}/3664D6_9_0.eot');
+  src: url('#{$font-path}/3664D6_9_0.eot?#iefix') format('embedded-opentype'), url('#{$font-path}/3664D6_9_0.woff2') format('woff2'), url('#{$font-path}/3664D6_9_0.woff') format('woff'), url('#{$font-path}/3664D6_9_0.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nexa-Regular';
+  src: url('#{$font-path}/3664D6_B_0.eot');
+  src: url('#{$font-path}/3664D6_B_0.eot?#iefix') format('embedded-opentype'), url('#{$font-path}/3664D6_B_0.woff2') format('woff2'), url('#{$font-path}/3664D6_B_0.woff') format('woff'), url('#{$font-path}/3664D6_B_0.ttf') format('truetype');
+}
+
+%font__primary {
+  font-family: 'Nexa-Regular', Helvetica, sans-serif;
+  font-weight: normal;
+}
+
+%font__primary--light {
+  font-family: 'Nexa-Light', Helvetica, sans-serif;
+  font-weight: normal;
+}
+
+%font__primary--bold {
+  font-family: 'Nexa-Bold', Helvetica, sans-serif;
+  font-weight: normal;
+}
+
+@mixin font__primary {
+  @extend %font__primary;
+}
+
+@mixin font__primary--light() {
+  @extend %font__primary--light;
+}
+
+@mixin font__primary--bold() {
+  @extend %font__primary--bold;
+}
+
+
