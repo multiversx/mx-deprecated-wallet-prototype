@@ -2,19 +2,20 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 62.5%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
 body {
   @extend %font__primary;
 
+  font-size: 1.6rem;
+  line-height: 1.4;
   margin: 0;
   padding: 0;
-}
-
-
-.app-container {
-  @extend %font__primary;
-}
-
-.app-main {
-  margin-left: $sidebar-width;
-  padding-left: 20px;
 }

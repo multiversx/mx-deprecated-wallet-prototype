@@ -1,9 +1,17 @@
+@import "../styles/base/variables";
+
 :host {
-  width: 1024px;
-  height: 600px;
-  background: #fafafa;
-  border: 1px solid #ddd;
-  overflow: hidden;
   display: block;
   position: relative;
+  height: 100%;
+  overflow: hidden;
+
+  .app-main {
+    position: absolute;
+    top: 0;
+    bottom: 200px;
+    left: $sidebar-width;
+    padding: 20px;
+    width: calc(100% - 180px);
+  }
 }

@@ -15,14 +15,13 @@ $sidebar-border: #BABABA;
 :host {
   display: block;
   background: $sidebar-bg;
-  border-right: 1px dashed $sidebar-bg;
   position: fixed;
   width: $sidebar-width;
   height: 100%;
   left: 0;
   top: 0;
   bottom: 0;
-  padding: 20px;
+  padding: 20px 0;
 
   .logo {
     display: block;
