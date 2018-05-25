@@ -2,10 +2,6 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 62.5%;
-}
-
 html,
 body {
   height: 100%;
@@ -14,7 +10,7 @@ body {
 body {
   @extend %font__primary;
 
-  font-size: 1.6rem;
+  font-size: 16px;
   line-height: 1.4;
   margin: 0;
   padding: 0;
