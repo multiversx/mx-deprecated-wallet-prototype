@@ -21,6 +21,8 @@
     "@angular/platform-browser": "^6.0.2",
     "@angular/platform-browser-dynamic": "^6.0.2",
     "@angular/router": "^6.0.2",
+    "@ng-bootstrap/ng-bootstrap": "^2.0.0",
+    "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
     "dotenv": "^5.0.1",
     "electron-reload": "^1.2.2",

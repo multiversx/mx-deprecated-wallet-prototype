@@ -1,0 +1,11 @@
+@import "../../../styles/base/variables";
+
+:host {
+  background: #fff;
+  border: 1px solid #ddd;
+  position: absolute;
+  height: 200px;
+  left: $sidebar-width;
+  right: 0;
+  bottom: 0;
+}
