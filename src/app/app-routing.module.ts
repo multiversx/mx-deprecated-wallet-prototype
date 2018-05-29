@@ -8,7 +8,7 @@ import { SearchComponent } from './pages/search/search.component';
 
 const routes: Routes = [
   {
-    path: 'client',
+    path: 'node',
     component: ClientComponent,
   },
   {
@@ -25,17 +25,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/client',
-    pathMatch: 'full'
-  },
-  {
-    path: '',
-    redirectTo: '/client',
+    redirectTo: '/node',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: '/client'
+    redirectTo: '/node'
   }
 ];
 

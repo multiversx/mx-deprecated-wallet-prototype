@@ -12,6 +12,7 @@
     bottom: 200px;
     left: $sidebar-width;
     padding: 20px;
-    width: calc(100% - 180px);
+    width: calc(100% - #{$sidebar-width});
+    font-family: 'Roboto', sans-serif;
   }
 }
