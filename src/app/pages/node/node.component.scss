@@ -1,4 +1,7 @@
 :host {
+  display: block;
+  height: 100%;
+
   .form-group {
     margin: 0 0 10px;
   }
@@ -10,14 +13,14 @@
   h3 {
     display: flex;
     align-items: center;
-    font-size: 18px;
-    line-height: 21px;
+    font-size: 16px;
+    line-height: 18px;
     margin: 0 0 10px;
   }
 
   .btn {
     font-size: 13px;
-    width: 70px;
+    min-width: 70px;
   }
 
   .form-control {
@@ -27,9 +30,9 @@
   }
 
   .badge {
-    width: 21px;
-    height: 21px;
-    line-height: 21px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
     border-radius: 50%;
     font-size: 12px;
     position: relative;
@@ -68,5 +71,35 @@
     .xs {
       width: 50px;
     }
+  }
+
+  .form-block {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 0 0 10px;
+    border-radius: 5px;
+
+    .form-group {
+      // margin-bottom: 0;
+    }
+  }
+
+  // Wizard
+  //
+
+  aw-wizard {
+    height: 100%;
+  }
+
+  aw-wizard-step {
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  .aw-wizard-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
   }
 }

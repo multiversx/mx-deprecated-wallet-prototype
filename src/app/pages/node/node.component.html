@@ -1,7 +1,7 @@
-<div class="row">
+<div class="row d-none">
   <div class="col-md-6">
 
-    <div class="form-block" style="border: 1px solid #ddd; padding: 10px; margin: 0 0 20px; border-radius: 5px;">
+    <div class="form-block">
       <h3>
         <span class="badge badge-primary">1</span> <span class="title-label">This machine <fa name="question-circle"
                                                                                               ngbTooltip="Tooltip on top"
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="form-block" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+    <div class="form-block mb-0">
       <h3>
         <span class="badge badge-primary">2</span> <span class="title-label">Node Setup <fa name="question-circle"
                                                                                             ngbTooltip="Tooltip on top"
@@ -125,7 +125,7 @@
 
     <div class="form-block" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; height: 100%;">
       <h3>
-        <span class="badge badge-primary">2</span> <span class="title-label">Add Peers <fa name="question-circle"
+        <span class="badge badge-primary">4</span> <span class="title-label">Add Peers <fa name="question-circle"
                                                                                            ngbTooltip="Tooltip on top"
                                                                                            placement="right"></fa></span>
       </h3>
@@ -172,43 +172,45 @@
         </thead>
       </table>
 
-      <table class="table">
-        <tbody>
-        <tr>
-          <td class="xs">1</td>
-          <td>255.255.255.255</td>
-          <td>Mark</td>
-          <td class="text-center sm">
-            <fa name="circle"></fa>
-          </td>
-          <td class="text-center sm">
-            <fa name="trash"></fa>
-          </td>
-        </tr>
-        <tr>
-          <td class="xs">1</td>
-          <td>255.255.255.255</td>
-          <td>8000</td>
-          <td class="text-center sm">
-            <fa name="circle"></fa>
-          </td>
-          <td class="text-center sm">
-            <fa name="trash"></fa>
-          </td>
-        </tr>
-        <tr>
-          <td class="xs">1</td>
-          <td>255.255.255.255</td>
-          <td>8000</td>
-          <td class="text-center sm">
-            <fa name="circle"></fa>
-          </td>
-          <td class="text-center sm">
-            <fa name="trash"></fa>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+          <tr>
+            <td class="xs">1</td>
+            <td>255.255.255.255</td>
+            <td>Mark</td>
+            <td class="text-center sm">
+              <fa name="circle"></fa>
+            </td>
+            <td class="text-center sm">
+              <fa name="trash"></fa>
+            </td>
+          </tr>
+          <tr>
+            <td class="xs">1</td>
+            <td>255.255.255.255</td>
+            <td>8000</td>
+            <td class="text-center sm">
+              <fa name="circle"></fa>
+            </td>
+            <td class="text-center sm">
+              <fa name="trash"></fa>
+            </td>
+          </tr>
+          <tr>
+            <td class="xs">1</td>
+            <td>255.255.255.255</td>
+            <td>8000</td>
+            <td class="text-center sm">
+              <fa name="circle"></fa>
+            </td>
+            <td class="text-center sm">
+              <fa name="trash"></fa>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
 
@@ -216,14 +218,20 @@
 
 </div>
 
-<div class="row">
-  <div class="col-md-12">
+<div class="row d-none">
+  <div class="col-md-12" style="padding-top: 10px;">
 
-    <div class="form-block" style="border: 1px solid #ddd; padding: 10px; margin: 20px 0; border-radius: 5px;">
+    <div class="form-block">
+      <h3>
+        <span class="badge badge-primary">3</span> <span class="title-label">Keys <fa name="question-circle"
+                                                                                      ngbTooltip="Tooltip on top"
+                                                                                      placement="right"></fa></span>
+      </h3>
+
       <div class="form-row">
         <div class="form-group col-md-6">
           <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
               <div class="row">
                 <div class="col">
                   <label>Private key</label>
@@ -234,7 +242,7 @@
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
               <button class="btn btn-primary btn-sm">Generate</button>
               <button class="btn btn-secondary ml-2 btn-sm">Manual</button>
             </div>
@@ -254,9 +262,55 @@
       </div>
     </div>
 
-    <div class="btn-wrap text-center pt-2">
+    <div class="btn-wrap text-center">
       <button type="button" class="btn btn-primary btn-lg">Start</button>
     </div>
 
   </div> <!-- end column-left -->
 </div>
+
+<aw-wizard>
+  <aw-wizard-step stepTitle="Node Setup">
+
+    <p>Node setup content</p>
+
+
+    <div class="aw-wizard-footer text-center">
+      <button type="button" class="btn btn-primary btn-lg" awNextStep>Next Step</button>
+    </div>
+
+  </aw-wizard-step>
+
+  <aw-wizard-step stepTitle="Network Peers">
+
+    <p>Peers content</p>
+
+
+    <div class="aw-wizard-footer text-center">
+      <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
+      <button type="button" class="btn btn-primary ml-2" awNextStep>Next</button>
+    </div>
+  </aw-wizard-step>
+
+  <aw-wizard-step stepTitle="Keys">
+
+    <p>Keys content</p>
+
+    <div class="aw-wizard-footer text-center">
+      <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
+      <button type="button" class="btn btn-primary ml-2" awNextStep>Next</button>
+    </div>
+  </aw-wizard-step>
+
+
+  <aw-wizard-step stepTitle="Summary">
+    <p>
+      Sumamry content
+    </p>
+
+    <div class="aw-wizard-footer text-center">
+      <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
+      <button type="button" class="btn btn-primary " (click)="finishFunction()">Start</button>
+    </div>
+  </aw-wizard-step>
+</aw-wizard>

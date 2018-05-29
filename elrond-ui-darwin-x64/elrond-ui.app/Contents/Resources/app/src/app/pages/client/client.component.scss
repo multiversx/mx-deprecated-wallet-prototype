@@ -3,11 +3,15 @@
     margin: 0 0 10px;
   }
 
+  label {
+    font-size: 13px;
+  }
+
   h3 {
     display: flex;
     align-items: center;
-    font-size: 18px;
-    line-height: 21px;
+    font-size: 16px;
+    line-height: 18px;
     margin: 0 0 10px;
   }
 
@@ -23,9 +27,9 @@
   }
 
   .badge {
-    width: 21px;
-    height: 21px;
-    line-height: 21px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
     border-radius: 50%;
     font-size: 12px;
     position: relative;
@@ -63,6 +67,17 @@
 
     .xs {
       width: 50px;
+    }
+  }
+
+  .form-block {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 0 0 10px;
+    border-radius: 5px;
+
+    .form-group {
+      // margin-bottom: 0;
     }
   }
 }
