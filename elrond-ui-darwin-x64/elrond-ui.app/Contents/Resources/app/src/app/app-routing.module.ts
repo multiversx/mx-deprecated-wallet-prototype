@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { ClientComponent } from './pages/client/client.component';
+import { NodeComponent } from './pages/node/node.component';
 import { OperationsComponent } from './pages/operations/operations.component';
 import { StatsComponent } from './pages/stats/stats.component';
 import { SearchComponent } from './pages/search/search.component';
@@ -9,7 +9,7 @@ import { SearchComponent } from './pages/search/search.component';
 const routes: Routes = [
   {
     path: 'node',
-    component: ClientComponent,
+    component: NodeComponent,
   },
   {
     path: 'operations',

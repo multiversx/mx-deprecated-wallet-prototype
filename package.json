@@ -25,11 +25,13 @@
     "@ng-select/ng-select": "^2.1.1",
     "angular-archwizard": "^3.0.0",
     "angular-font-awesome": "^3.1.2",
+    "angular2-uuid": "^1.1.1",
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
     "dotenv": "^5.0.1",
     "electron-reload": "^1.2.2",
     "font-awesome": "^4.7.0",
+    "ngx-mask": "^2.9.3",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

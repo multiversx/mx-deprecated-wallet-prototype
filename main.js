@@ -2,7 +2,7 @@ const {app, BrowserWindow} = require('electron');
 // require('electron-reload')(__dirname);
 
 let appWin = null;
-const winConfig = {width: 1200, height: 640};
+const winConfig = {width: 1200, height: 600};
 const path = require('path');
 const url = require('url');
 require('dotenv').config();

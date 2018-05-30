@@ -1,8 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { ArchwizardModule } from 'angular-archwizard';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +15,7 @@ import { NavigationComponent } from './layout/navigation/navigation.component';
 import { OperationsComponent } from './pages/operations/operations.component';
 import { StatsComponent } from './pages/stats/stats.component';
 import { SearchComponent } from './pages/search/search.component';
-import { ClientComponent } from './pages/client/client.component';
+import { NodeComponent } from './pages/node/node.component';
 import { LoggerComponent } from './layout/logger/logger.component';
 
 @NgModule({
@@ -22,14 +26,18 @@ import { LoggerComponent } from './layout/logger/logger.component';
     OperationsComponent,
     StatsComponent,
     SearchComponent,
-    ClientComponent,
+    NodeComponent,
     LoggerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule.forRoot(),
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    ArchwizardModule,
+    NgSelectModule,
+    FormsModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

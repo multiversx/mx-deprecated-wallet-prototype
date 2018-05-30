@@ -7,4 +7,12 @@
 // Base
 // -------------------------
 
-.form-control {}
+.form-group {
+  label {
+    font-size: (14/16 + rem);
+  }
+}
+
+.form-control {
+  font-size: (14/16 + rem);
+}
