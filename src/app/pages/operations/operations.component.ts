@@ -9,6 +9,7 @@ export class OperationsComponent implements OnInit {
   public operationsBalance: number;
   public operationsFrom: string;
   public operationsTo: string;
+  public operationsAmount: string;
 
   constructor() { }
 
