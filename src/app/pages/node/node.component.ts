@@ -54,11 +54,11 @@ export class NodeComponent implements OnInit {
   public selectedDistributon: number;
 
   public instanceName: string;
-  public instanceIp: any;
-  public instancePort = 5454;
+  public instanceIp = '127.0.0.1';
+  public instancePort = 1234;
   public instanceGenesisCoins = 21000000;
-  public instanceRestorePath: string;
-  public instanceBlockchainPath: string;
+  public instanceRestorePath = '';
+  public instanceBlockchainPath = '';
   public instanceNodeDistribution: string;
 
   public privateKey: string;
@@ -123,7 +123,11 @@ export class NodeComponent implements OnInit {
     this.peerTable.splice(index, 1);
   }
 
-  onChangeFile(event) {
-    console.log('file: ', event);
+  onChangeBlockchain(event) {
+    this.instanceBlockchainPath = event.target.files[0].path;
+  }
+
+  onChangePath(event) {
+    this.instanceRestorePath = event.target.files[0].path;
   }
 }

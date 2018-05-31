@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./operations.component.scss']
 })
 export class OperationsComponent implements OnInit {
+  public operationsBalance: number;
+  public operationsFrom: string;
+  public operationsTo: string;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  send(e) {
+    console.log('send');
   }
 
 }
