@@ -289,26 +289,29 @@
   <aw-wizard-step stepTitle="Summary">
     <div class="step-body container-fluid">
       <div class="row justify-content-md-center">
-        <div class="col-md-10">
-          <h3>Instance setup</h3>
-          <p>Instance name: {{ instanceName }}</p>
-          <p>Instance IP: {{ instanceIp }}</p>
-          <p>Instance Port: {{ instancePort }}</p>
-          <p>Blockchain path: {{ instanceBlockchainPath }}</p>
+          <div class="col-md-6">
+            <h3>Instance setup</h3>
+            <p>Instance name: {{ instanceName }}</p>
+            <p>Instance IP: {{ instanceIp }}</p>
+            <p>Instance Port: {{ instancePort }}</p>
+            <p>Blockchain path: {{ instanceBlockchainPath }}</p>
+          </div>
 
-          <hr>
+          <div class="col-md-6">
+            <h3>Node setup</h3>
 
-          <h3>Node setup</h3>
+            <p>Node type: {{ selectedNodeType }}</p>
+            <p>Node Action: {{ selectedNodeAction }}</p>
+            <p>Node type: {{ selectedNodeType }}</p>
+            <p>ERD's in Genesis: {{ instanceGenesisCoins }}</p>
+            <p>Distribution: {{ instanceGenesisCoins }}</p>
+            <p>Nr. of Nodes to distribute: {{ instanceNodeDistribution }}</p>
+            <p>Restore path: {{ instanceRestorePath }}</p>
+          </div>
+      </div>
 
-          <p>Node type: {{ selectedNodeType }}</p>
-          <p>Node Action: {{ selectedNodeAction }}</p>
-          <p>Node type: {{ selectedNodeType }}</p>
-          <p>ERD's in Genesis: {{ instanceGenesisCoins }}</p>
-          <p>Distribution: {{ instanceGenesisCoins }}</p>
-          <p>Nr. of Nodes to distribute: {{ instanceNodeDistribution }}</p>
-          <p>Restore path: {{ instanceRestorePath }}</p>
-
-          <hr>
+      <div class="row justify-content-md-center">
+        <div class="col-md-6">
 
           <h3>Network peers</h3>
 
@@ -346,14 +349,18 @@
             </div>
           </div>
 
-          <hr>
+        </div>
+
+        <div class="col-md-6">
 
           <h3>Keys</h3>
           <p>Private key: {{ privateKey }}</p>
           <p>Public key: {{ publicKey }}</p>
 
         </div>
+
       </div>
+
     </div><!-- end .step-body -->
 
     <div class="aw-wizard-footer text-right pr-4">
