@@ -1,5 +1,5 @@
 <aw-wizard>
-  <aw-wizard-step stepTitle="Node Setup">
+  <aw-wizard-step stepTitle="Instance Setup">
 
     <div class="step-body container-fluid">
 
@@ -61,6 +61,22 @@
                    [(ngModel)]="instanceBlockchainPath">
           </div>
         </div>
+      </div>
+
+    </div><!-- .end step-body -->
+
+
+    <div class="aw-wizard-footer text-right pr-4">
+      <button type="button" class="btn btn-dark" awNextStep>Next</button>
+    </div>
+
+  </aw-wizard-step>
+
+  <aw-wizard-step stepTitle="Node Setup">
+
+    <div class="step-body container-fluid">
+
+      <div class="row">
 
         <div class="col-md-6">
           <div class="form-group">
@@ -111,19 +127,21 @@
                      [(ngModel)]="instanceGenesisCoins">
             </div>
 
-            <div class="form-group" *ngIf="selectedNodeAction === 0">
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" [(ngModel)]="instanceGenerateTransaction">
+            <div class="form-row" *ngIf="selectedNodeAction === 0">
+              <div class="form-group col-md-6">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="instanceGenerateTransaction">
 
-                  <span>Generate test transactions</span>
-                </label>
+                    <span>Generate test transactions</span>
+                  </label>
+                </div>
               </div>
-            </div>
 
-            <div class="form-group" *ngIf="instanceGenerateTransaction">
-              <label>Nr. of node to distribute ERD's <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa></label>
-              <input type="text" class="form-control" [(ngModel)]="instanceNodeDistribution">
+              <div class="form-group col-md-6" *ngIf="instanceGenerateTransaction">
+                <label>Nr. of node to distribute ERD's <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa></label>
+                <input type="text" class="form-control" [(ngModel)]="instanceNodeDistribution">
+              </div>
             </div>
 
           </ng-container>
@@ -133,7 +151,8 @@
     </div><!-- .end step-body -->
 
 
-    <div class="aw-wizard-footer text-center">
+    <div class="aw-wizard-footer text-right pr-4">
+      <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
       <button type="button" class="btn btn-dark" awNextStep>Next</button>
     </div>
 
@@ -147,7 +166,7 @@
 
         <div class="col-md-12">
 
-          <div class="form-row">
+          <div class="form-row w-75">
             <div class="form-group col-md-6">
               <label>IP
                 <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa>
@@ -188,7 +207,7 @@
             </thead>
           </table>
 
-          <div class="table-responsive" *ngIf="peerTable && peerTable.length > 0">
+          <div class="table-responsive" style="max-height: 100px;" *ngIf="peerTable && peerTable.length > 0">
             <table class="table">
               <tbody>
               <tr *ngFor="let peer of peerTable; let i = index">
@@ -214,8 +233,7 @@
 
     </div>
 
-
-    <div class="aw-wizard-footer text-center">
+    <div class="aw-wizard-footer text-right pr-4">
       <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
       <button type="button" class="btn btn-primary ml-2" awNextStep>Next</button>
     </div>
@@ -250,7 +268,7 @@
       </div>
     </div><!-- end .step-body -->
 
-    <div class="aw-wizard-footer text-center">
+    <div class="aw-wizard-footer text-right pr-4">
       <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
       <button type="button" class="btn btn-primary ml-2" awNextStep>Next</button>
     </div>
@@ -261,7 +279,7 @@
       Sumamry content
     </p>
 
-    <div class="aw-wizard-footer text-center">
+    <div class="aw-wizard-footer text-right pr-4">
       <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
       <button type="button" class="btn btn-primary">Start</button>
     </div>

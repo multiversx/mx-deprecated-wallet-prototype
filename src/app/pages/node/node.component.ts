@@ -38,8 +38,21 @@ export class NodeComponent implements OnInit {
     }
   ];
 
-  public selectedNodeType;
-  public selectedNodeAction;
+  public selectDistribution = [
+    {
+      label: 'Automatic distribution',
+      value: 0
+    },
+    {
+      label: 'Manual distribution',
+      value: 1
+    }
+  ];
+
+  public selectedNodeType: any;
+  public selectedNodeAction: any;
+  public selectedDistributon: number;
+
   public instanceName: string;
   public instanceIp: any;
   public instancePort = 5454;
