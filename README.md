@@ -2,6 +2,12 @@
 
 Elrond Network Protocol UI build with Angular & Electron
 
+## Dependencies
+
+- Angular cli - Run `npm install -g @angular/cli`
+
+Run `npm install` to install all development dependencies.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
