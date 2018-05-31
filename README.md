@@ -23,3 +23,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Generate Electron APP
 
 Run `electron-packager .` to generate the electron app 
+
+## Regenerate
+
+Run `electron-packager . --overwrite` to regenerate the electron app
