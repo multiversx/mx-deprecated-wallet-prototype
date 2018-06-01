@@ -92,6 +92,10 @@ export class NodeComponent implements OnInit {
     this.instanceName = `Elrond Instance ${this.UUID}`;
   }
 
+  getSelectLabel(field, value) {
+    return (this[field] instanceof Array) ? this[field].filter(item => item.value === this[value]).map(item => item.label) : this[value];
+  }
+
   checkInstance() {
     console.log('Check ip & port: ', this.instanceIp, this.instancePort);
 
