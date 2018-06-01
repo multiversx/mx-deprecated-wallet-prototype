@@ -5,11 +5,16 @@ import { NodeComponent } from './pages/node/node.component';
 import { OperationsComponent } from './pages/operations/operations.component';
 import { StatsComponent } from './pages/stats/stats.component';
 import { SearchComponent } from './pages/search/search.component';
+import {WelcomeComponent} from './pages/welcome/welcome.component';
 
 const routes: Routes = [
   {
     path: 'node',
     component: NodeComponent,
+  },
+  {
+    path: 'welcome',
+    component: WelcomeComponent,
   },
   {
     path: 'operations',
@@ -25,12 +30,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/node',
+    redirectTo: '/welcome',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: '/node'
+    redirectTo: '/welcome'
   }
 ];
 

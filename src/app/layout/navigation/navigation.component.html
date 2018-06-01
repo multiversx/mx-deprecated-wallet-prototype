@@ -2,6 +2,14 @@
   <ul class="app-navigation__menu">
     <li>
       <a class="app-navigation__menu-item"
+         routerLink="/welcome"
+         routerLinkActive="is-active"
+         [routerLinkActiveOptions]="{exact: true}">
+        Welcome
+      </a>
+    </li>
+    <li>
+      <a class="app-navigation__menu-item"
          routerLink="/node"
          routerLinkActive="is-active"
          [routerLinkActiveOptions]="{exact: true}">
