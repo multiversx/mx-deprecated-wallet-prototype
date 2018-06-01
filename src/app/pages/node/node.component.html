@@ -1,4 +1,21 @@
 <aw-wizard>
+  <aw-wizard-step stepTitle="Intro">
+    <div class="step-body container-fluid">
+
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+        <hr>
+        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+      </div>
+
+    </div>
+
+
+    <div class="aw-wizard-footer text-right pr-4">
+      <button type="button" class="btn btn-dark" awNextStep>Next</button>
+    </div>
+  </aw-wizard-step>
   <aw-wizard-step stepTitle="Instance Setup">
 
     <div class="step-body container-fluid">
@@ -66,10 +83,11 @@
     </div><!-- .end step-body -->
 
     <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-dark" awNextStep>Next</button>
+      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(0)" awNextStep>Next</button>
     </div>
 
   </aw-wizard-step>
+
   <aw-wizard-step stepTitle="Node Setup">
 
     <div class="step-body container-fluid">

@@ -130,4 +130,24 @@ export class NodeComponent implements OnInit {
   onChangePath(event) {
     this.instanceRestorePath = event.target.files[0].path;
   }
+
+  canGoNext(step) {
+    switch (step) {
+      case 1: {
+        return (this.instanceName && this.instanceIp && this.instancePort && this.instanceBlockchainPath);
+      }
+      case 2: {
+        break;
+      }
+      case 3: {
+        break;
+      }
+      case 4: {
+        break;
+      }
+      default: {
+        return false;
+      }
+    }
+  }
 }
