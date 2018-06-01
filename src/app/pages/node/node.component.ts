@@ -19,39 +19,51 @@ export class NodeComponent implements OnInit {
   public selectNodeTypes = [
     {
       label: 'Start as a first node',
-      value: 0
+      value: 1
     },
     {
       label: 'Join the network as a peer node',
-      value: 1
+      value: 2
     }
   ];
 
   public selectNodeAction = [
     {
       label: 'Start with an empty state - Genesis',
-      value: 0
+      value: 1
     },
     {
       label: 'Restore blockchain - Local folder',
-      value: 1
+      value: 2
     }
   ];
 
   public selectDistribution = [
     {
       label: 'Automatic distribution',
-      value: 0
+      value: 1
     },
     {
       label: 'Manual distribution',
+      value: 2
+    }
+  ];
+
+  public selectPrivateKeySource = [
+    {
+      label: 'I have a private key',
       value: 1
+    },
+    {
+      label: 'Generate a new private key',
+      value: 2
     }
   ];
 
   public selectedNodeType: any;
   public selectedNodeAction: any;
   public selectedDistributon: number;
+  public selectedPKSource = 2;
 
   public instanceName: string;
   public instanceIp = '127.0.0.1';
@@ -61,9 +73,9 @@ export class NodeComponent implements OnInit {
   public instanceBlockchainPath = '';
   public instanceNodeDistribution: string;
 
-  public privateKey: string;
-  public publicKey: string;
-  public isReadonly = true;
+  public privateKey = '';
+  public publicKey = ''
+  public isLoading = false;
 
   public peerIp: string;
   public peerPort: string;
@@ -83,14 +95,13 @@ export class NodeComponent implements OnInit {
     console.log('check ip & port');
   }
 
-  generatePrivateKey() {
-    console.log('generate private key');
-    this.isReadonly = true;
+  generateKeys() {
+    this.privateKey = UUID.UUID();
+    this.publicKey = UUID.UUID();
   }
 
-  manualPrivateKey() {
+  generatePublickKey() {
     console.log('manual pk');
-    this.isReadonly = false;
   }
 
   testPeer(): boolean {
@@ -134,16 +145,26 @@ export class NodeComponent implements OnInit {
   canGoNext(step) {
     switch (step) {
       case 1: {
-        return (this.instanceName && this.instanceIp && this.instancePort && this.instanceBlockchainPath);
+        return (this.instanceName !== '' && this.instanceIp !== '' && this.instancePort && this.instanceBlockchainPath);
       }
       case 2: {
-        break;
+        if (this.selectedNodeType === 2) {
+          return true;
+        }
+
+        return (this.selectedNodeType && this.selectedNodeAction &&
+          (this.selectedNodeAction === 2 && this.instanceRestorePath || this.selectedDistributon === 2 ||
+            (this.selectedDistributon === 1 && this.instanceNodeDistribution)));
       }
       case 3: {
-        break;
+        if (this.selectedNodeType === 1) {
+          return true;
+        }
+
+        return !(this.peerTable);
       }
       case 4: {
-        break;
+        return (this.privateKey !== '' && this.publicKey !== '');
       }
       default: {
         return false;
