@@ -1,7 +1,13 @@
 :host {
   display: block;
   padding: 85px 0 0;
-  margin: 0 0 30px;
+
+  .logo-elrond {
+    display: inline-block;
+    line-height: 0;
+    margin: 0 0 30px;
+  }
+
 
   h1 {
     font-size: 54px;

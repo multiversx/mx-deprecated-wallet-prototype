@@ -11,7 +11,7 @@
     top: 0;
     bottom: 140px;
     left: $sidebar-width;
-    padding: 10px 20px;
+    padding: 10px 0;
     width: calc(100% - #{$sidebar-width});
     font-family: 'Roboto', sans-serif;
   }
