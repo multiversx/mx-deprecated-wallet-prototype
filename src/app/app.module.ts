@@ -18,6 +18,7 @@ import { StatsComponent } from './pages/stats/stats.component';
 import { SearchComponent } from './pages/search/search.component';
 import { NodeComponent } from './pages/node/node.component';
 import { LoggerComponent } from './layout/logger/logger.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoggerComponent } from './layout/logger/logger.component';
     StatsComponent,
     SearchComponent,
     NodeComponent,
-    LoggerComponent
+    LoggerComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
