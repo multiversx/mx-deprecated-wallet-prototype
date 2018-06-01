@@ -9,10 +9,12 @@
         <p>For a smooth experience, do consider that all the fields are mandatory.</p>
         <p>Follow the
           <fa name="question-circle" ngbTooltip="Get help" placement="bottom"></fa>
-          to get specific details for each item.</p>
+          to get specific details for each item.
+        </p>
         <hr>
         <p class="mb-0">Hit the start button and let's unleash the Elrond Blockchain</p>
       </div>
+
 
     </div>
 
@@ -24,15 +26,23 @@
 
   <aw-wizard-step stepTitle="Instance Setup">
 
+
     <div class="step-body container-fluid">
 
       <div class="row justify-content-md-center">
+
         <div class="col-md-6">
+
           <div class="form-group">
             <label>Instance Name
               <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa>
             </label>
-            <input type="text" class="form-control" [(ngModel)]="instanceName">
+
+            <input type="text"
+                   class="form-control"
+                   name="instance_name"
+                   required
+                   [(ngModel)]="instanceName">
           </div>
 
           <div class="form-row">
@@ -42,8 +52,10 @@
                 <label>IP
                   <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa>
                 </label>
+
                 <input type="text"
                        class="form-control"
+                       required
                        [dropSpecialCharacters]="false"
                        mask="099.099.099.099"
                        [(ngModel)]="instanceIp">
@@ -59,6 +71,7 @@
                 </label>
                 <input type="text"
                        class="form-control"
+                       required
                        mask="000000"
                        [(ngModel)]="instancePort">
               </div>
@@ -79,11 +92,13 @@
             </label>
             <input type="file"
                    class="form-control"
+                   required
                    webkitdirectory
                    (change)="onChangeBlockchain($event)"
                    value="">
           </div>
         </div>
+
       </div>
 
     </div><!-- .end step-body -->
@@ -212,7 +227,7 @@
                      class="form-control"
                      autofocus
                      [dropSpecialCharacters]="false"
-                     mask="000.000.000.000"
+                     mask="099.099.099.099"
                      [(ngModel)]="peerIp">
             </div>
 
@@ -255,7 +270,7 @@
                   <fa name="circle" [ngClass]="peer.status ? 'active' : 'not-active'"></fa>
                 </td>
                 <td class="text-center sm">
-                  <button class="btn btn-link" (click)="deletePeer(i)">
+                  <button class="btn btn-link btn-icon" (click)="deletePeer(i)">
                     <fa name="trash"></fa>
                   </button>
                 </td>
@@ -274,7 +289,7 @@
 
     <div class="aw-wizard-footer text-right pr-4">
       <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
-      <button type="button" class="btn btn-dark ml-2" awNextStep>Next</button>
+      <button type="button" class="btn btn-dark ml-2" [disabled]="!canGoNext(3)" awNextStep>Next</button>
     </div>
   </aw-wizard-step>
 
@@ -316,9 +331,13 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary btn-sm" (click)="generateKeys()" *ngIf="selectedPKSource === 2">Generate Keys</button>
+            <button class="btn btn-primary btn-sm" (click)="generateKeys()" *ngIf="selectedPKSource === 2">Generate
+              Keys
+            </button>
 
-            <button class="btn btn-primary btn-sm" (click)="generatePublickKey()" *ngIf="selectedPKSource === 1">Generate Public Key</button>
+            <button class="btn btn-primary btn-sm" (click)="generatePublickKey()" *ngIf="selectedPKSource === 1">
+              Generate Public Key
+            </button>
           </div>
         </div>
       </div>
@@ -383,7 +402,7 @@
                     <fa name="circle" [ngClass]="peer.status ? 'active' : 'not-active'"></fa>
                   </td>
                   <td class="text-center sm">
-                    <button class="btn btn-link" (click)="deletePeer(i)">
+                    <button class="btn btn-link btn-icon" (click)="deletePeer(i)">
                       <fa name="trash"></fa>
                     </button>
                   </td>

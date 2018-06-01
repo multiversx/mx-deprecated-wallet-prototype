@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UUID } from 'angular2-uuid';
+import { ApiService } from '../../services/api.service';
 
 export interface PeerList {
   ip: string;
@@ -19,45 +20,70 @@ export class NodeComponent implements OnInit {
   public selectNodeTypes = [
     {
       label: 'Start as a first node',
-      value: 0
+      value: 1
     },
     {
       label: 'Join the network as a peer node',
-      value: 1
+      value: 2
     }
   ];
 
   public selectNodeAction = [
     {
       label: 'Start with an empty state - Genesis',
-      value: 0
+      value: 1
     },
     {
       label: 'Restore blockchain - Local folder',
-      value: 1
+      value: 2
     }
   ];
 
-  public selectedNodeType;
-  public selectedNodeAction;
+  public selectDistribution = [
+    {
+      label: 'Automatic distribution',
+      value: 1
+    },
+    {
+      label: 'Manual distribution',
+      value: 2
+    }
+  ];
+
+  public selectPrivateKeySource = [
+    {
+      label: 'I have a private key',
+      value: 1
+    },
+    {
+      label: 'Generate a new private key',
+      value: 2
+    }
+  ];
+
+  public selectedNodeType: any;
+  public selectedNodeAction: any;
+  public selectedDistributon: number;
+  public selectedPKSource = 2;
+
   public instanceName: string;
-  public instanceIp: any;
-  public instancePort = 5454;
+  public instanceIp = '127.0.0.1';
+  public instancePort = 1234;
   public instanceGenesisCoins = 21000000;
-  public instanceRestorePath: string;
-  public instanceBlockchainPath: string;
+  public instanceRestorePath = '';
+  public instanceBlockchainPath = '';
   public instanceNodeDistribution: string;
 
-  public privateKey: string;
-  public publicKey: string;
-  public isReadonly = true;
+  public privateKey = '';
+  public publicKey = '';
+  public isLoading = false;
 
   public peerIp: string;
   public peerPort: string;
   public peerTable: PeerList[] = [];
   public instanceGenerateTransaction = false;
 
-  constructor() {
+  constructor(private apiService: ApiService) {
     this.UUID = UUID.UUID();
   }
 
@@ -67,17 +93,25 @@ export class NodeComponent implements OnInit {
   }
 
   checkInstance() {
-    console.log('check ip & port');
+    console.log('Check ip & port: ', this.instanceIp, this.instancePort);
+
+    const payload = {
+      ip: this.instanceIp,
+      port: this.instancePort
+    };
+
+    this.apiService.post(payload).subscribe(result => {
+      console.log('API instance result: ', result);
+    });
   }
 
-  generatePrivateKey() {
-    console.log('generate private key');
-    this.isReadonly = true;
+  generateKeys() {
+    this.privateKey = UUID.UUID();
+    this.publicKey = UUID.UUID();
   }
 
-  manualPrivateKey() {
+  generatePublickKey() {
     console.log('manual pk');
-    this.isReadonly = false;
   }
 
   testPeer(): boolean {
@@ -110,7 +144,41 @@ export class NodeComponent implements OnInit {
     this.peerTable.splice(index, 1);
   }
 
-  onChangeFile(event) {
-    console.log('file: ', event);
+  onChangeBlockchain(event) {
+    this.instanceBlockchainPath = event.target.files[0].path;
+  }
+
+  onChangePath(event) {
+    this.instanceRestorePath = event.target.files[0].path;
+  }
+
+  canGoNext(step) {
+    switch (step) {
+      case 1: {
+        return (this.instanceName !== '' && this.instanceIp !== '' && this.instancePort && this.instanceBlockchainPath);
+      }
+      case 2: {
+        if (this.selectedNodeType === 2) {
+          return true;
+        }
+
+        return (this.selectedNodeType && this.selectedNodeAction &&
+          (this.selectedNodeAction === 2 && this.instanceRestorePath || this.selectedDistributon === 2 ||
+            (this.selectedDistributon === 1 && this.instanceNodeDistribution)));
+      }
+      case 3: {
+        if (this.selectedNodeType === 1) {
+          return true;
+        }
+
+        return (this.peerTable.length > 0);
+      }
+      case 4: {
+        return (this.privateKey !== '' && this.publicKey !== '');
+      }
+      default: {
+        return false;
+      }
+    }
   }
 }

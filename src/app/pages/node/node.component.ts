@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UUID } from 'angular2-uuid';
+import { ApiService } from '../../services/api.service';
 
 export interface PeerList {
   ip: string;
@@ -74,7 +75,7 @@ export class NodeComponent implements OnInit {
   public instanceNodeDistribution: string;
 
   public privateKey = '';
-  public publicKey = ''
+  public publicKey = '';
   public isLoading = false;
 
   public peerIp: string;
@@ -82,7 +83,7 @@ export class NodeComponent implements OnInit {
   public peerTable: PeerList[] = [];
   public instanceGenerateTransaction = false;
 
-  constructor() {
+  constructor(private apiService: ApiService) {
     this.UUID = UUID.UUID();
   }
 
@@ -92,7 +93,16 @@ export class NodeComponent implements OnInit {
   }
 
   checkInstance() {
-    console.log('check ip & port');
+    console.log('Check ip & port: ', this.instanceIp, this.instancePort);
+
+    const payload = {
+      ip: this.instanceIp,
+      port: this.instancePort
+    };
+
+    this.apiService.post(payload).subscribe(result => {
+      console.log('API instance result: ', result);
+    });
   }
 
   generateKeys() {
@@ -124,7 +134,7 @@ export class NodeComponent implements OnInit {
       status
     };
 
-    if (payload) {
+    if (ip && port) {
       this.peerTable.push(payload);
       this.resetPeer();
     }
@@ -161,7 +171,7 @@ export class NodeComponent implements OnInit {
           return true;
         }
 
-        return !(this.peerTable);
+        return (this.peerTable.length > 0);
       }
       case 4: {
         return (this.privateKey !== '' && this.publicKey !== '');
