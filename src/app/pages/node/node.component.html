@@ -8,7 +8,7 @@
         <p>Please follow this guided process in order to successfully launch a node.</p>
         <p>For a smooth experience, do consider that all the fields are mandatory.</p>
         <p>Follow the
-          <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa>
+          <fa name="question-circle" ngbTooltip="Get help" placement="bottom"></fa>
           to get specific details for each item.</p>
         <hr>
         <p class="mb-0">Hit the start button and let's unleash the Elrond Blockchain</p>
@@ -17,8 +17,8 @@
     </div>
 
 
-    <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-dark" awNextStep>Next</button>
+    <div class="aw-wizard-footer text-center pr-4">
+      <button type="button" class="btn btn-dark btn-lg" awNextStep>Start</button>
     </div>
   </aw-wizard-step>
 
@@ -89,6 +89,7 @@
     </div><!-- .end step-body -->
 
     <div class="aw-wizard-footer text-right pr-4">
+      <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
       <button type="button" class="btn btn-dark" [disabled]="!canGoNext(1)" awNextStep>Next</button>
     </div>
 
