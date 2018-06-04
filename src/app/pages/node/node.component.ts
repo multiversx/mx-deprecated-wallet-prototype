@@ -72,7 +72,7 @@ export class NodeComponent implements OnInit {
   public instanceGenesisCoins = 21000000;
   public instanceRestorePath = '';
   public instanceBlockchainPath = '';
-  public instanceNodeDistribution: string;
+  public instanceNodeDistribution = 1024;
 
   public privateKey = '';
   public publicKey = '';

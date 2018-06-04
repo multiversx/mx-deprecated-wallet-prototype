@@ -350,9 +350,9 @@
   </aw-wizard-step>
 
   <aw-wizard-step stepTitle="Summary">
-    <div class="step-body container-fluid">
+    <div class="step-body container">
       <div class="row justify-content-md-center">
-        <div class="col-md-6">
+        <div class="col-md-5 ml-auto">
           <h3>Instance setup</h3>
           <p>Instance name: {{ instanceName }}</p>
 
@@ -396,7 +396,7 @@
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-5 ml-auto">
           <h3>Node setup</h3>
 
           <p *ngIf="selectedNodeType">Node type: {{  getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
