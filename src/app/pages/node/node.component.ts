@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 
 export interface PeerList {
   ip: string;
-  port: string;
+  port: number;
   status: boolean;
 }
 
@@ -68,7 +68,7 @@ export class NodeComponent implements OnInit {
 
   public instanceName: string;
   public instanceIp = '127.0.0.1';
-  public instancePort = 1234;
+  public instancePort = 31201;
   public instanceGenesisCoins = 21000000;
   public instanceRestorePath = '';
   public instanceBlockchainPath = '';
@@ -79,7 +79,7 @@ export class NodeComponent implements OnInit {
   public isLoading = false;
 
   public peerIp: string;
-  public peerPort: string;
+  public peerPort = 31201;
   public peerTable: PeerList[] = [];
   public instanceGenerateTransaction = false;
 
@@ -125,7 +125,7 @@ export class NodeComponent implements OnInit {
 
   resetPeer() {
     this.peerIp = '';
-    this.peerPort = '';
+    this.peerPort = 31201;
   }
 
   addPeer() {
