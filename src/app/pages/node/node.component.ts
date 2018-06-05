@@ -52,11 +52,11 @@ export class NodeComponent implements OnInit {
 
   public selectPrivateKeySource = [
     {
-      label: 'I have a private key',
+      label: 'Generate a public key from a given private key',
       value: 1
     },
     {
-      label: 'Generate a new private key',
+      label: 'Generate a new set of keys',
       value: 2
     }
   ];
