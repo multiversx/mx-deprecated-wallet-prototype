@@ -1,11 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { ApiService } from '../../services/api.service';
+import { NodeDataService } from '../../services/node-data.service';
+import { Node } from '../../models/node';
 
 export interface PeerList {
   ip: string;
   port: number;
   status: boolean;
+}
+
+export interface Wizard {
+  model: {
+    currentStepIndex: number;
+  };
 }
 
 @Component({
@@ -14,8 +22,11 @@ export interface PeerList {
   styleUrls: ['./node.component.scss']
 })
 
-export class NodeComponent implements OnInit {
+export class NodeComponent implements OnInit, AfterViewInit {
   private UUID;
+  public node: Node;
+
+  @ViewChild('wizard') public wizard: Wizard;
 
   public selectNodeTypes = [
     {
@@ -61,47 +72,34 @@ export class NodeComponent implements OnInit {
     }
   ];
 
-  public selectedNodeType: any;
-  public selectedNodeAction: any;
-  public selectedDistributon: number;
-  public selectedPKSource = 2;
-
-  public instanceName: string;
-  public instanceIp = '127.0.0.1';
-  public instancePort = 31201;
-  public instanceGenesisCoins = 21000000;
-  public instanceRestorePath = '';
-  public instanceBlockchainPath = '';
-  public instanceNodeDistribution = 1024;
-
-  public privateKey = '';
-  public publicKey = '';
-  public isLoading = false;
-
-  public peerIp: string;
-  public peerPort = 31201;
-  public peerTable: PeerList[] = [];
-  public instanceGenerateTransaction = false;
-
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+              private nodeDataService: NodeDataService,
+              private changeDetectionRef: ChangeDetectorRef) {
     this.UUID = UUID.UUID();
   }
 
+  ngAfterViewInit(): void {
+    this.changeDetectionRef.detectChanges();
+  }
+
   ngOnInit() {
-    // Inits
-    this.instanceName = `Elrond Instance ${this.UUID}`;
+    this.node = this.nodeDataService.load();
+  }
+
+  onChange() {
+    this.nodeDataService.save(this.node);
   }
 
   getSelectLabel(field, value) {
-    return (this[field] instanceof Array) ? this[field].filter(item => item.value === this[value]).map(item => item.label) : this[value];
+    return (this[field] instanceof Array) ?
+      this[field].filter(item => item.value === this.node[value]).map(item => item.label) :
+      this[value];
   }
 
   checkInstance() {
-    console.log('Check ip & port: ', this.instanceIp, this.instancePort);
-
     const payload = {
-      ip: this.instanceIp,
-      port: this.instancePort
+      ip: this.node.instanceIp,
+      port: this.node.instancePort
     };
 
     this.apiService.post(payload).subscribe(result => {
@@ -110,8 +108,9 @@ export class NodeComponent implements OnInit {
   }
 
   generateKeys() {
-    this.privateKey = UUID.UUID();
-    this.publicKey = UUID.UUID();
+    this.node.privateKey = UUID.UUID();
+    this.node.publicKey = UUID.UUID();
+    this.onChange();
   }
 
   generatePublickKey() {
@@ -124,13 +123,13 @@ export class NodeComponent implements OnInit {
   }
 
   resetPeer() {
-    this.peerIp = '';
-    this.peerPort = 31201;
+    this.node.peerIp = '';
+    this.node.peerPort = '';
   }
 
   addPeer() {
-    const ip = this.peerIp;
-    const port = this.peerPort;
+    const ip = this.node.peerIp;
+    const port = this.node.peerPort;
     const status = true;
     const payload = {
       ip,
@@ -139,50 +138,66 @@ export class NodeComponent implements OnInit {
     };
 
     if (ip && port) {
-      this.peerTable.push(payload);
+      this.node.peerTable.push(payload);
+      this.onChange();
       this.resetPeer();
     }
   }
 
   deletePeer(index) {
-    this.peerTable.splice(index, 1);
+    this.node.peerTable.splice(index, 1);
   }
 
   onChangeBlockchain(event) {
-    this.instanceBlockchainPath = event.target.files[0].path;
+    this.node.instanceBlockchainPath = event.target.files[0].path;
+    this.onChange();
   }
 
   onChangePath(event) {
-    this.instanceRestorePath = event.target.files[0].path;
+    this.node.instanceRestorePath = event.target.files[0].path;
+    this.onChange();
   }
 
   canGoNext(step) {
     switch (step) {
       case 1: {
-        return (this.instanceName !== '' && this.instanceIp !== '' && this.instancePort && this.instanceBlockchainPath);
+        return (this.node.instanceName !== '' &&
+          this.node.instanceIp !== '' &&
+          this.node.instancePort &&
+          this.node.instanceBlockchainPath);
       }
       case 2: {
-        if (this.selectedNodeType === 2) {
+        if (this.node.selectedNodeType === 2) {
           return true;
         }
 
-        return (this.selectedNodeType && this.selectedNodeAction &&
-          (this.selectedNodeAction === 2 && this.instanceRestorePath || this.selectedDistributon === 2 ||
-            (this.selectedDistributon === 1 && this.instanceNodeDistribution)));
+        return (this.node.selectedNodeType && this.node.selectedNodeAction &&
+          (this.node.selectedNodeAction === 2 && this.node.instanceRestorePath || this.node.selectedDistributon === 2 ||
+            (this.node.selectedDistributon === 1 && this.node.instanceNodeDistribution)));
       }
       case 3: {
-        if (this.selectedNodeType === 1) {
+        if (this.node.selectedNodeType === 1) {
           return true;
         }
 
-        return (this.peerTable.length > 0);
+        return (this.node.peerTable.length > 0);
       }
       case 4: {
-        return (this.privateKey !== '' && this.publicKey !== '');
+        return (this.node.privateKey !== '' && this.node.publicKey !== '');
       }
       default: {
         return false;
       }
     }
+  }
+
+  onStepEnter(event) {
+    const currentStep = (this.wizard && this.wizard.model && this.wizard.model.currentStepIndex) ? this.wizard.model.currentStepIndex : 0;
+    this.node.step = currentStep;
+    this.onChange();
+  }
+
+  getDefaultSetp(): number {
+    return this.node.step;
   }
 }

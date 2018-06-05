@@ -11,6 +11,10 @@ import { NgxMaskModule } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { WebsocketService } from './services/websocket.service';
+import { NodeDataService } from './services/node-data.service';
+
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { NavigationComponent } from './layout/navigation/navigation.component';
 import { OperationsComponent } from './pages/operations/operations.component';
@@ -43,7 +47,10 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
     FormsModule,
     NgxMaskModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    WebsocketService,
+    NodeDataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

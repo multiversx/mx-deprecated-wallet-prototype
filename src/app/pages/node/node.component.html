@@ -1,5 +1,5 @@
-<aw-wizard>
-  <aw-wizard-step stepTitle="Intro">
+<aw-wizard #wizard [defaultStepIndex]="getDefaultSetp()">
+  <aw-wizard-step awOptionalStep stepTitle="Intro" (stepEnter)="onStepEnter($event)">
     <div class="step-body container-fluid">
 
       <div class="alert alert-info text-center mt-4" role="alert">
@@ -15,17 +15,14 @@
         <p class="mb-0">Hit the start button and let's unleash the Elrond Blockchain</p>
       </div>
 
-
     </div>
-
 
     <div class="aw-wizard-footer text-center pr-4">
       <button type="button" class="btn btn-dark btn-lg" awNextStep>Start</button>
     </div>
   </aw-wizard-step>
 
-  <aw-wizard-step stepTitle="Instance Setup">
-
+  <aw-wizard-step awOptionalStep stepTitle="Instance Setup" (stepEnter)="onStepEnter($event)">
 
     <div class="step-body container-fluid">
 
@@ -35,14 +32,17 @@
 
           <div class="form-group">
             <label>Instance Name
-              <fa name="question-circle" ngbTooltip="The name of this instance. Used in case you want multiple instances on the same machine." placement="right"></fa>
+              <fa name="question-circle"
+                  ngbTooltip="The name of this instance. Used in case you want multiple instances on the same machine."
+                  placement="right"></fa>
             </label>
 
             <input type="text"
                    class="form-control"
                    name="instance_name"
                    required
-                   [(ngModel)]="instanceName">
+                   (change)="onChange()"
+                   [(ngModel)]="node.instanceName">
           </div>
 
           <div class="form-row">
@@ -50,7 +50,8 @@
 
               <div class="form-group">
                 <label>IP
-                  <fa name="question-circle" ngbTooltip="The ip of your machine, as seen from the LAN or WAN network." placement="right"></fa>
+                  <fa name="question-circle" ngbTooltip="The ip of your machine, as seen from the LAN or WAN network."
+                      placement="right"></fa>
                 </label>
 
                 <input type="text"
@@ -58,7 +59,8 @@
                        required
                        [dropSpecialCharacters]="false"
                        mask="099.099.099.099"
-                       [(ngModel)]="instanceIp">
+                       (change)="onChange()"
+                       [(ngModel)]="node.instanceIp">
               </div>
 
             </div>
@@ -67,13 +69,15 @@
 
               <div class="form-group">
                 <label>Port
-                  <fa name="question-circle" ngbTooltip="A port that can be opened through your firewall." placement="right"></fa>
+                  <fa name="question-circle" ngbTooltip="A port that can be opened through your firewall."
+                      placement="right"></fa>
                 </label>
                 <input type="text"
                        class="form-control"
                        required
                        mask="000000"
-                       [(ngModel)]="instancePort">
+                       (change)="onChange()"
+                       [(ngModel)]="node.instancePort">
               </div>
 
             </div>
@@ -81,21 +85,23 @@
             <div class="col-md-2" style="padding-top: 30px">
               <button class="btn btn-info btn-sm mr-2" (click)="checkInstance()">Test</button>
 
-              <fa name="question-circle" ngbTooltip="Test to detect if your ip is reachable and your port is open." placement="right"></fa>
+              <fa name="question-circle" ngbTooltip="Test to detect if your ip is reachable and your port is open."
+                  placement="right"></fa>
             </div>
 
           </div>
 
           <div class="form-group">
             <label>Blockchain path on local drive
-              <fa name="question-circle" ngbTooltip="Chose the location where the blockchain is saved on the local drive." placement="right"></fa>
+              <fa name="question-circle"
+                  ngbTooltip="Chose the location where the blockchain is saved on the local drive."
+                  placement="right"></fa>
             </label>
             <input type="file"
                    class="form-control"
                    required
                    webkitdirectory
-                   (change)="onChangeBlockchain($event)"
-                   value="">
+                   (change)="onChangeBlockchain($event)">
           </div>
         </div>
 
@@ -110,7 +116,7 @@
 
   </aw-wizard-step>
 
-  <aw-wizard-step stepTitle="Node Setup">
+  <aw-wizard-step awOptionalStep stepTitle="Node Setup" (stepEnter)="onStepEnter($event)">
 
     <div class="step-body container-fluid">
 
@@ -126,16 +132,19 @@
               <ng-select [items]="selectNodeTypes"
                          bindLabel="label"
                          bindValue="value"
+                         (change)="onChange()"
                          placeholder="Select option ..."
-                         [(ngModel)]="selectedNodeType">
+                         [(ngModel)]="node.selectedNodeType">
               </ng-select>
             </div>
           </div>
 
-          <ng-container *ngIf="selectedNodeType === 1">
+          <ng-container *ngIf="node.selectedNodeType === 1">
             <div class="form-group">
               <label>Node Action
-                <fa name="question-circle" ngbTooltip="Choose and action, either start from genesis or from a saved state." placement="right"></fa>
+                <fa name="question-circle"
+                    ngbTooltip="Choose and action, either start from genesis or from a saved state."
+                    placement="right"></fa>
               </label>
 
               <div class="select-wrapper">
@@ -143,15 +152,17 @@
                            bindLabel="label"
                            bindValue="value"
                            placeholder="Select option ..."
-                           [(ngModel)]="selectedNodeAction">
+                           (change)="onChange()"
+                           [(ngModel)]="node.selectedNodeAction">
                 </ng-select>
               </div>
             </div>
 
 
-            <div class="form-group" *ngIf="selectedNodeAction === 2">
+            <div class="form-group" *ngIf="node.selectedNodeAction === 2">
               <label>Restore Path
-                <fa name="question-circle" ngbTooltip="Path to an existing blockchain previously saved" placement="right"></fa>
+                <fa name="question-circle" ngbTooltip="Path to an existing blockchain previously saved"
+                    placement="right"></fa>
               </label>
 
               <input type="file"
@@ -161,21 +172,25 @@
             </div>
 
 
-            <div class="form-group" *ngIf="selectedNodeAction === 1">
+            <div class="form-group" *ngIf="node.selectedNodeAction === 1">
               <label>ERD's in Genesis Block
-                <fa name="question-circle" ngbTooltip="Total amount of ERD's in the genesis block." placement="right"></fa>
+                <fa name="question-circle" ngbTooltip="Total amount of ERD's in the genesis block."
+                    placement="right"></fa>
               </label>
               <input type="text"
                      class="form-control"
                      mask="0*"
-                     [(ngModel)]="instanceGenesisCoins">
+                     (change)="onChange()"
+                     [(ngModel)]="node.instanceGenesisCoins">
             </div>
 
-            <div class="form-row" *ngIf="selectedNodeAction === 1">
+            <div class="form-row" *ngIf="node.selectedNodeAction === 1">
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Distribution
-                    <fa name="question-circle" ngbTooltip="How to distribute the total amount: Generate test transactions or distribute manually on your own." placement="right"></fa>
+                    <fa name="question-circle"
+                        ngbTooltip="How to distribute the total amount: Generate test transactions or distribute manually on your own."
+                        placement="right"></fa>
                   </label>
 
                   <div class="select-wrapper">
@@ -183,17 +198,23 @@
                                bindLabel="label"
                                bindValue="value"
                                placeholder="Select option ..."
-                               [(ngModel)]="selectedDistributon">
+                               [(ngModel)]="node.selectedDistributon"
+                               (change)="onChange()">
                     </ng-select>
                   </div>
                 </div>
               </div>
 
-              <div class="form-group col-md-6" *ngIf="selectedDistributon === 1">
+              <div class="form-group col-md-6" *ngIf="node.selectedDistributon === 1">
                 <label>Nr. of nodes to distribute ERD's
-                  <fa name="question-circle" ngbTooltip="For testing, 75% of the funds will be distributed to a nr of nodes." placement="right"></fa>
+                  <fa name="question-circle"
+                      ngbTooltip="For testing, 75% of the funds will be distributed to a nr of nodes."
+                      placement="right"></fa>
                 </label>
-                <input type="text" class="form-control" [(ngModel)]="instanceNodeDistribution">
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="node.instanceNodeDistribution"
+                       (change)="onChange()">
               </div>
             </div>
 
@@ -206,24 +227,26 @@
     <div class="aw-wizard-footer text-right pr-4">
       <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
 
-      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(2)" awNextStep *ngIf="this.selectedNodeType === 2">Next</button>
+      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(2)" awNextStep
+              *ngIf="this.node.selectedNodeType === 2">Next
+      </button>
 
       <button type="button" class="btn btn-dark"
               [disabled]="!canGoNext(2)"
               [awGoToStep]="{stepIndex: 4}"
-              *ngIf="this.selectedNodeType === 1">Next
+              *ngIf="this.node.selectedNodeType === 1">Next
       </button>
     </div>
 
   </aw-wizard-step>
 
-  <aw-wizard-step awOptionalStep stepTitle="Network Peers">
+  <aw-wizard-step awOptionalStep stepTitle="Network Peers" (stepEnter)="onStepEnter($event)">
 
     <div class="step-body container-fluid">
 
       <div class="row justify-content-md-center">
 
-        <div class="col-md-8" *ngIf="this.selectedNodeType === 2">
+        <div class="col-md-8" *ngIf="node.selectedNodeType === 2">
 
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -235,7 +258,7 @@
                      autofocus
                      [dropSpecialCharacters]="false"
                      mask="099.099.099.099"
-                     [(ngModel)]="peerIp">
+                     [(ngModel)]="node.peerIp">
             </div>
 
             <div class="form-group col-md-2">
@@ -245,7 +268,7 @@
               <input type="text"
                      class="form-control"
                      mask="000000"
-                     [(ngModel)]="peerPort">
+                     [(ngModel)]="node.peerPort">
             </div>
 
             <div class="col-md-4" style="padding-top: 30px;">
@@ -254,7 +277,7 @@
             </div>
           </div>
 
-          <table class="table table-striped table-secondary mt-3" *ngIf="peerTable && peerTable.length > 0">
+          <table class="table table-striped table-secondary mt-3" *ngIf="node.peerTable && node.peerTable.length > 0">
             <thead>
             <tr>
               <th class="xs">ID</th>
@@ -266,10 +289,11 @@
             </thead>
           </table>
 
-          <div class="table-responsive" style="max-height: 100px;" *ngIf="peerTable && peerTable.length > 0">
+          <div class="table-responsive" style="max-height: 100px;"
+               *ngIf="node.peerTable && node.peerTable.length > 0">
             <table class="table">
               <tbody>
-              <tr *ngFor="let peer of peerTable; let i = index">
+              <tr *ngFor="let peer of node.peerTable; let i = index">
                 <td class="xs">{{i}}</td>
                 <td>{{ peer.ip }}</td>
                 <td>{{ peer.port }}</td>
@@ -288,7 +312,7 @@
 
         </div>
 
-        <p class="lead text-center" *ngIf="this.selectedNodeType === 1">Peers not needed!</p>
+        <p class="lead text-center" *ngIf="node.selectedNodeType === 1">Peers not needed!</p>
 
       </div>
 
@@ -300,14 +324,15 @@
     </div>
   </aw-wizard-step>
 
-  <aw-wizard-step stepTitle="Keys">
+  <aw-wizard-step awOptionalStep stepTitle="Keys" (stepEnter)="onStepEnter($event)">
 
     <div class="step-body container-fluid">
       <div class="row justify-content-md-center">
         <div class="col-md-6">
           <div class="form-group">
             <label>Key Source
-              <fa name="question-circle" ngbTooltip="How to generate the private and public keys" placement="right"></fa>
+              <fa name="question-circle" ngbTooltip="How to generate the private and public keys"
+                  placement="right"></fa>
             </label>
 
             <div class="select-wrapper">
@@ -315,8 +340,8 @@
                          bindLabel="label"
                          bindValue="value"
                          placeholder="Select option ..."
-                         sele
-                         [(ngModel)]="selectedPKSource">
+                         (change)="onChange()"
+                         [(ngModel)]="node.selectedPKSource">
               </ng-select>
             </div>
           </div>
@@ -326,23 +351,32 @@
               Private key
               <fa name="question-circle" ngbTooltip="This is your private key, keep it safe" placement="right"></fa>
             </label>
-            <input type="text" class="form-control" [(ngModel)]="privateKey" [readonly]="selectedPKSource !== 1">
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="node.privateKey"
+                   [readonly]="node.selectedPKSource !== 1">
           </div>
 
           <div class="form-group">
             <label>
               Public key
-              <fa name="question-circle" ngbTooltip="This is your public key, also used as an address for transactions." placement="right"></fa>
+              <fa name="question-circle" ngbTooltip="This is your public key, also used as an address for transactions."
+                  placement="right"></fa>
             </label>
-            <input type="text" class="form-control" [(ngModel)]="publicKey" readonly>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="node.publicKey"
+                   readonly>
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary btn-sm" (click)="generateKeys()" *ngIf="selectedPKSource === 2">Generate
+            <button class="btn btn-primary btn-sm" (click)="generateKeys()" *ngIf="node.selectedPKSource === 2">
+              Generate
               Keys
             </button>
 
-            <button class="btn btn-primary btn-sm" (click)="generatePublickKey()" *ngIf="selectedPKSource === 1">
+            <button class="btn btn-primary btn-sm" (click)="generatePublickKey()"
+                    *ngIf="node.selectedPKSource === 1">
               Generate Public Key
             </button>
           </div>
@@ -356,33 +390,34 @@
     </div>
   </aw-wizard-step>
 
-  <aw-wizard-step stepTitle="Summary">
+  <aw-wizard-step awOptionalStep stepTitle="Summary" (stepEnter)="onStepEnter($event)">
     <div class="step-body container">
       <div class="row justify-content-md-center">
         <div class="col-md-5 ml-auto">
           <h3>Instance setup</h3>
-          <p>Instance name: {{ instanceName }}</p>
+          <p>Instance name: {{ node.instanceName }}</p>
 
           <div class="row">
             <div class="col-md-6">
-              <p>Instance IP: {{ instanceIp }}</p>
+              <p>Instance IP: {{ node.instanceIp }}</p>
             </div>
             <div class="col-md-6">
-              <p>Instance Port: {{ instancePort }}</p>
+              <p>Instance Port: {{ node.instancePort }}</p>
             </div>
           </div>
 
-          <p>Blockchain path: {{ instanceBlockchainPath }}</p>
+          <p>Blockchain path: {{ node.instanceBlockchainPath }}</p>
 
-          <div *ngIf="selectedNodeType === 2">
+          <div *ngIf="node.selectedNodeType === 2">
 
             <h3>Network peers</h3>
 
             <div class="network-peers-table">
-              <div class="table-responsive" style="max-height: 100px;" *ngIf="peerTable && peerTable.length > 0">
+              <div class="table-responsive" style="max-height: 100px;"
+                   *ngIf="node.peerTable && node.peerTable.length > 0">
                 <table class="table">
                   <tbody>
-                  <tr *ngFor="let peer of peerTable; let i = index">
+                  <tr *ngFor="let peer of node.peerTable; let i = index">
                     <td class="xs">{{i}}</td>
                     <td>{{ peer.ip }}</td>
                     <td>{{ peer.port }}</td>
@@ -398,24 +433,28 @@
           </div>
 
           <h3>Keys</h3>
-          <p>Private key: {{ privateKey }}</p>
-          <p>Public key: {{ publicKey }}</p>
+          <p>Private key: {{ node.privateKey }}</p>
+          <p>Public key: {{ node.publicKey }}</p>
 
         </div>
 
         <div class="col-md-5 ml-auto">
           <h3>Node setup</h3>
 
-          <p *ngIf="selectedNodeType">Node type: {{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
+          <p *ngIf="node.selectedNodeType">Node type: {{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
 
-          <p *ngIf="selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction', 'selectedNodeAction')
+          <p *ngIf="node.selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction',
+            'selectedNodeAction')
             }}</p>
-          <p *ngIf="selectedNodeAction === 1 && instanceGenesisCoins">ERD's in Genesis: {{ instanceGenesisCoins }}</p>
-          <p *ngIf="selectedNodeAction === 1 && instanceGenesisCoins">Distribution: {{
+          <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">ERD's in Genesis: {{
+            node.instanceGenesisCoins }}</p>
+          <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">Distribution: {{
             getSelectLabel('selectDistribution', 'selectedDistributon') }}</p>
-          <p *ngIf="selectedNodeAction === 1 && instanceNodeDistribution">Nr. of Nodes to distribute: {{
-            instanceNodeDistribution }}</p>
-          <p *ngIf="selectedNodeType === 2 && instanceRestorePath">Restore path: {{ instanceRestorePath }}</p>
+          <p *ngIf="node.selectedNodeAction === 1 && node.instanceNodeDistribution">Nr. of Nodes to
+            distribute: {{ node.instanceNodeDistribution }}</p>
+          <p *ngIf="node.selectedNodeType === 2 && node.instanceRestorePath">Restore path: {{
+            instanceRestorePath
+            }}</p>
         </div>
       </div>
 
