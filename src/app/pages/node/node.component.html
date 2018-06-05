@@ -205,12 +205,19 @@
 
     <div class="aw-wizard-footer text-right pr-4">
       <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
-      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(2)" awNextStep>Next</button>
+
+      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(2)" awNextStep *ngIf="this.selectedNodeType === 2">Next</button>
+
+      <button type="button" class="btn btn-dark"
+              [disabled]="!canGoNext(2)"
+              [awGoToStep]="{stepIndex: 4}"
+              *ngIf="this.selectedNodeType === 1">Next
+      </button>
     </div>
 
   </aw-wizard-step>
 
-  <aw-wizard-step stepTitle="Network Peers">
+  <aw-wizard-step awOptionalStep stepTitle="Network Peers">
 
     <div class="step-body container-fluid">
 
@@ -399,12 +406,15 @@
         <div class="col-md-5 ml-auto">
           <h3>Node setup</h3>
 
-          <p *ngIf="selectedNodeType">Node type: {{  getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
+          <p *ngIf="selectedNodeType">Node type: {{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
 
-          <p *ngIf="selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction', 'selectedNodeAction') }}</p>
+          <p *ngIf="selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction', 'selectedNodeAction')
+            }}</p>
           <p *ngIf="selectedNodeAction === 1 && instanceGenesisCoins">ERD's in Genesis: {{ instanceGenesisCoins }}</p>
-          <p *ngIf="selectedNodeAction === 1 && instanceGenesisCoins">Distribution: {{ getSelectLabel('selectDistribution', 'selectedDistributon') }}</p>
-          <p *ngIf="selectedNodeAction === 1 && instanceNodeDistribution">Nr. of Nodes to distribute: {{ instanceNodeDistribution }}</p>
+          <p *ngIf="selectedNodeAction === 1 && instanceGenesisCoins">Distribution: {{
+            getSelectLabel('selectDistribution', 'selectedDistributon') }}</p>
+          <p *ngIf="selectedNodeAction === 1 && instanceNodeDistribution">Nr. of Nodes to distribute: {{
+            instanceNodeDistribution }}</p>
           <p *ngIf="selectedNodeType === 2 && instanceRestorePath">Restore path: {{ instanceRestorePath }}</p>
         </div>
       </div>
