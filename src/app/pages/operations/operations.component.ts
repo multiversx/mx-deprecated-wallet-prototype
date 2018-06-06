@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
 import {ToastrMessageService} from '../../services/toastr.service';
+import {NodeDataService} from '../../services/node-data.service';
 
 @Component({
   selector: 'app-operations',
@@ -17,10 +18,15 @@ export class OperationsComponent implements OnInit {
   public balanceToCheck: string;
 
   constructor(private apiService: ApiService,
+              private nodeDataService: NodeDataService,
               private toastr: ToastrMessageService) {
   }
 
+
   ngOnInit() {
+
+    const node = this.nodeDataService.load();
+    this.operationsFrom = node.publicKey;
 
     setInterval(() => {
       this.apiService.getBalance(this.operationsFrom).subscribe(result => {
