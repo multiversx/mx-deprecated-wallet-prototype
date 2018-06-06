@@ -61,4 +61,7 @@ export class OperationsComponent implements OnInit {
     });
   }
 
+  check(e) {
+    console.log(e);
+  }
 }
