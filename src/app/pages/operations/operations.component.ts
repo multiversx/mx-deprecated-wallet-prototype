@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
+import {ToastrMessageService} from '../../services/toastr.service';
 
 @Component({
   selector: 'app-operations',
@@ -12,7 +13,8 @@ export class OperationsComponent implements OnInit {
   public operationsTo: string;
   public operationsAmount: string;
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+              private toastr: ToastrMessageService) {
   }
 
   ngOnInit() {
@@ -28,7 +30,20 @@ export class OperationsComponent implements OnInit {
 
   send(e) {
     this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(result => {
-      console.log(result);
+
+      if (result) {
+        this.toastr.show({
+          title: 'Success',
+          message: `Operation was finished with success`,
+        });
+      } else {
+        this.toastr.show({
+          title: 'Fail',
+          message: `Operation has failed`,
+        }, 'error');
+      }
+
+
     });
   }
 
