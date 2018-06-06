@@ -1,12 +1,13 @@
-import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef} from '@angular/core';
-import {UUID} from 'angular2-uuid';
-import {ApiService} from '../../services/api.service';
-import {NodeDataService} from '../../services/node-data.service';
-import {Node} from '../../models/node';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef } from '@angular/core';
+import { UUID } from 'angular2-uuid';
+import { ApiService } from '../../services/api.service';
+import { NodeDataService } from '../../services/node-data.service';
+import { Node } from '../../models/node';
 
-import {Observable, Subscription} from 'rxjs';
-import {Message} from '@stomp/stompjs';
-import {StompService} from '@stomp/ng2-stompjs';
+import { Observable, Subscription } from 'rxjs';
+import { Message } from '@stomp/stompjs';
+import { StompService } from '@stomp/ng2-stompjs';
+import { ToastrMessageService } from '../../services/toastr.service';
 
 export interface PeerList {
   ip: string;
@@ -94,7 +95,8 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private apiService: ApiService,
               private _stompService: StompService,
               private nodeDataService: NodeDataService,
-              private changeDetectionRef: ChangeDetectorRef) {
+              private changeDetectionRef: ChangeDetectorRef,
+              private toastr: ToastrMessageService) {
   }
 
   ngOnInit() {
@@ -166,8 +168,23 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   ping() {
     const url = `ipAddress=${this.node.instanceIp}&port=${this.node.instancePort}`;
 
+    const error = {
+      title: 'Error',
+      message: 'Please change your IP & Port!',
+    };
+
     this.apiService.ping(url).subscribe(result => {
-      console.log('API instance result: ', result);
+      const {reachablePing, reachablePort, reponseTimeMs} = result;
+      const success = {
+        title: 'Success',
+        message: `Your IP & Port are reachable - response time: ${reponseTimeMs}`,
+      };
+
+      if (reachablePing && reachablePort) {
+        this.toastr.show(success);
+      } else {
+        this.toastr.show(error, 'error');
+      }
     });
   }
 

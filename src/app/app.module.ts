@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NodeDataService } from './services/node-data.service';
+import { ToastrMessageService } from './services/toastr.service';
 
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { NavigationComponent } from './layout/navigation/navigation.component';
@@ -25,7 +27,6 @@ import { LoggerComponent } from './layout/logger/logger.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 import { StompConfig, StompService } from '@stomp/ng2-stompjs';
-import { ToasterComponent } from './components/toaster/toaster.component';
 
 
 const stompConfig: StompConfig = {
@@ -64,10 +65,10 @@ const stompConfig: StompConfig = {
     NodeComponent,
     LoggerComponent,
     WelcomeComponent,
-    ToasterComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     NgbModule.forRoot(),
@@ -80,6 +81,7 @@ const stompConfig: StompConfig = {
   ],
   providers: [
     NodeDataService,
+    ToastrMessageService,
     StompService,
     {
       provide: StompConfig,
