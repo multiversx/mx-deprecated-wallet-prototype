@@ -172,13 +172,23 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   generateKeys() {
-    this.node.privateKey = UUID.UUID();
-    this.node.publicKey = UUID.UUID();
-    this.onChange();
+
+    this.apiService.generateKeys().subscribe((keys) => {
+      this.node.privateKey = keys.privateKey;
+      this.node.publicKey = keys.publicKey;
+      this.onChange();
+    });
+
+
   }
 
   generatePublickKey() {
-    console.log('manual pk');
+    this.apiService.generatePublicKey(this.node.privateKey).subscribe((keys) => {
+      console.log(keys);
+      this.node.privateKey = keys.privateKey;
+      this.node.publicKey = keys.publicKey;
+      this.onChange();
+    });
   }
 
   testPeer(): boolean {

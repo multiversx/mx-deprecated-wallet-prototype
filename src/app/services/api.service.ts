@@ -74,6 +74,24 @@ export class ApiService {
       );
   }
 
+
+  generateKeys(): Observable<any> {
+    const url = `${this.url}/publickeyandprivatekey`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('publickeyandprivatekey', []))
+      );
+  }
+
+  generatePublicKey(privateKey): Observable<any> {
+    const url = `${this.url}/publickeyfromprivatekey?privateKey=${privateKey}`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('publickeyfromprivatekey', []))
+      );
+  }
+
+
   startNode(nodeName,
             port,
             masterPeerPort,
