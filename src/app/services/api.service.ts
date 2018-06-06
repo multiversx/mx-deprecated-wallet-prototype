@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 
-import { MessageService } from './message.service';
-import { environment } from '../../environments/environment';
+import {MessageService} from './message.service';
+import {environment} from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -41,6 +41,49 @@ export class ApiService {
   ping(payload): Observable<any> {
     const url = `${this.url}/ping?${payload}`;
     return this.http.get<any>(url)
+      .pipe(
+        catchError(this.handleError('ping', []))
+      );
+  }
+
+
+  /**
+   * Get balance
+   * @param address
+   * @returns {Observable<any>}
+   */
+  getBalance(address): Observable<any> {
+    const url = `${this.url}/balance?address=${address}`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('ping', []))
+      );
+  }
+
+  /**
+   * Send value to address
+   * @param address
+   * @param value
+   * @returns {Observable<any>}
+   */
+  sendBalance(address, value): Observable<any> {
+    const url = `${this.url}/send?address=${address}&value=${value}`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('ping', []))
+      );
+  }
+
+  startNode(nodeName,
+            port,
+            masterPeerPort,
+            masterPeerIpAddress,
+            privateKey):
+    Observable<any> {
+
+    const url = `${this.url}/start?nodeName=${nodeName}&port=${port}&masterPeerPort=${masterPeerPort}&masterPeerIpAddress=${masterPeerIpAddress}&privateKey=${privateKey}`;
+
+    return this.http.get<any[]>(url)
       .pipe(
         catchError(this.handleError('ping', []))
       );
