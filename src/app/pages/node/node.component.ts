@@ -102,12 +102,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.node = this.nodeDataService.load();
     this.step = this.node.step;
-
-    this.subscribed = false;
-
-    // Store local reference to Observable
-    // for use with template ( | async )
-    // this.subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -173,11 +167,20 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
       message: 'Please change your IP & Port!',
     };
 
+    const errorPort = {
+      title: 'Error',
+      message: 'Please change your Port!',
+    };
+
     this.apiService.ping(url).subscribe(result => {
+
+      console.log(result);
+
       const {reachablePing, reachablePort, reponseTimeMs} = result;
+
       const success = {
         title: 'Success',
-        message: `Your IP & Port are reachable - response time: ${reponseTimeMs}`,
+        message: `Your IP & Port are reachable - response time: ${reponseTimeMs}ms`,
       };
 
       if (reachablePing && reachablePort) {
