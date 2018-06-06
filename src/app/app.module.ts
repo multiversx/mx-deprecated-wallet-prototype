@@ -12,7 +12,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { WebsocketService } from './services/websocket.service';
+
 import { NodeDataService } from './services/node-data.service';
 
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
@@ -24,6 +24,35 @@ import { NodeComponent } from './pages/node/node.component';
 import { LoggerComponent } from './layout/logger/logger.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 
+import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+
+
+const stompConfig: StompConfig = {
+  // Which server?
+  url: 'ws://127.0.0.1:15674/socket',
+
+  // Headers
+  // Typical keys: login, passcode, host
+  headers: {
+    login: 'guest',
+    passcode: 'guest'
+  },
+
+  // How often to heartbeat?
+  // Interval in milliseconds, set to 0 to disable
+  heartbeat_in: 0, // Typical value 0 - disabled
+  heartbeat_out: 20000, // Typical value 20000 - every 20 seconds
+  // Wait in milliseconds before attempting auto reconnect
+  // Set to 0 to disable
+  // Typical value 5000 (5 seconds)
+  reconnect_delay: 5000,
+
+  // Will log diagnostics on console
+  debug: true
+};
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +63,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
     SearchComponent,
     NodeComponent,
     LoggerComponent,
-    WelcomeComponent
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,8 +77,12 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
     NgxMaskModule.forRoot()
   ],
   providers: [
-    WebsocketService,
-    NodeDataService
+    NodeDataService,
+    StompService,
+    {
+      provide: StompConfig,
+      useValue: stompConfig
+    }
   ],
   bootstrap: [AppComponent]
 })

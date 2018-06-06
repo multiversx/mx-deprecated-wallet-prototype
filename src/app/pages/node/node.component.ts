@@ -4,6 +4,10 @@ import { ApiService } from '../../services/api.service';
 import { NodeDataService } from '../../services/node-data.service';
 import { Node } from '../../models/node';
 
+import { Observable ,  Subscription } from 'rxjs';
+import {Message} from '@stomp/stompjs';
+import {StompService} from '@stomp/ng2-stompjs';
+
 export interface PeerList {
   ip: string;
   port: number;
@@ -72,7 +76,23 @@ export class NodeComponent implements OnInit, AfterViewInit {
     }
   ];
 
+  // Stream of messages
+  private subscription: Subscription;
+  public messages: Observable<Message>;
+
+  // Subscription status
+  public subscribed: boolean;
+
+  // Array of historic message (bodies)
+  public mq: Array<string> = [];
+
+  // A count of messages received
+  public count = 0;
+
+  private _counter = 1;
+
   constructor(private apiService: ApiService,
+              private _stompService: StompService,
               private nodeDataService: NodeDataService,
               private changeDetectionRef: ChangeDetectorRef) {
     this.UUID = UUID.UUID();
@@ -82,8 +102,58 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.changeDetectionRef.detectChanges();
   }
 
+  public subscribe() {
+    if (this.subscribed) {
+      return;
+    }
+
+    // Stream of messages
+    this.messages = this._stompService.subscribe('/topic/ng-demo-sub');
+
+    // Subscribe a function to be run on_next message
+    this.subscription = this.messages.subscribe(this.on_next);
+
+    this.subscribed = true;
+  }
+
+  /** Consume a message from the _stompService */
+  public on_next = (message: Message) => {
+
+    // Store message in "historic messages" queue
+    this.mq.push(message.body + '\n');
+
+    // Count it
+    this.count++;
+
+    // Log it to the console
+    console.log(message);
+  }
+
+  public unsubscribe() {
+    if (!this.subscribed) {
+      return;
+    }
+
+    // This will internally unsubscribe from Stomp Broker
+    // There are two subscriptions - one created explicitly, the other created in the template by use of 'async'
+    this.subscription.unsubscribe();
+    this.subscription = null;
+    this.messages = null;
+
+    this.subscribed = false;
+  }
+
+
   ngOnInit() {
     this.node = this.nodeDataService.load();
+
+    this.subscribed = false;
+
+    // Store local reference to Observable
+    // for use with template ( | async )
+   // this.subscribe();
+
+
   }
 
   onChange() {
