@@ -11,6 +11,7 @@ export class OperationsComponent implements OnInit {
   public operationsFrom = '0326e7875aadaba270ae93ec40ef4706934d070eb21c9acad4743e31289fa4ebc7';
   public operationsTo: string;
   public operationsAmount: string;
+  public searchBalance: string;
 
   constructor(private apiService: ApiService) {
   }
@@ -32,4 +33,7 @@ export class OperationsComponent implements OnInit {
     });
   }
 
+  check(e) {
+    console.log(e);
+  }
 }
