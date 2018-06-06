@@ -443,18 +443,14 @@
 
           <p *ngIf="node.selectedNodeType">Node type: {{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
 
-          <p *ngIf="node.selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction',
-            'selectedNodeAction')
-            }}</p>
+          <p *ngIf="node.selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction', 'selectedNodeAction')}}</p>
           <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">ERD's in Genesis: {{
             node.instanceGenesisCoins }}</p>
           <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">Distribution: {{
             getSelectLabel('selectDistribution', 'selectedDistributon') }}</p>
           <p *ngIf="node.selectedNodeAction === 1 && node.instanceNodeDistribution">Nr. of Nodes to
             distribute: {{ node.instanceNodeDistribution }}</p>
-          <p *ngIf="node.selectedNodeType === 2 && node.instanceRestorePath">Restore path: {{
-            instanceRestorePath
-            }}</p>
+          <p *ngIf="node.selectedNodeType === 2 && node.instanceRestorePath">Restore path: {{instanceRestorePath }}</p>
         </div>
       </div>
 
