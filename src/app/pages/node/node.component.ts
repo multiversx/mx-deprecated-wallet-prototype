@@ -98,7 +98,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.node = this.nodeDataService.load();
+    this.node = this.nodeDataService.load('main');
     this.step = this.node.step;
   }
 
@@ -107,7 +107,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onChange() {
-    this.nodeDataService.save(this.node);
+    this.nodeDataService.save('main', this.node);
   }
 
   onChangeKeys() {
@@ -266,6 +266,8 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   startNode() {
+    this.nodeDataService.save('start', this.node);
+
     const nodeName = this.node.instanceName;
     const port = this.node.instancePort;
     let masterPeerPort = this.node.peerPort;

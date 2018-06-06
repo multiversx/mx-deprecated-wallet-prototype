@@ -14,13 +14,13 @@ export class NodeDataService {
   constructor() {
   }
 
-  save(data) {
+  save( key, data) {
     // this.nodeData.next(data);
-    localStorage.setItem('node', JSON.stringify(data));
+    localStorage.setItem('node' + key, JSON.stringify(data));
   }
 
-  load(): Node {
-    const localStorageData = localStorage.getItem('node');
+  load(key): Node {
+    const localStorageData = localStorage.getItem('node' + key);
     return (localStorageData) ? JSON.parse(localStorageData) as Node : Node.getDefault();
   }
 }

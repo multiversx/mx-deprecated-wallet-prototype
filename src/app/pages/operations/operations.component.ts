@@ -25,7 +25,7 @@ export class OperationsComponent implements OnInit {
 
   ngOnInit() {
 
-    const node = this.nodeDataService.load();
+    const node = this.nodeDataService.load('start');
     this.operationsFrom = node.publicKey;
 
     setInterval(() => {

@@ -7,6 +7,8 @@ const path = require('path');
 const url = require('url');
 require('dotenv').config();
 const loadUrl = 'http://localhost:4200';
+let jarPid=null;
+let child1=null;
 
 app.on('ready', function () {
 
@@ -19,6 +21,18 @@ app.on('ready', function () {
         console.log('exec error: ' + error);
       }
     });
+child1=child;
+  ;
+
+
+
+  // App close handler
+  app.on('before-quit', function() {
+    child1.kill();
+  })
+
+
+
 
 
   // Initialize the window to our specified dimensions
@@ -57,3 +71,4 @@ app.on('window-all-closed', function () {
     app.quit();
   }
 });
+
