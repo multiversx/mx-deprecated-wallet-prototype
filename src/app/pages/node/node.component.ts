@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef } from '@angular/core';
-import { UUID } from 'angular2-uuid';
 import { ApiService } from '../../services/api.service';
 import { NodeDataService } from '../../services/node-data.service';
 import { Node } from '../../models/node';
 
 import { Observable, Subscription } from 'rxjs';
-import { Message } from '@stomp/stompjs';
-import { StompService } from '@stomp/ng2-stompjs';
+// import { Message } from '@stomp/stompjs';
+// import { StompService } from '@stomp/ng2-stompjs';
 import { ToastrMessageService } from '../../services/toastr.service';
 
 export interface PeerList {
@@ -79,7 +78,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Stream of messages
   private subscription: Subscription;
-  public messages: Observable<Message>;
+  // public messages: Observable<Message>;
 
   // Subscription status
   public subscribed: boolean;
@@ -93,7 +92,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   private _counter = 1;
 
   constructor(private apiService: ApiService,
-              private _stompService: StompService,
               private nodeDataService: NodeDataService,
               private changeDetectionRef: ChangeDetectorRef,
               private toastr: ToastrMessageService) {
@@ -108,49 +106,19 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changeDetectionRef.detectChanges();
   }
 
-  public subscribe() {
-    if (this.subscribed) {
-      return;
-    }
-
-    // Stream of messages
-    this.messages = this._stompService.subscribe('/log');
-
-    // Subscribe a function to be run on_next message
-    // this.subscription = this.messages.subscribe(this.on_next);
-
-    this.subscribed = true;
-  }
-
-  // /** Consume a message from the _stompService */
-  // public on_next = (message: Message) => {
-  //
-  //   // // Store message in "historic messages" queue
-  //   // this.mq.push(message.body + '\n');
-  //   //
-  //   // // Count it
-  //   // this.count++;
-  //
-  //   // Log it to the console
-  //   console.log(message);
-  // };
-
-  public unsubscribe() {
-    if (!this.subscribed) {
-      return;
-    }
-
-    // This will internally unsubscribe from Stomp Broker
-    // There are two subscriptions - one created explicitly, the other created in the template by use of 'async'
-    this.subscription.unsubscribe();
-    this.subscription = null;
-    this.messages = null;
-
-    this.subscribed = false;
-  }
-
   onChange() {
     this.nodeDataService.save(this.node);
+  }
+
+  onChangeKeys() {
+    const value = this.node.selectedPKSource;
+
+    if (value === 1) {
+      this.node.publicKey = '';
+      this.node.privateKey = '';
+    }
+
+    this.onChange();
   }
 
   getSelectLabel(field, value) {
@@ -211,11 +179,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  testPeer(): boolean {
-    console.log('test peer');
-    return true;
-  }
-
   resetPeer() {
     this.node.peerIp = '';
     this.node.peerPort = '';
@@ -241,6 +204,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   deletePeer(index) {
     this.node.peerTable.splice(index, 1);
   }
+
 
   onChangeBlockchain(event) {
     this.node.instanceBlockchainPath = event.target.files[0].path;
@@ -300,7 +264,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     // this.unsubscribe();
   }
-
 
   startNode() {
     const nodeName = this.node.instanceName;
