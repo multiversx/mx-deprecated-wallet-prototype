@@ -40,7 +40,7 @@ export class ApiService {
   /** PING: add data to the server */
   ping(payload): Observable<any> {
     const url = `${this.url}/ping?${payload}`;
-    return this.http.get<any[]>(url)
+    return this.http.get<any>(url)
       .pipe(
         catchError(this.handleError('ping', []))
       );
