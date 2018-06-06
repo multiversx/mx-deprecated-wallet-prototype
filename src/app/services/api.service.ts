@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -14,7 +15,7 @@ const httpOptions = {
 })
 export class ApiService {
 
-  private url = 'api/';
+  private url = environment.api + environment.endpoint;
 
   constructor(private http: HttpClient,
               private messageService: MessageService) {
@@ -34,6 +35,15 @@ export class ApiService {
     return this.http.post<any>(this.url, payload, httpOptions).pipe(
       catchError(this.handleError<any>('post'))
     );
+  }
+
+  /** PING: add data to the server */
+  ping(payload): Observable<any> {
+    const url = `${this.url}/ping?${payload}`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('ping', []))
+      );
   }
 
   /**

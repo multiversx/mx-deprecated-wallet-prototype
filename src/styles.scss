@@ -4,7 +4,9 @@
 @import "styles/base/settings";
 
 @import "~bootstrap/scss/bootstrap";
+
 @import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~ngx-toastr/toastr-bs4-alert";
 
 @import "styles/base/variables";
 @import "styles/base/fonts";

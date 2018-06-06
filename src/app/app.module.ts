@@ -8,10 +8,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ArchwizardModule } from 'angular-archwizard';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxMaskModule } from 'ngx-mask';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
 
 import { NodeDataService } from './services/node-data.service';
 
@@ -24,18 +24,19 @@ import { NodeComponent } from './pages/node/node.component';
 import { LoggerComponent } from './layout/logger/logger.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 
-import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import { StompConfig, StompService } from '@stomp/ng2-stompjs';
+import { ToasterComponent } from './components/toaster/toaster.component';
 
 
 const stompConfig: StompConfig = {
   // Which server?
-  url: 'ws://127.0.0.1:15674/socket',
+  url: 'ws://127.0.0.1:8080/socket',
 
   // Headers
   // Typical keys: login, passcode, host
   headers: {
-    login: 'guest',
-    passcode: 'guest'
+    // login: 'guest',
+    // passcode: 'guest'
   },
 
   // How often to heartbeat?
@@ -52,7 +53,6 @@ const stompConfig: StompConfig = {
 };
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +64,7 @@ const stompConfig: StompConfig = {
     NodeComponent,
     LoggerComponent,
     WelcomeComponent,
+    ToasterComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +75,8 @@ const stompConfig: StompConfig = {
     ArchwizardModule,
     NgSelectModule,
     FormsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
   providers: [
     NodeDataService,

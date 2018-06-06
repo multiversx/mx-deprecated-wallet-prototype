@@ -20,7 +20,7 @@ export class NodeDataService {
   }
 
   load(): Node {
-    const val =  localStorage.getItem('node') ;
-    return (val) ? JSON.parse(val) as Node : Node.getDefault();
+    const localStorageData = localStorage.getItem('node');
+    return (localStorageData) ? JSON.parse(localStorageData) as Node : Node.getDefault();
   }
 }

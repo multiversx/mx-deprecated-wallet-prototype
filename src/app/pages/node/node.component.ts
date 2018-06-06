@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { ApiService } from '../../services/api.service';
 import { NodeDataService } from '../../services/node-data.service';
 import { Node } from '../../models/node';
 
-import { Observable ,  Subscription } from 'rxjs';
-import {Message} from '@stomp/stompjs';
-import {StompService} from '@stomp/ng2-stompjs';
+import { Observable, Subscription } from 'rxjs';
+import { Message } from '@stomp/stompjs';
+import { StompService } from '@stomp/ng2-stompjs';
 
 export interface PeerList {
   ip: string;
@@ -26,9 +26,9 @@ export interface Wizard {
   styleUrls: ['./node.component.scss']
 })
 
-export class NodeComponent implements OnInit, AfterViewInit {
-  private UUID;
+export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   public node: Node;
+  private step;
 
   @ViewChild('wizard') public wizard: Wizard;
 
@@ -95,7 +95,17 @@ export class NodeComponent implements OnInit, AfterViewInit {
               private _stompService: StompService,
               private nodeDataService: NodeDataService,
               private changeDetectionRef: ChangeDetectorRef) {
-    this.UUID = UUID.UUID();
+  }
+
+  ngOnInit() {
+    this.node = this.nodeDataService.load();
+    this.step = this.node.step;
+
+    this.subscribed = false;
+
+    // Store local reference to Observable
+    // for use with template ( | async )
+    // this.subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -108,26 +118,26 @@ export class NodeComponent implements OnInit, AfterViewInit {
     }
 
     // Stream of messages
-    this.messages = this._stompService.subscribe('/topic/ng-demo-sub');
+    this.messages = this._stompService.subscribe('/log');
 
     // Subscribe a function to be run on_next message
-    this.subscription = this.messages.subscribe(this.on_next);
+    // this.subscription = this.messages.subscribe(this.on_next);
 
     this.subscribed = true;
   }
 
-  /** Consume a message from the _stompService */
-  public on_next = (message: Message) => {
-
-    // Store message in "historic messages" queue
-    this.mq.push(message.body + '\n');
-
-    // Count it
-    this.count++;
-
-    // Log it to the console
-    console.log(message);
-  }
+  // /** Consume a message from the _stompService */
+  // public on_next = (message: Message) => {
+  //
+  //   // // Store message in "historic messages" queue
+  //   // this.mq.push(message.body + '\n');
+  //   //
+  //   // // Count it
+  //   // this.count++;
+  //
+  //   // Log it to the console
+  //   console.log(message);
+  // };
 
   public unsubscribe() {
     if (!this.subscribed) {
@@ -143,19 +153,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.subscribed = false;
   }
 
-
-  ngOnInit() {
-    this.node = this.nodeDataService.load();
-
-    this.subscribed = false;
-
-    // Store local reference to Observable
-    // for use with template ( | async )
-   // this.subscribe();
-
-
-  }
-
   onChange() {
     this.nodeDataService.save(this.node);
   }
@@ -166,13 +163,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
       this[value];
   }
 
-  checkInstance() {
-    const payload = {
-      ip: this.node.instanceIp,
-      port: this.node.instancePort
-    };
+  ping() {
+    const url = `ipAddress=${this.node.instanceIp}&port=${this.node.instancePort}`;
 
-    this.apiService.post(payload).subscribe(result => {
+    this.apiService.ping(url).subscribe(result => {
       console.log('API instance result: ', result);
     });
   }
@@ -268,6 +262,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   getDefaultSetp(): number {
-    return this.node.step;
+    const currentStep = (this.step) ? this.step : 0;
+    return currentStep;
+  }
+
+  ngOnDestroy() {
+    // this.unsubscribe();
   }
 }
