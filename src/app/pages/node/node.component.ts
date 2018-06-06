@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef } from '@angular/core';
-import { UUID } from 'angular2-uuid';
-import { ApiService } from '../../services/api.service';
-import { NodeDataService } from '../../services/node-data.service';
-import { Node } from '../../models/node';
+import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef} from '@angular/core';
+import {UUID} from 'angular2-uuid';
+import {ApiService} from '../../services/api.service';
+import {NodeDataService} from '../../services/node-data.service';
+import {Node} from '../../models/node';
 
-import { Observable, Subscription } from 'rxjs';
-import { Message } from '@stomp/stompjs';
-import { StompService } from '@stomp/ng2-stompjs';
+import {Observable, Subscription} from 'rxjs';
+import {Message} from '@stomp/stompjs';
+import {StompService} from '@stomp/ng2-stompjs';
 
 export interface PeerList {
   ip: string;
@@ -227,8 +227,9 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
       case 1: {
         return (this.node.instanceName !== '' &&
           this.node.instanceIp !== '' &&
-          this.node.instancePort &&
-          this.node.instanceBlockchainPath);
+          this.node.instancePort // &&
+          // this.node.instanceBlockchainPath
+        );
       }
       case 2: {
         if (this.node.selectedNodeType === 2) {
@@ -268,5 +269,24 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     // this.unsubscribe();
+  }
+
+
+  startNode() {
+    const nodeName = this.node.instanceName;
+    const port = this.node.instancePort;
+    const masterPeerPort = this.node.peerPort;
+    const masterPeerIpAddress = this.node.peerIp;
+    const privateKey = this.node.privateKey;
+
+    this.apiService.startNode(
+      nodeName,
+      port,
+      masterPeerPort,
+      masterPeerIpAddress,
+      privateKey
+    ).subscribe(result => {
+      console.log(result);
+    });
   }
 }
