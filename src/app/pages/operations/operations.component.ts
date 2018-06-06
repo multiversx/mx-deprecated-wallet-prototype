@@ -13,6 +13,9 @@ export class OperationsComponent implements OnInit {
   public operationsTo: string;
   public operationsAmount: string;
 
+  public addressToCheck: string;
+  public balanceToCheck: string;
+
   constructor(private apiService: ApiService,
               private toastr: ToastrMessageService) {
   }
@@ -21,11 +24,22 @@ export class OperationsComponent implements OnInit {
 
     setInterval(() => {
       this.apiService.getBalance(this.operationsFrom).subscribe(result => {
-        console.log(result);
+        if (!result) {
+          result = 0;
+        }
         this.operationsBalance = result;
       });
     }, 2000);
 
+  }
+
+  checkBalance() {
+    this.apiService.getBalance(this.addressToCheck).subscribe(result => {
+      if (!result) {
+        result = 0;
+      }
+      this.balanceToCheck = result;
+    });
   }
 
   send(e) {

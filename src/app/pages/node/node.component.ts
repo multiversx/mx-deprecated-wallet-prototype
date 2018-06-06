@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { NodeDataService } from '../../services/node-data.service';
-import { Node } from '../../models/node';
+import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef} from '@angular/core';
+import {ApiService} from '../../services/api.service';
+import {NodeDataService} from '../../services/node-data.service';
+import {Node} from '../../models/node';
 
-import { Observable, Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 // import { Message } from '@stomp/stompjs';
 // import { StompService } from '@stomp/ng2-stompjs';
-import { ToastrMessageService } from '../../services/toastr.service';
+import {ToastrMessageService} from '../../services/toastr.service';
 
 export interface PeerList {
   ip: string;
@@ -279,7 +279,17 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
       masterPeerIpAddress,
       privateKey
     ).subscribe(result => {
-      console.log(result);
+      if (result) {
+        this.toastr.show({
+          title: 'Success',
+          message: `Operation was finished with success`,
+        });
+      } else {
+        this.toastr.show({
+          title: 'Fail',
+          message: `Operation has failed`,
+        }, 'error');
+      }
     });
   }
 }

@@ -2,7 +2,37 @@
 
   <div class="row justify-content-md-center">
 
+
     <div class="col-md-6 mt-3">
+
+      <div class="form-group">
+        <label>Address to check
+          <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
+        </label>
+
+        <input type="text"
+               class="form-control"
+               [(ngModel)]="addressToCheck">
+      </div>
+
+
+      <div class="form-group">
+        <label>Balance to check
+          <fa name="question-circle" ngbTooltip="The total balance of the specified account" placement="right"></fa>
+        </label>
+
+        <input type="text"
+               class="form-control"
+               [(ngModel)]="balanceToCheck" readonly>
+      </div>
+
+
+      <button type="button" class="btn btn-primary" (click)="checkBalance($event)">Check</button>
+      <br/>
+      <br/>
+
+
+
       <div class="form-group">
         <label>Balance
           <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
