@@ -92,6 +92,16 @@ export class ApiService {
   }
 
 
+  stopNode(): Observable<any> {
+    const url = `${this.url}/stop`;
+
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('stop', []))
+      );
+  }
+
+
   startNode(nodeName,
             port,
             masterPeerPort,

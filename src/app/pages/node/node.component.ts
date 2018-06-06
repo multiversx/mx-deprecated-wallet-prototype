@@ -268,9 +268,16 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   startNode() {
     const nodeName = this.node.instanceName;
     const port = this.node.instancePort;
-    const masterPeerPort = this.node.peerPort;
-    const masterPeerIpAddress = this.node.peerIp;
+    let masterPeerPort = this.node.peerPort;
+    let masterPeerIpAddress = this.node.peerIp;
     const privateKey = this.node.privateKey;
+
+    const isSeedNode = this.node.selectedNodeType === 1;
+    if (isSeedNode) {
+      masterPeerPort = this.node.instancePort;
+      masterPeerIpAddress = this.node.instanceIp;
+    }
+
 
     this.apiService.startNode(
       nodeName,
@@ -279,6 +286,23 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
       masterPeerIpAddress,
       privateKey
     ).subscribe(result => {
+      if (result) {
+        this.toastr.show({
+          title: 'Success',
+          message: `Operation was finished with success`,
+        });
+      } else {
+        this.toastr.show({
+          title: 'Fail',
+          message: `Operation has failed`,
+        }, 'error');
+      }
+    });
+  }
+
+
+  stopNode() {
+    this.apiService.stopNode().subscribe(result => {
       if (result) {
         this.toastr.show({
           title: 'Success',
