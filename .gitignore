@@ -38,7 +38,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#Electron temp
+# Electron temp
 /elrond-ui-darwin-x64
 elrond-ui-darwin-x64
 /elrond-ui-win32-x64

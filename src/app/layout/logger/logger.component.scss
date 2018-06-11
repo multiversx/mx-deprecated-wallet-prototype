@@ -6,8 +6,21 @@
   left: $sidebar-width;
   right: 0;
   bottom: 0;
-  padding: 10px;
+  padding: 5px 10px;
   opacity: 0.77;
   background-image: linear-gradient(-180deg, #FDFDFD 10%, #F9F9F9 75%);
   border-top: 1px dashed #BABABA;
+
+  textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    overflow: auto;
+    border: 0;
+    background: none;
+    outline: 0;
+    box-shadow: none;
+    font-size: 10px;
+    line-height: 1.2;
+  }
 }
