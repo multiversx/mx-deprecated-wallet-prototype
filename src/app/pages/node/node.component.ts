@@ -25,8 +25,9 @@ export interface Wizard {
 })
 
 export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
-  public node: Node;
   private step;
+  public node: Node;
+  public selectedBlockchainPath: any;
 
   @ViewChild('wizard') public wizard: Wizard;
 
@@ -70,6 +71,17 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
     },
     {
       label: 'Generate a new set of keys',
+      value: 2
+    }
+  ];
+
+  public selectBlockchainPath = [
+    {
+      label: 'Default (location of running app)',
+      value: 1
+    },
+    {
+      label: 'Choose a local folder',
       value: 2
     }
   ];

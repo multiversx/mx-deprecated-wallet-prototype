@@ -92,6 +92,21 @@
           </div>
 
           <div class="form-group">
+            <label>Blockchain path
+              <fa name="question-circle" ngbTooltip="What node type do you want to start?" placement="right"></fa>
+            </label>
+
+            <div class="select-wrapper">
+              <ng-select [items]="selectBlockchainPath"
+                         bindLabel="label"
+                         bindValue="value"
+                         placeholder="Select option ..."
+                         [(ngModel)]="selectedBlockchainPath">
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="selectedBlockchainPath === 2">
             <label>Blockchain path on local drive
               <fa name="question-circle"
                   ngbTooltip="Chose the location where the blockchain is saved on the local drive."
@@ -443,7 +458,8 @@
 
           <p *ngIf="node.selectedNodeType">Node type: {{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
 
-          <p *ngIf="node.selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction', 'selectedNodeAction')}}</p>
+          <p *ngIf="node.selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction',
+            'selectedNodeAction')}}</p>
           <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">ERD's in Genesis: {{
             node.instanceGenesisCoins }}</p>
           <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">Distribution: {{
