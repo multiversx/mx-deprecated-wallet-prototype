@@ -1,12 +1,12 @@
-import {Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef} from '@angular/core';
-import {ApiService} from '../../services/api.service';
-import {NodeDataService} from '../../services/node-data.service';
-import {Node} from '../../models/node';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef } from '@angular/core';
+import { ApiService } from '../../services/api.service';
+import { NodeDataService } from '../../services/node-data.service';
+import { Node } from '../../models/node';
 
-import {Observable, Subscription} from 'rxjs';
-// import { Message } from '@stomp/stompjs';
-// import { StompService } from '@stomp/ng2-stompjs';
-import {ToastrMessageService} from '../../services/toastr.service';
+import { Observable, Subscription } from 'rxjs';
+import { Message } from '@stomp/stompjs';
+import { StompService } from '@stomp/ng2-stompjs';
+import { ToastrMessageService } from '../../services/toastr.service';
 
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
@@ -81,7 +81,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Stream of messages
   private subscription: Subscription;
-  // public messages: Observable<Message>;
+  public messages: Observable<Message>;
 
   // Subscription status
   public subscribed: boolean;
@@ -95,6 +95,7 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   private _counter = 1;
 
   constructor(private apiService: ApiService,
+              private _stompService: StompService,
               private nodeDataService: NodeDataService,
               private changeDetectionRef: ChangeDetectorRef,
               private toastr: ToastrMessageService) {
@@ -114,11 +115,55 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.node = this.nodeDataService.load('main');
     this.step = this.node.step;
+
+    this.subscribe();
   }
 
   ngAfterViewInit(): void {
     this.changeDetectionRef.detectChanges();
   }
+
+  public subscribe() {
+    if (this.subscribed) {
+      return;
+    }
+
+    // Stream of messages
+    this.messages = this._stompService.subscribe('/topic/ng-demo-sub');
+
+    // Subscribe a function to be run on_next message
+    this.subscription = this.messages.subscribe(this.on_next);
+
+    this.subscribed = true;
+  }
+
+  /** Consume a message from the _stompService */
+  public on_next = (message: Message) => {
+
+    // Store message in "historic messages" queue
+    this.mq.push(message.body + '\n');
+
+    // Count it
+    this.count++;
+
+    // Log it to the console
+    console.log(message);
+  }
+
+  public unsubscribe() {
+    if (!this.subscribed) {
+      return;
+    }
+
+    // This will internally unsubscribe from Stomp Broker
+    // There are two subscriptions - one created explicitly, the other created in the template by use of 'async'
+    this.subscription.unsubscribe();
+    this.subscription = null;
+    this.messages = null;
+
+    this.subscribed = false;
+  }
+
 
   onChange() {
     this.nodeDataService.save('main', this.node);

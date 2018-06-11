@@ -26,7 +26,7 @@ import { NodeComponent } from './pages/node/node.component';
 import { LoggerComponent } from './layout/logger/logger.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 
-// import { StompConfig, StompService } from '@stomp/ng2-stompjs';
+import { StompConfig, StompService } from '@stomp/ng2-stompjs';
 
 
 // const stompConfig: StompConfig = {
