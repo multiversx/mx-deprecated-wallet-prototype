@@ -8,6 +8,9 @@ import {Observable, Subscription} from 'rxjs';
 // import { StompService } from '@stomp/ng2-stompjs';
 import {ToastrMessageService} from '../../services/toastr.service';
 
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+
 export interface PeerList {
   ip: string;
   port: number;
@@ -95,6 +98,17 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
               private nodeDataService: NodeDataService,
               private changeDetectionRef: ChangeDetectorRef,
               private toastr: ToastrMessageService) {
+    this.initializeWebSocketConnection();
+  }
+
+  initializeWebSocketConnection() {
+    const stompClient = Stomp.over(new SockJS('http://localhost:8080/socket'));
+    stompClient.connect({}, function (frame) {
+      console.log(frame);
+      stompClient.subscribe('/topic/public', (message) => {
+        console.log(message);
+      });
+    });
   }
 
   ngOnInit() {
