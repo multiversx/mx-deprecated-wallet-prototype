@@ -11,7 +11,7 @@ let jarPid = null;
 let child1 = null;
 
 function createWindow() {
-  let exec = require('child_process').exec, child;
+  //let exec = require('child_process').exec, child;
 
   // child = exec('java -jar ../elrond.jar',
   //   function (error, stdout, stderr) {
