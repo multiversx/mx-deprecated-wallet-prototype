@@ -7,58 +7,46 @@ const path = require('path');
 const url = require('url');
 require('dotenv').config();
 const loadUrl = 'http://localhost:4200';
-let jarPid=null;
-let child1=null;
+let jarPid = null;
+let child1 = null;
 
-app.on('ready', function () {
+function createWindow() {
+  let exec = require('child_process').exec, child;
 
-  var exec = require('child_process').exec, child;
   child = exec('java -jar ../elrond.jar',
-    function (error, stdout, stderr){
+    function (error, stdout, stderr) {
       console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);
-      if(error !== null){
+      if (error !== null) {
         console.log('exec error: ' + error);
       }
     });
-child1=child;
-  ;
 
-
+  child1 = child;
 
   // App close handler
-  app.on('before-quit', function() {
+  app.on('before-quit', function () {
     child1.kill();
-  })
-
-
-
-
+  });
 
   // Initialize the window to our specified dimensions
   appWin = new BrowserWindow(winConfig);
 
-  // // Specify entry point
-  // if (process.env.PACKAGE === 'true') {
-  //   appWin.loadURL(url.format({
-  //     pathname: path.join(__dirname, 'dist/index.html'),
-  //     protocol: 'file:',
-  //     slashes: true
-  //   }));
-  // } else {
-  //   appWin.loadURL(process.env.HOST);
-  //   appWin.webContents.openDevTools();
-  // }
-
-  appWin.loadURL(loadUrl);
+  // appWin.loadURL(loadUrl);
+  appWin.loadURL(url.format({
+    pathname: path.join(__dirname, 'dist/elrond-ui/index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
   appWin.webContents.openDevTools();
 
   // Remove window once app is closed
   appWin.on('closed', function () {
     appWin = null;
   });
+}
 
-});
+app.on('ready', createWindow);
 
 app.on('activate', () => {
   if (appWin === null) {
