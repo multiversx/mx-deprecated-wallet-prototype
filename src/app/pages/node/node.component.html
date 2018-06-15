@@ -1,4 +1,4 @@
-<aw-wizard #wizard [defaultStepIndex]="getDefaultSetp()">
+<aw-wizard #WizardComponent [defaultStepIndex]="getDefaultSetp()">
   <aw-wizard-step awOptionalStep stepTitle="Intro" (stepEnter)="onStepEnter($event)">
     <div class="step-body container-fluid">
 
@@ -18,7 +18,10 @@
     </div>
 
     <div class="aw-wizard-footer text-center pr-4">
-      <button type="button" class="btn btn-dark btn-lg" awNextStep>Start</button>
+      <button type="button" class="btn btn-dark btn-lg mr-4" (click)="finalizeDefaultConfiguration($event)">Default
+        Configuration
+      </button>
+      <button type="button" class="btn btn-dark btn-lg" awNextStep>Advanced Configuration</button>
     </div>
   </aw-wizard-step>
 
@@ -473,9 +476,21 @@
     </div><!-- end .step-body -->
 
     <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
+      <button type="button"
+              class="btn btn-secondary mr-2"
+              awPreviousStep
+              *ngIf="!isDefaultConfiguration">Back
+      </button>
+
       <button type="button" class="btn btn-primary" (click)="startNode()">Start Node</button>
+
       <button type="button" class="btn btn-primary" (click)="stopNode()">Stop Node</button>
+
+      <button type="button"
+              class="btn"
+              [ngClass]="this.isNodeStarted ? 'btn-secondary' : 'btn-primary'"
+              (click)="toggleNode()">{{toggleButtonText}} Node
+      </button>
     </div>
   </aw-wizard-step>
 

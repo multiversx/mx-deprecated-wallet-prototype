@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { NodeDataService } from '../../services/node-data.service';
-import { Node } from '../../models/node';
-
+import { WizardComponent } from 'angular-archwizard';
 import { Observable, Subscription } from 'rxjs';
+
+import { Node } from '../../models/node';
 import { ToastrMessageService } from '../../services/toastr.service';
+import { LoadingService } from '../../services/loading.service';
 
 export interface PeerList {
   ip: string;
@@ -24,12 +26,16 @@ export interface Wizard {
   styleUrls: ['./node.component.scss']
 })
 
-export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NodeComponent implements OnInit, AfterViewInit {
   private step;
+  private isNodeStarted = false;
+
   public node: Node;
   public selectedBlockchainPath: any;
+  public isDefaultConfiguration = false;
+  public toggleButtonText = 'Start';
 
-  @ViewChild('wizard') public wizard: Wizard;
+  @ViewChild('WizardComponent') public wizard: WizardComponent;
 
   public selectNodeTypes = [
     {
@@ -103,7 +109,8 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private apiService: ApiService,
               private nodeDataService: NodeDataService,
               private changeDetectionRef: ChangeDetectorRef,
-              private toastr: ToastrMessageService) {
+              private toastr: ToastrMessageService,
+              private loadingService: LoadingService) {
   }
 
   ngOnInit() {
@@ -214,7 +221,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.node.peerTable.splice(index, 1);
   }
 
-
   onChangeBlockchain(event) {
     this.node.instanceBlockchainPath = event.target.files[0].path;
     this.onChange();
@@ -270,11 +276,17 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
     return currentStep;
   }
 
-  ngOnDestroy() {
-    // this.unsubscribe();
+  finalizeDefaultConfiguration() {
+    this.isDefaultConfiguration = true;
+    const index = 5;
+    // this.wizard.navigation.goToNextStep();
+    console.log(this.wizard);
+    // this.wizard.navigation.goToNextStep();
+    this.wizard.navigation.goToStep(5);
   }
 
   startNode() {
+    this.loadingService.show();
     this.nodeDataService.save('start', this.node);
 
     const nodeName = this.node.instanceName;
@@ -288,7 +300,6 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
       masterPeerPort = this.node.instancePort;
       masterPeerIpAddress = this.node.instanceIp;
     }
-
 
     this.apiService.startNode(
       nodeName,
@@ -308,11 +319,13 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
           message: `Operation has failed`,
         }, 'error');
       }
+
+      this.loadingService.hide();
     });
   }
 
-
   stopNode() {
+    this.loadingService.show();
     this.apiService.stopNode().subscribe(result => {
       if (result) {
         this.toastr.show({
@@ -325,6 +338,23 @@ export class NodeComponent implements OnInit, AfterViewInit, OnDestroy {
           message: `Operation has failed`,
         }, 'error');
       }
+
+      this.loadingService.hide();
     });
+  }
+
+  toggleNode() {
+    const startText = 'Start';
+    const stopText = 'Stop';
+
+    if (this.isNodeStarted) {
+      this.toggleButtonText = startText;
+      this.stopNode();
+    } else {
+      this.toggleButtonText = stopText;
+      this.startNode();
+    }
+
+    this.isNodeStarted = !this.isNodeStarted;
   }
 }

@@ -25,6 +25,8 @@ import { SearchComponent } from './pages/search/search.component';
 import { NodeComponent } from './pages/node/node.component';
 import { LoggerComponent } from './layout/logger/logger.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { IsLoadingComponent } from './components/is-loading/is-loading.component';
+import { LoadingService } from './services/loading.service';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
     NodeComponent,
     LoggerComponent,
     WelcomeComponent,
+    IsLoadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
   providers: [
     NodeDataService,
     ToastrMessageService,
+    LoadingService,
   ],
   bootstrap: [AppComponent]
 })
