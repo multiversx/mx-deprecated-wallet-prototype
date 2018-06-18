@@ -41,7 +41,7 @@ export class OperationsComponent implements OnInit {
 
   }
 
-  checkBalance() {
+  checkBalance(event) {
     this.apiService.getBalance(this.addressToCheck).subscribe(result => {
       if (!result) {
         result = 0;

@@ -63,6 +63,18 @@ try {
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
       createWindow();
+
+      let exec = require('child_process').exec, child;
+      child = exec('java -jar ../sample.jar',
+        function (error, stdout, stderr) {
+          console.log('stdout: ' + stdout);
+          console.log('stderr: ' + stderr);
+          if (error !== null) {
+            console.log('exec error: ' + error);
+          }
+        });
+
+
     }
   });
 

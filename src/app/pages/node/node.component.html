@@ -106,7 +106,7 @@
                          placeholder="Select option ..."
                          [(ngModel)]="node.selectedBlockchainPath">
               </ng-select>
-              {{selectedBlockchainPath}}
+
             </div>
           </div>
 
@@ -432,10 +432,6 @@
             'selectedNodeAction')}}</p>
           <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">ERD's in Genesis: {{
             node.instanceGenesisCoins }}</p>
-          <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">Distribution: {{
-            getSelectLabel('selectDistribution', 'selectedDistributon') }}</p>
-          <p *ngIf="node.selectedNodeAction === 1 && node.instanceNodeDistribution">Nr. of Nodes to
-            distribute: {{ node.instanceNodeDistribution }}</p>
           <p *ngIf="node.selectedNodeType === 2 && node.instanceRestorePath">Restore path: {{instanceRestorePath }}</p>
         </div>
       </div>
