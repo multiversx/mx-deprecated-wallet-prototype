@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { environment } from '../../../environments/environment';
+import { NodeDataService } from '../../services/node-data.service';
 
 @Component({
   selector: 'app-logger',
@@ -14,11 +15,15 @@ export class LoggerComponent implements OnInit {
 
   public logger = '';
 
-  constructor() {
+  constructor(private nodeDataService: NodeDataService) {
   }
 
   ngOnInit() {
     this.initializeWebSocketConnection();
+
+    this.nodeDataService.status.subscribe((status) => {
+      console.log('opration status: ', status);
+    });
   }
 
   initializeWebSocketConnection() {

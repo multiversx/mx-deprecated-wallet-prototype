@@ -30,8 +30,9 @@ export class NodeComponent implements OnInit, AfterViewInit {
   private step;
   private isNodeStarted = false;
 
+
+  public ipPattern = '^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$';
   public node: Node;
-  public selectedBlockchainPath: any;
   public isDefaultConfiguration = false;
   public toggleButtonText = 'Start';
 
@@ -245,9 +246,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
           return true;
         }
 
-        return (this.node.selectedNodeType && this.node.selectedNodeAction &&
-          (this.node.selectedNodeAction === 2 && this.node.instanceRestorePath || this.node.selectedDistributon === 2 ||
-            (this.node.selectedDistributon === 1 && this.node.instanceNodeDistribution)));
+        return (this.node.selectedNodeType && this.node.selectedNodeAction);
       }
       case 3: {
         if (this.node.selectedNodeType === 1) {
@@ -288,6 +287,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   startNode() {
     this.loadingService.show();
     this.nodeDataService.save('start', this.node);
+    this.nodeDataService.clear('main');
 
     const nodeName = this.node.instanceName;
     const port = this.node.instancePort;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { Node } from '../models/node';
 
@@ -7,14 +7,17 @@ import { Node } from '../models/node';
   providedIn: 'root'
 })
 export class NodeDataService {
-
-  private nodeData = new Subject<Node>();
-  currentData = this.nodeData.asObservable();
+  private nodeStatus = new Subject<Boolean>();
+  public status = this.nodeStatus.asObservable();
 
   constructor() {
   }
 
-  save( key, data) {
+  clear(key) {
+    localStorage.removeItem('node' + key);
+  }
+
+  save(key, data) {
     // this.nodeData.next(data);
     localStorage.setItem('node' + key, JSON.stringify(data));
   }
@@ -22,5 +25,17 @@ export class NodeDataService {
   load(key): Node {
     const localStorageData = localStorage.getItem('node' + key);
     return (localStorageData) ? JSON.parse(localStorageData) as Node : Node.getDefault();
+  }
+
+  start() {
+    this.nodeStatus.next(true);
+  }
+
+  stop() {
+    this.nodeStatus.next(false);
+  }
+
+  getStatus(): Observable<Boolean> {
+    return this.nodeStatus.asObservable();
   }
 }

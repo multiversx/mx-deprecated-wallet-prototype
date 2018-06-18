@@ -36,6 +36,7 @@
 
         <input type="text"
                class="form-control"
+               [disabled]="isDisabled"
                [(ngModel)]="operationsTo">
       </div>
 
@@ -46,6 +47,7 @@
 
         <input type="text"
                class="form-control"
+               [disabled]="isDisabled"
                [(ngModel)]="operationsAmount">
       </div>
 
@@ -61,6 +63,7 @@
 
         <input type="text"
                class="form-control"
+               [disabled]="isDisabled"
                [(ngModel)]="addressToCheck">
       </div>
 

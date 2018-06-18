@@ -1,7 +1,9 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ApiService} from '../../services/api.service';
-import {ToastrMessageService} from '../../services/toastr.service';
-import {NodeDataService} from '../../services/node-data.service';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { ApiService } from '../../services/api.service';
+import { ToastrMessageService } from '../../services/toastr.service';
+import { NodeDataService } from '../../services/node-data.service';
 
 @Component({
   selector: 'app-operations',
@@ -16,6 +18,7 @@ export class OperationsComponent implements OnInit {
 
   public addressToCheck: string;
   public balanceToCheck: string;
+  public isDisabled = true;
 
   constructor(private apiService: ApiService,
               private nodeDataService: NodeDataService,
@@ -24,18 +27,17 @@ export class OperationsComponent implements OnInit {
 
 
   ngOnInit() {
-
     const node = this.nodeDataService.load('start');
     this.operationsFrom = node.publicKey;
 
-    setInterval(() => {
-      this.apiService.getBalance(this.operationsFrom).subscribe(result => {
-        if (!result) {
-          result = 0;
-        }
-        this.operationsBalance = result;
-      });
-    }, 2000);
+    // setInterval(() => {
+    //   this.apiService.getBalance(this.operationsFrom).subscribe(result => {
+    //     if (!result) {
+    //       result = 0;
+    //     }
+    //     this.operationsBalance = result;
+    //   });
+    // }, 2000);
 
   }
 

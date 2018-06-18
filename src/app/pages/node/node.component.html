@@ -104,12 +104,13 @@
                          bindLabel="label"
                          bindValue="value"
                          placeholder="Select option ..."
-                         [(ngModel)]="selectedBlockchainPath">
+                         [(ngModel)]="node.selectedBlockchainPath">
               </ng-select>
+              {{selectedBlockchainPath}}
             </div>
           </div>
 
-          <div class="form-group" *ngIf="selectedBlockchainPath === 2">
+          <div class="form-group" *ngIf="node.selectedBlockchainPath === 2">
             <label>Blockchain path on local drive
               <fa name="question-circle"
                   ngbTooltip="Chose the location where the blockchain is saved on the local drive."
@@ -200,40 +201,6 @@
                      mask="0*"
                      (change)="onChange()"
                      [(ngModel)]="node.instanceGenesisCoins">
-            </div>
-
-            <div class="form-row" *ngIf="node.selectedNodeAction === 1">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>Distribution
-                    <fa name="question-circle"
-                        ngbTooltip="How to distribute the total amount: Generate test transactions or distribute manually on your own."
-                        placement="right"></fa>
-                  </label>
-
-                  <div class="select-wrapper">
-                    <ng-select [items]="selectDistribution"
-                               bindLabel="label"
-                               bindValue="value"
-                               placeholder="Select option ..."
-                               [(ngModel)]="node.selectedDistributon"
-                               (change)="onChange()">
-                    </ng-select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-6" *ngIf="node.selectedDistributon === 1">
-                <label>Nr. of nodes to distribute ERD's
-                  <fa name="question-circle"
-                      ngbTooltip="For testing, 75% of the funds will be distributed to a nr of nodes."
-                      placement="right"></fa>
-                </label>
-                <input type="text"
-                       class="form-control"
-                       [(ngModel)]="node.instanceNodeDistribution"
-                       (change)="onChange()">
-              </div>
             </div>
 
           </ng-container>
@@ -481,10 +448,6 @@
               awPreviousStep
               *ngIf="!isDefaultConfiguration">Back
       </button>
-
-      <button type="button" class="btn btn-primary" (click)="startNode()">Start Node</button>
-
-      <button type="button" class="btn btn-primary" (click)="stopNode()">Stop Node</button>
 
       <button type="button"
               class="btn"
