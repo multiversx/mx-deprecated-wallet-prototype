@@ -32,13 +32,13 @@ function createWindow() {
   // Initialize the window to our specified dimensions
   appWin = new BrowserWindow(winConfig);
 
-  // appWin.loadURL(loadUrl);
+  appWin.loadURL(loadUrl);
 
-  appWin.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/elrond-ui/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+  // appWin.loadURL(url.format({
+  //   pathname: path.join(__dirname, 'dist/elrond-ui/index.html'),
+  //   protocol: 'file:',
+  //   slashes: true
+  // }));
 
   appWin.webContents.openDevTools();
 

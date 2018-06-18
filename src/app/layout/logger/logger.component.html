@@ -1,1 +1,8 @@
-<textarea [(ngModel)]="logger" readonly></textarea>
+<div class="logger-items">
+  <perfect-scrollbar style="max-height: 129px;">
+    <div class="scrollable-content">
+      <span class="logger-item" *ngFor="let log of apiLoggs">{{log}}</span>
+    </div>
+  </perfect-scrollbar>
+</div>
+

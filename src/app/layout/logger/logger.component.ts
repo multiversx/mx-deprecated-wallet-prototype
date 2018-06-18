@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+
 import { environment } from '../../../environments/environment';
 import { NodeDataService } from '../../services/node-data.service';
 
@@ -13,17 +15,29 @@ import { NodeDataService } from '../../services/node-data.service';
 export class LoggerComponent implements OnInit {
   private url = environment.api + environment.ws;
 
-  public logger = '';
+  public apiLoggs = [];
+  public logWindowSize = 10000;
+
+  @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
 
   constructor(private nodeDataService: NodeDataService) {
   }
 
   ngOnInit() {
     this.initializeWebSocketConnection();
+  }
 
-    this.nodeDataService.status.subscribe((status) => {
-      console.log('opration status: ', status);
-    });
+  addLog(message) {
+    if (this.apiLoggs.length > this.logWindowSize) {
+      this.apiLoggs.shift();
+    }
+
+    this.apiLoggs.push(message);
+    this.scrollToBottom();
+  }
+
+  public scrollToBottom(): void {
+    this.componentRef.directiveRef.scrollToBottom();
   }
 
   initializeWebSocketConnection() {
@@ -36,7 +50,7 @@ export class LoggerComponent implements OnInit {
 
       stompClient.subscribe('/topic/public', (message) => {
         if (message.body) {
-          that.logger = that.logger + message.body + newLine;
+          that.addLog(message.body + newLine);
         }
       });
     });
