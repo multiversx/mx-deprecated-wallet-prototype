@@ -4,7 +4,7 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
-import { environment } from '../../../environments/environment';
+import { AppConfig } from '../../../environments/environment';
 import { NodeDataService } from '../../services/node-data.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { NodeDataService } from '../../services/node-data.service';
   styleUrls: ['./logger.component.scss']
 })
 export class LoggerComponent implements OnInit {
-  private url = environment.api + environment.ws;
+  private url = AppConfig.api + AppConfig.ws;
 
   public apiLoggs = [];
   public logWindowSize = 10000;

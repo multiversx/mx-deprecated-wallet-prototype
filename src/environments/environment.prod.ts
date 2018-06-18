@@ -1,3 +1,5 @@
-export const environment = {
-  production: true
+export const AppConfig = {
+  production: true,
+  endpoint: 'node',
+  ws: 'socket',
 };
