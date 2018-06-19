@@ -2,6 +2,8 @@ import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
+const axios = require('axios');
+
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
@@ -61,11 +63,6 @@ function createWindow() {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-
-    fetch(apiUrl + 'exit')
-      .then(data => console.log(data))
-      .catch(e => console.log('error'));
-
     win = null;
   });
 
@@ -83,6 +80,10 @@ try {
   app.on('window-all-closed', () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
+
+    axios.get(apiUrl + 'exit')
+      .then(res => console.log('axios res: ', res));
+
     if (process.platform !== 'darwin') {
       app.quit();
     }

@@ -24,6 +24,7 @@
     "e2e": "ng e2e"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "buffer": "^5.1.0",
     "events": "^3.0.0",
     "stream": "0.0.2"
