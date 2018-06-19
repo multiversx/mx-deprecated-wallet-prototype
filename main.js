@@ -6,6 +6,17 @@ var url = require("url");
 var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
+function startAPI() {
+    console.log('xxx');
+    var exec = require('child_process').exec, child;
+    child = exec('java -jar elrond.jar', function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+            console.log('exec error: ' + error);
+        }
+    });
+}
 function createWindow() {
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
@@ -16,11 +27,13 @@ function createWindow() {
         width: 1200,
         height: 600
     });
+    // if dev
     if (serve) {
         require('electron-reload')(__dirname, {
             electron: require(__dirname + "/node_modules/electron")
         });
         win.loadURL('http://localhost:4200');
+        // if prod
     }
     else {
         win.loadURL(url.format({
@@ -37,14 +50,7 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null;
     });
-    var exec = require('child_process').exec, child;
-    child = exec('java -jar sample.jar', function (error, stdout, stderr) {
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-    });
+    startAPI();
 }
 try {
     // This method will be called when Electron has finished

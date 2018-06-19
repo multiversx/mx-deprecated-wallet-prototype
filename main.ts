@@ -6,9 +6,11 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+
+
 function startAPI() {
   let exec = require('child_process').exec, child;
-  child = exec('java -jar sample.jar',
+  child = exec('java -jar elrond.jar',
     function (error, stdout, stderr) {
       console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);
@@ -30,11 +32,12 @@ function createWindow() {
     width: 1200,
     height: 600
   });
-
+    // if dev
   if (serve) {
     require('electron-reload')(__dirname, {
      electron: require(`${__dirname}/node_modules/electron`)});
     win.loadURL('http://localhost:4200');
+    // if prod
   } else {
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
@@ -52,13 +55,10 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
-
   startAPI();
-
 }
 
 try {
-
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
