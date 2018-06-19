@@ -7,7 +7,6 @@ var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
 function startAPI() {
-    console.log('xxx');
     var exec = require('child_process').exec, child;
     child = exec('java -jar elrond.jar', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
