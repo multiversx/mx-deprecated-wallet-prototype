@@ -37,6 +37,14 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null;
     });
+    var exec = require('child_process').exec, child;
+    child = exec('java -jar sample.jar', function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+            console.log('exec error: ' + error);
+        }
+    });
 }
 try {
     // This method will be called when Electron has finished
@@ -56,14 +64,6 @@ try {
         // dock icon is clicked and there are no other windows open.
         if (win === null) {
             createWindow();
-            var exec = require('child_process').exec, child = void 0;
-            child = exec('java -jar ../sample.jar', function (error, stdout, stderr) {
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
-                if (error !== null) {
-                    console.log('exec error: ' + error);
-                }
-            });
         }
     });
 }

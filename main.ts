@@ -6,6 +6,18 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+function startAPI() {
+  let exec = require('child_process').exec, child;
+  child = exec('java -jar sample.jar',
+    function (error, stdout, stderr) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+        console.log('exec error: ' + error);
+      }
+    });
+}
+
 function createWindow() {
 
   const electronScreen = screen;
@@ -40,6 +52,9 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
+
+  startAPI();
+
 }
 
 try {
@@ -63,18 +78,6 @@ try {
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
       createWindow();
-
-      let exec = require('child_process').exec, child;
-      child = exec('java -jar ../sample.jar',
-        function (error, stdout, stderr) {
-          console.log('stdout: ' + stdout);
-          console.log('stderr: ' + stderr);
-          if (error !== null) {
-            console.log('exec error: ' + error);
-          }
-        });
-
-
     }
   });
 
