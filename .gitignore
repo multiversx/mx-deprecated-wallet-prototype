@@ -50,4 +50,6 @@ sample.jar
 elrond.jar
 /app-builds
 app-builds
+/logs
+logs
 
