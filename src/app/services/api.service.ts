@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
-import { environment } from '../../environments/environment';
+import { AppConfig } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class ApiService {
 
-  private url = environment.api + environment.endpoint;
+  private url = AppConfig.api + AppConfig.endpoint;
 
   constructor(private http: HttpClient,
               private messageService: MessageService) {

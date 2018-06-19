@@ -28,7 +28,7 @@ export interface Wizard {
 
 export class NodeComponent implements OnInit, AfterViewInit {
   private step;
-  private isNodeStarted = false;
+  public isNodeStarted = false;
 
 
   public ipPattern = '^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$';
@@ -275,7 +275,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
     return currentStep;
   }
 
-  finalizeDefaultConfiguration() {
+  finalizeDefaultConfiguration(event) {
     this.isDefaultConfiguration = true;
     const index = 5;
     // this.wizard.navigation.goToNextStep();

@@ -46,3 +46,8 @@ elrond-ui-win32-x64
 elrond.jar
 /dist
 dist
+sample.jar
+elrond.jar
+/app-builds
+app-builds
+

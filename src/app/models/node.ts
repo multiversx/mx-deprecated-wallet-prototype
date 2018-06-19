@@ -34,7 +34,13 @@ export class Node {
     node.publicKey = '';
     node.peerIp = '';
     node.peerPort = '';
-    node.peerTable = [];
+    node.peerTable = [
+      {
+        ip: '127.0.0.1',
+        port: '31201',
+        status: true
+      }
+    ];
     node.step = 0;
     node.selectedBlockchainPath = 1;
     return node;
