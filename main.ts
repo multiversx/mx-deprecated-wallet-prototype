@@ -5,6 +5,7 @@ import * as url from 'url';
 let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
+const apiUrl = 'http://localhost:8080/node/';
 
 function startAPI() {
   let exec = require('child_process').exec, child;
@@ -60,6 +61,11 @@ function createWindow() {
     // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
+
+    fetch(apiUrl + 'exit')
+      .then(data => console.log(data))
+      .catch(e => console.log('error'));
+
     win = null;
   });
 
