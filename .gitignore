@@ -47,6 +47,7 @@ elrond.jar
 /dist
 dist
 sample.jar
+elrond.jar
 /app-builds
 app-builds
 

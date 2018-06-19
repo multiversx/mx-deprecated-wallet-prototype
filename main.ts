@@ -6,8 +6,6 @@ let win, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
-
-
 function startAPI() {
   let exec = require('child_process').exec, child;
   child = exec('java -jar elrond.jar',
@@ -37,6 +35,7 @@ function createWindow() {
     require('electron-reload')(__dirname, {
      electron: require(`${__dirname}/node_modules/electron`)});
     win.loadURL('http://localhost:4200');
+    win.webContents.openDevTools();
     // if prod
   } else {
     win.loadURL(url.format({
@@ -45,8 +44,6 @@ function createWindow() {
       slashes: true
     }));
   }
-
-  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
