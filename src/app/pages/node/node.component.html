@@ -1,4 +1,4 @@
-<aw-wizard #WizardComponent [defaultStepIndex]="getDefaultSetp()">
+<aw-wizard #WizardComponent [defaultStepIndex]="getDefaultStep()">
   <aw-wizard-step awOptionalStep stepTitle="Intro" (stepEnter)="onStepEnter($event)">
     <div class="step-body container-fluid">
 
@@ -391,7 +391,7 @@
             </div>
           </div>
 
-          <p>Blockchain path: {{ node.instanceBlockchainPath }}</p>
+          <p *ngIf="node.selectedBlockchainPath">Blockchain path: {{ getSelectLabel('selectBlockchainPath', 'selectedBlockchainPath') }}</p>
 
           <div *ngIf="node.selectedNodeType === 2">
 

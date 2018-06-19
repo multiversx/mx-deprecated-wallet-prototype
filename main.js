@@ -21,10 +21,14 @@ function createWindow() {
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
     // Create the browser window.
     win = new electron_1.BrowserWindow({
-        x: 0,
-        y: 0,
         width: 1200,
-        height: 600
+        height: 600,
+        titleBarStyle: 'hidden',
+        webPreferences: {
+            nodeIntegration: false
+        },
+        backgroundColor: '#ffffff',
+        show: false
     });
     // if dev
     if (serve) {
@@ -42,6 +46,10 @@ function createWindow() {
             slashes: true
         }));
     }
+    // Show win when all is set
+    win.once('ready-to-show', function () {
+        win.show();
+    });
     // Emitted when the window is closed.
     win.on('closed', function () {
         // Dereference the window object, usually you would store window

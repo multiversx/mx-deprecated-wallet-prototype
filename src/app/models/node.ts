@@ -21,7 +21,7 @@ export class Node {
   public static getDefault() {
     const node = new Node();
 
-    node.selectedNodeType = null;
+    node.selectedNodeType = 2;
     node.selectedNodeAction = null;
     node.selectedPKSource = 2;
     node.instanceName = `Elrond Instance - test - ${UUID.UUID()}`;

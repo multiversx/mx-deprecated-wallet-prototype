@@ -28,10 +28,9 @@ export interface Wizard {
 
 export class NodeComponent implements OnInit, AfterViewInit {
   private step;
+
   public isNodeStarted = false;
-
-
-  public ipPattern = '^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$';
+  // public ipPattern = '^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$';
   public node: Node;
   public isDefaultConfiguration = false;
   public toggleButtonText = 'Start';
@@ -56,17 +55,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
     },
     {
       label: 'Restore blockchain - Local folder',
-      value: 2
-    }
-  ];
-
-  public selectDistribution = [
-    {
-      label: 'Automatic distribution',
-      value: 1
-    },
-    {
-      label: 'Manual distribution',
       value: 2
     }
   ];
@@ -158,9 +146,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
     };
 
     this.apiService.ping(url).subscribe(result => {
-
-      console.log(result);
-
       const {reachablePing, reachablePort, reponseTimeMs} = result;
 
       const success = {
@@ -176,15 +161,16 @@ export class NodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  generateKeys() {
-
+  generateKeys(callback?: (step) => void, index?) {
     this.apiService.generateKeys().subscribe((keys) => {
       this.node.privateKey = keys.privateKey;
       this.node.publicKey = keys.publicKey;
       this.onChange();
+
+      if (callback) {
+        callback(index);
+      }
     });
-
-
   }
 
   generatePublickKey() {
@@ -270,18 +256,15 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.onChange();
   }
 
-  getDefaultSetp(): number {
-    const currentStep = (this.step) ? this.step : 0;
-    return currentStep;
+  getDefaultStep(): number {
+    return (this.step) ? this.step : 0;
   }
 
   finalizeDefaultConfiguration(event) {
-    this.isDefaultConfiguration = true;
     const index = 5;
-    // this.wizard.navigation.goToNextStep();
-    console.log(this.wizard);
-    // this.wizard.navigation.goToNextStep();
-    this.wizard.navigation.goToStep(5);
+    this.isDefaultConfiguration = true;
+
+    this.generateKeys(this.navigateToStep, index);
   }
 
   startNode() {
@@ -318,6 +301,9 @@ export class NodeComponent implements OnInit, AfterViewInit {
           title: 'Fail',
           message: `Operation has failed`,
         }, 'error');
+
+        this.setupButtonText('toggleButtonText', 'Start');
+        this.isNodeStarted = false;
       }
 
       this.loadingService.hide();
@@ -343,18 +329,26 @@ export class NodeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  setupButtonText(field, value): void {
+    this[field] = value;
+  }
+
   toggleNode() {
     const startText = 'Start';
     const stopText = 'Stop';
 
     if (this.isNodeStarted) {
-      this.toggleButtonText = startText;
+      this.setupButtonText('toggleButtonText', 'Stop');
       this.stopNode();
     } else {
-      this.toggleButtonText = stopText;
+      this.setupButtonText('toggleButtonText', 'Start');
       this.startNode();
     }
 
     this.isNodeStarted = !this.isNodeStarted;
+  }
+
+  navigateToStep = (index) => {
+    this.wizard.navigation.goToStep(index);
   }
 }

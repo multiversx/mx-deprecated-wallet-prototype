@@ -25,20 +25,29 @@ export class OperationsComponent implements OnInit {
               private toastr: ToastrMessageService) {
   }
 
-
   ngOnInit() {
+    this.getBalance();
+    this.getNodeStatus();
+  }
+
+  getBalance() {
     const node = this.nodeDataService.load('start');
     this.operationsFrom = node.publicKey;
 
-    // setInterval(() => {
-    //   this.apiService.getBalance(this.operationsFrom).subscribe(result => {
-    //     if (!result) {
-    //       result = 0;
-    //     }
-    //     this.operationsBalance = result;
-    //   });
-    // }, 2000);
+    if (this.operationsFrom) {
+      setInterval(() => {
+        this.apiService.getBalance(this.operationsFrom).subscribe(result => {
+          if (!result) {
+            result = 0;
+          }
+          this.operationsBalance = result;
+        });
+      }, 2000);
+    }
+  }
 
+  getNodeStatus(): void {
+    this.apiService.getStatus().subscribe((status) => this.isDisabled = !status);
   }
 
   checkBalance(event) {
@@ -50,7 +59,7 @@ export class OperationsComponent implements OnInit {
     });
   }
 
-  send(e) {
+  send(e): void {
     this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(result => {
 
       if (result) {
@@ -64,8 +73,6 @@ export class OperationsComponent implements OnInit {
           message: `Operation has failed`,
         }, 'error');
       }
-
-
     });
   }
 

@@ -19,21 +19,26 @@ function startAPI() {
 }
 
 function createWindow() {
-
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
     width: 1200,
-    height: 600
+    height: 600,
+    titleBarStyle: 'hidden',
+    webPreferences: {
+      nodeIntegration: false,
+    },
+    backgroundColor: '#ffffff',
+    show: false
   });
-    // if dev
+
+  // if dev
   if (serve) {
     require('electron-reload')(__dirname, {
-     electron: require(`${__dirname}/node_modules/electron`)});
+      electron: require(`${__dirname}/node_modules/electron`)
+    });
     win.loadURL('http://localhost:4200');
     win.webContents.openDevTools();
     // if prod
@@ -45,6 +50,11 @@ function createWindow() {
     }));
   }
 
+  // Show win when all is set
+  win.once('ready-to-show', () => {
+    win.show();
+  });
+
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store window
@@ -52,6 +62,7 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
+
   startAPI();
 }
 
@@ -59,6 +70,7 @@ try {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
+
   app.on('ready', createWindow);
 
   // Quit when all windows are closed.

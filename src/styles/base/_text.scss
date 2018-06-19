@@ -18,8 +18,6 @@ h6 {
 }
 
 .h1 {
-  @extend %font__primary--bold;
-
   font-size: (30/16 + rem);
   line-height: 1;
   font-weight: normal;
@@ -33,7 +31,6 @@ h6 {
 
 .section-title {
   @extend .h1;
-  @extend %font__primary--light;
 }
 
 .lead {

@@ -101,7 +101,6 @@ export class ApiService {
       );
   }
 
-
   startNode(nodeName,
             port,
             masterPeerPort,
@@ -113,6 +112,15 @@ export class ApiService {
     return this.http.get<any[]>(url)
       .pipe(
         catchError(this.handleError('ping', []))
+      );
+  }
+
+  getStatus(): Observable<boolean> {
+    const url = `${this.url}/status`;
+
+    return this.http.get<boolean>(url)
+      .pipe(
+        catchError(this.handleError('status', false))
       );
   }
 
