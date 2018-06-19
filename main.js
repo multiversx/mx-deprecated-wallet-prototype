@@ -7,7 +7,6 @@ var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
 function startAPI() {
-    console.log('xxx');
     var exec = require('child_process').exec, child;
     child = exec('java -jar elrond.jar', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
@@ -33,6 +32,7 @@ function createWindow() {
             electron: require(__dirname + "/node_modules/electron")
         });
         win.loadURL('http://localhost:4200');
+        win.webContents.openDevTools();
         // if prod
     }
     else {
@@ -42,7 +42,6 @@ function createWindow() {
             slashes: true
         }));
     }
-    win.webContents.openDevTools();
     // Emitted when the window is closed.
     win.on('closed', function () {
         // Dereference the window object, usually you would store window

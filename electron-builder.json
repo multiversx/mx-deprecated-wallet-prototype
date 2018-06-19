@@ -3,6 +3,7 @@
   "directories": {
     "output": "app-builds"
   },
+  "extraFiles": "elrond.jar",
     "files": [
         "**/*",
         "!*.ts",
@@ -17,7 +18,7 @@
         "!_config.yml",
         "!karma.conf.js",
         "!tsconfig.json",
-        "!tslint.json"
+        "!tslint.json",
     ],
   "win": {
     "icon": "dist",
