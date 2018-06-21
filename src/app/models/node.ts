@@ -16,13 +16,14 @@ export class Node {
   peerPort: string;
   peerTable: any[];
   step: number;
+  allocatedShard: any;
   selectedBlockchainPath: any;
 
   public static getDefault() {
     const node = new Node();
 
     node.selectedNodeType = 2;
-    node.selectedNodeAction = null;
+    node.selectedNodeAction = 1;
     node.selectedPKSource = 2;
     node.instanceName = `Elrond Instance - test - ${UUID.UUID()}`;
     node.instanceIp = '127.0.0.1';
@@ -38,10 +39,12 @@ export class Node {
       {
         ip: '127.0.0.1',
         port: '31201',
-        status: true
+        status: true,
+        delete: false
       }
     ];
     node.step = 0;
+    node.allocatedShard = 1;
     node.selectedBlockchainPath = 1;
     return node;
   }

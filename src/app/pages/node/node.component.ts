@@ -159,8 +159,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
       if (!reachablePing) {
         this.toastr.show(error, 'error');
       } else {
-        if (reachablePort) { this.toastr.show(errorPort, 'error'); } else {  this.toastr.show(success); }
-    }
+        if (reachablePort) {
+          this.toastr.show(errorPort, 'error');
+        } else {
+          this.toastr.show(success);
+        }
+      }
     });
   }
 
@@ -188,7 +192,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
       if (!reachablePing) {
         this.toastr.show(error, 'error');
       } else {
-        if (!reachablePort) { this.toastr.show(errorPort, 'error'); } else {  this.toastr.show(success); }
+        if (!reachablePort) {
+          this.toastr.show(errorPort, 'error');
+        } else {
+          this.toastr.show(success);
+        }
       }
     });
   }
@@ -226,7 +234,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
     const payload = {
       ip,
       port,
-      status
+      status,
+      delete: true
     };
 
     if (ip && port) {
@@ -295,13 +304,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
   finalizeDefaultConfiguration(event) {
     const index = 5;
     this.isDefaultConfiguration = true;
-
-    this.clearLocalStorage();
     this.generateKeys(this.navigateToStep, index);
   }
 
   onAdvancedPreFinalize() {
-    this.clearLocalStorage();
   }
 
   startNode() {
@@ -314,18 +320,13 @@ export class NodeComponent implements OnInit, AfterViewInit {
     const port = this.node.instancePort;
     const privateKey = this.node.privateKey;
 
-    const payload = this.node.peerTable.pop();
-
-
-    let masterPeerPort = this.node.peerPort;
-    let masterPeerIpAddress = this.node.peerIp;
-
+    const peerIp = this.node.peerTable[0].ip;
+    const peerPort = this.node.peerTable[0].port;
 
     const isSeedNode = this.node.selectedNodeType === 1;
-    if (isSeedNode) {
-      masterPeerPort = this.node.instancePort;
-      masterPeerIpAddress = this.node.instanceIp;
-    }
+
+    const masterPeerPort = (isSeedNode) ? this.node.instancePort : peerPort;
+    const masterPeerIpAddress = (isSeedNode) ? this.node.instanceIp : peerIp;
 
     this.apiService.startNode(
       nodeName,
@@ -398,5 +399,5 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   navigateToStep = (index) => {
     this.wizard.navigation.goToStep(index);
-  }
+  };
 }

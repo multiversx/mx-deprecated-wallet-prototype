@@ -104,6 +104,7 @@
               <ng-select [items]="selectBlockchainPath"
                          bindLabel="label"
                          bindValue="value"
+                         disabled="true"
                          placeholder="Select option ..."
                          [(ngModel)]="node.selectedBlockchainPath">
               </ng-select>
@@ -170,6 +171,7 @@
               <div class="select-wrapper">
                 <ng-select [items]="selectNodeAction"
                            bindLabel="label"
+                           disabled="true"
                            bindValue="value"
                            placeholder="Select option ..."
                            (change)="onChange()"
@@ -259,8 +261,8 @@
             </div>
 
             <div class="col-md-4" style="padding-top: 30px;">
-              <button type="button" class="btn btn-primary btn-sm mr-2" (click)="pingPeer()">Test</button>
-              <button type="button" class="btn btn-success btn-sm" (click)="addPeer()">Add</button>
+              <button type="button" class="btn btn-primary btn-sm mr-2" [disabled]="node.peerPort === '' || node.peerIp === ''" (click)="pingPeer()">Test</button>
+              <button type="button" class="btn btn-success btn-sm" [disabled]="node.peerPort === '' || node.peerIp === ''" (click)="addPeer()">Add</button>
             </div>
           </div>
 
@@ -288,7 +290,7 @@
                   <fa name="circle" [ngClass]="peer.status ? 'active' : 'not-active'"></fa>
                 </td>
                 <td class="text-center sm">
-                  <button class="btn btn-link btn-icon" (click)="deletePeer(i)">
+                  <button *ngIf="peer.delete" class="btn btn-link btn-icon" (click)="deletePeer(i)">
                     <fa name="trash"></fa>
                   </button>
                 </td>
@@ -353,6 +355,18 @@
             <input type="text"
                    class="form-control"
                    [(ngModel)]="node.publicKey"
+                   readonly>
+          </div>
+
+          <div class="form-group">
+            <label>
+              Allocated shard
+              <fa name="question-circle" ngbTooltip="Initially every address is allocated in a shard."
+                  placement="right"></fa>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="node.allocatedShard"
                    readonly>
           </div>
 

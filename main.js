@@ -23,6 +23,7 @@ function startAPI() {
 function createWindow() {
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
+    console.log('ic elctron debug');
     // Create the browser window.
     win = new electron_1.BrowserWindow({
         width: 1200,

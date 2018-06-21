@@ -29,6 +29,8 @@ function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
+  console.log('ic elctron debug');
+
   // Create the browser window.
   win = new BrowserWindow({
     width: 1200,
