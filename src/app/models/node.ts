@@ -27,13 +27,13 @@ export class Node {
     node.instanceName = `Elrond Instance - test - ${UUID.UUID()}`;
     node.instanceIp = '127.0.0.1';
     node.instancePort = '31201';
-    node.instanceGenesisCoins = 21000000;
+    node.instanceGenesisCoins = 21000000000;
     node.instanceRestorePath = '';
     node.instanceBlockchainPath = '';
     node.privateKey = '';
     node.publicKey = '';
-    node.peerIp = '';
-    node.peerPort = '';
+    node.peerIp = '0.0.0.0';
+    node.peerPort = '31201';
     node.peerTable = [
       {
         ip: '127.0.0.1',

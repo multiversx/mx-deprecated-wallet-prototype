@@ -60,6 +60,7 @@
                 <input type="text"
                        class="form-control"
                        required
+                       readonly
                        [dropSpecialCharacters]="false"
                        mask="099.099.099.099"
                        (change)="onChange()"
@@ -199,6 +200,7 @@
               <input type="text"
                      class="form-control"
                      mask="0*"
+                     readonly
                      (change)="onChange()"
                      [(ngModel)]="node.instanceGenesisCoins">
             </div>

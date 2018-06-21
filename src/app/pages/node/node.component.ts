@@ -139,12 +139,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
     const error = {
       title: 'Error',
-      message: 'Please verify your IP',
+      message: 'Provided IP is not reachable.',
     };
 
     const errorPort = {
       title: 'Error',
-      message: 'Please verify your Port!',
+      message: 'Your Port is busy.',
     };
 
     this.apiService.ping(url).subscribe(result => {
