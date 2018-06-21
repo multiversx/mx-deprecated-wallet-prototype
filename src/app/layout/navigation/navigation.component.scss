@@ -71,6 +71,14 @@ $menu__button-bg--active: #4F4F4F;
           }
         }
       }
+
+      &.is-node-started {
+        svg {
+          .status-circle {
+            fill: green;
+          }
+        }
+      }
     }
   }
 }

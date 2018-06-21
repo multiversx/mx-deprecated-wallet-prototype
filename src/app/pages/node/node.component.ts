@@ -339,6 +339,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
           title: 'Success',
           message: `Operation was finished with success`,
         });
+
+        this.nodeDataService.start();
       } else {
         this.toastr.show({
           title: 'Fail',
@@ -347,6 +349,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
         this.setupButtonText('toggleButtonText', 'Start');
         this.isNodeStarted = false;
+        this.nodeDataService.stop();
       }
 
       this.loadingService.hide();
@@ -355,6 +358,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   stopNode() {
     this.loadingService.show();
+    this.nodeDataService.stop();
+
     this.apiService.stopNode().subscribe(result => {
       if (result) {
         this.toastr.show({
@@ -381,10 +386,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
     const stopText = 'Stop';
 
     if (this.isNodeStarted) {
-      this.setupButtonText('toggleButtonText', 'Stop');
+      this.setupButtonText('toggleButtonText', 'Start');
       this.stopNode();
     } else {
-      this.setupButtonText('toggleButtonText', 'Start');
+      this.setupButtonText('toggleButtonText', 'Stop');
       this.startNode();
     }
 

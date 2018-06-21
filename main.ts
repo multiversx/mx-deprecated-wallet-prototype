@@ -14,8 +14,6 @@ function startAPI() {
   const exec = require('child_process').exec;
   const jarPath = (process.platform === 'darwin') ? './Contents/elrond-api-1.0-SNAPSHOT.jar' : 'elrond-api-1.0-SNAPSHOT.jar';
 
-  console.log('jar path: ', jarPath);
-
   const child = exec('java -jar ' + jarPath,
     function (error, stdout, stderr) {
       console.log('stdout: ' + stdout);
@@ -77,7 +75,7 @@ function createWindow() {
     win = null;
   });
 
-  startAPI();
+  // startAPI();
 }
 
 try {

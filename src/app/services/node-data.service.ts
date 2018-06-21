@@ -7,7 +7,7 @@ import { Node } from '../models/node';
   providedIn: 'root'
 })
 export class NodeDataService {
-  private nodeStatus = new Subject<Boolean>();
+  private nodeStatus = new Subject<boolean>();
   public status = this.nodeStatus.asObservable();
 
   constructor() {
@@ -35,7 +35,7 @@ export class NodeDataService {
     this.nodeStatus.next(false);
   }
 
-  getStatus(): Observable<Boolean> {
+  getStatus(): Observable<boolean> {
     return this.nodeStatus.asObservable();
   }
 }

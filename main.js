@@ -12,7 +12,6 @@ var apiUrl = 'http://localhost:8080/node/';
 function startAPI() {
     var exec = require('child_process').exec;
     var jarPath = (process.platform === 'darwin') ? './Contents/elrond-api-1.0-SNAPSHOT.jar' : 'elrond-api-1.0-SNAPSHOT.jar';
-    console.log('jar path: ', jarPath);
     var child = exec('java -jar ' + jarPath, function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
@@ -65,7 +64,7 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null;
     });
-    startAPI();
+    // startAPI();
 }
 try {
     // This method will be called when Electron has finished

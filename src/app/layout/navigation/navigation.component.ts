@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../services/api.service';
+import { NodeDataService } from '../../services/node-data.service';
 
 @Component({
   selector: 'app-navigation',
@@ -6,10 +8,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
+  public isAppStarted = false;
+  public isNodeStarted = false;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private apiService: ApiService, private nodeDataService: NodeDataService) {
   }
 
+  ngOnInit() {
+    this.nodeDataService.getStatus().subscribe((status) => {
+      console.log('node status: ', status);
+      this.isNodeStarted = status;
+    });
+
+    this.getAppStatus();
+  }
+
+  getAppStatus(): void {
+    this.apiService.getAppStatus().subscribe((status) => this.isAppStarted = status);
+  }
 }
