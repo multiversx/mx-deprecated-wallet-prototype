@@ -3,12 +3,14 @@ exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
+var axios = require('axios');
 var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
+var apiUrl = 'http://localhost:8080/node/';
 function startAPI() {
     var exec = require('child_process').exec, child;
-    child = exec('java -jar elrond.jar', function (error, stdout, stderr) {
+    child = exec('java -jar elrond-api-1.0-SNAPSHOT.jar', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error !== null) {
@@ -68,6 +70,8 @@ try {
     electron_1.app.on('window-all-closed', function () {
         // On OS X it is common for applications and their menu bar
         // to stay active until the user quits explicitly with Cmd + Q
+        axios.get(apiUrl + 'exit')
+            .then(function (res) { return console.log('axios res: ', res); });
         if (process.platform !== 'darwin') {
             electron_1.app.quit();
         }

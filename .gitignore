@@ -44,6 +44,7 @@ elrond-ui-darwin-x64
 /elrond-ui-win32-x64
 elrond-ui-win32-x64
 elrond.jar
+elrond-api-1.0-SNAPSHOT.jar
 /dist
 dist
 sample.jar
@@ -52,4 +53,3 @@ elrond.jar
 app-builds
 /logs
 logs
-

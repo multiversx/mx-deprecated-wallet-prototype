@@ -132,17 +132,19 @@ export class NodeComponent implements OnInit, AfterViewInit {
       this[value];
   }
 
-  ping() {
+
+
+  pingLocal() {
     const url = `ipAddress=${this.node.instanceIp}&port=${this.node.instancePort}`;
 
     const error = {
       title: 'Error',
-      message: 'Please change your IP & Port!',
+      message: 'Please verify your IP',
     };
 
     const errorPort = {
       title: 'Error',
-      message: 'Please change your Port!',
+      message: 'Please verify your Port!',
     };
 
     this.apiService.ping(url).subscribe(result => {
@@ -153,13 +155,43 @@ export class NodeComponent implements OnInit, AfterViewInit {
         message: `Your IP & Port are reachable - response time: ${reponseTimeMs}ms`,
       };
 
-      if (reachablePing && reachablePort) {
-        this.toastr.show(success);
-      } else {
+      if (!reachablePing) {
         this.toastr.show(error, 'error');
+      } else {
+        if (reachablePort) { this.toastr.show(errorPort, 'error'); } else {  this.toastr.show(success); }
+    }
+    });
+  }
+
+  pingPeer() {
+    const url = `ipAddress=${this.node.peerIp}&port=${this.node.peerPort}`;
+
+    const error = {
+      title: 'Error',
+      message: 'Peer IP is not reachable',
+    };
+
+    const errorPort = {
+      title: 'Error',
+      message: 'Peer Port is not open',
+    };
+
+    this.apiService.ping(url).subscribe(result => {
+      const {reachablePing, reachablePort, reponseTimeMs} = result;
+
+      const success = {
+        title: 'Success',
+        message: `Peer IP & Port are reachable - response time: ${reponseTimeMs}ms`,
+      };
+
+      if (!reachablePing) {
+        this.toastr.show(error, 'error');
+      } else {
+        if (!reachablePort) { this.toastr.show(errorPort, 'error'); } else {  this.toastr.show(success); }
       }
     });
   }
+
 
   generateKeys(callback?: (step) => void, index?) {
     this.apiService.generateKeys().subscribe((keys) => {
@@ -272,11 +304,17 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.nodeDataService.save('start', this.node);
     this.nodeDataService.clear('main');
 
+
     const nodeName = this.node.instanceName;
     const port = this.node.instancePort;
+    const privateKey = this.node.privateKey;
+
+    const payload = this.node.peerTable.pop();
+
+
     let masterPeerPort = this.node.peerPort;
     let masterPeerIpAddress = this.node.peerIp;
-    const privateKey = this.node.privateKey;
+
 
     const isSeedNode = this.node.selectedNodeType === 1;
     if (isSeedNode) {

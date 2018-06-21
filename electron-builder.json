@@ -3,7 +3,7 @@
   "directories": {
     "output": "app-builds"
   },
-  "extraFiles": "elrond.jar",
+  "extraFiles": "elrond-api-1.0-SNAPSHOT.jar",
     "files": [
         "**/*",
         "!*.ts",

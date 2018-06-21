@@ -11,7 +11,7 @@ const apiUrl = 'http://localhost:8080/node/';
 
 function startAPI() {
   let exec = require('child_process').exec, child;
-  child = exec('java -jar elrond.jar',
+  child = exec('java -jar elrond-api-1.0-SNAPSHOT.jar',
     function (error, stdout, stderr) {
       console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);
@@ -80,6 +80,7 @@ try {
   app.on('window-all-closed', () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
+
 
     axios.get(apiUrl + 'exit')
       .then(res => console.log('axios res: ', res));
