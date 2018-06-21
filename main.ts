@@ -12,10 +12,15 @@ const apiUrl = 'http://localhost:8080/node/';
 
 function startAPI() {
   const exec = require('child_process').exec;
-  const child = exec('java -jar elrond-api-1.0-SNAPSHOT.jar',
+  const jarPath = (process.platform === 'darwin') ? './Contents/elrond-api-1.0-SNAPSHOT.jar' : 'elrond-api-1.0-SNAPSHOT.jar';
+
+  console.log('jar path: ', jarPath);
+
+  const child = exec('java -jar ' + jarPath,
     function (error, stdout, stderr) {
       console.log('stdout: ' + stdout);
       console.log('stderr: ' + stderr);
+
       if (error !== null) {
         console.log('exec error: ' + error);
       }

@@ -11,7 +11,9 @@ var local = args.some(function (val) { return val === '--local'; });
 var apiUrl = 'http://localhost:8080/node/';
 function startAPI() {
     var exec = require('child_process').exec;
-    var child = exec('java -jar elrond-api-1.0-SNAPSHOT.jar', function (error, stdout, stderr) {
+    var jarPath = (process.platform === 'darwin') ? './Contents/elrond-api-1.0-SNAPSHOT.jar' : 'elrond-api-1.0-SNAPSHOT.jar';
+    console.log('jar path: ', jarPath);
+    var child = exec('java -jar ' + jarPath, function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error !== null) {
