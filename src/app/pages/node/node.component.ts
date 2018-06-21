@@ -201,24 +201,19 @@ export class NodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  generateKeys(callback?: (step) => void, index?) {
-    this.apiService.generateKeys().subscribe((keys) => {
-      this.node.privateKey = keys.privateKey;
-      this.node.publicKey = keys.publicKey;
+  generateKeysAndShard(callback?: (step) => void, index?, key?) {
+    const payloadKey = (key) ? key : '';
+
+    this.apiService.generateKeysAndShard(payloadKey).subscribe((keys) => {
+      this.node.privateKey = keys.a.privateKey;
+      this.node.publicKey = keys.a.publicKey;
+      this.node.allocatedShard = keys.b;
+
       this.onChange();
 
       if (callback) {
         callback(index);
       }
-    });
-  }
-
-  generatePublickKey() {
-    this.apiService.generatePublicKey(this.node.privateKey).subscribe((keys) => {
-      console.log(keys);
-      this.node.privateKey = keys.privateKey;
-      this.node.publicKey = keys.publicKey;
-      this.onChange();
     });
   }
 
@@ -304,7 +299,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
   finalizeDefaultConfiguration(event) {
     const index = 5;
     this.isDefaultConfiguration = true;
-    this.generateKeys(this.navigateToStep, index);
+
+    this.generateKeysAndShard(this.navigateToStep, index);
   }
 
   onAdvancedPreFinalize() {

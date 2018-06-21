@@ -371,12 +371,12 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary btn-sm" (click)="generateKeys()" *ngIf="node.selectedPKSource === 2">
+            <button class="btn btn-primary btn-sm" (click)="generateKeysAndShard()" *ngIf="node.selectedPKSource === 2">
               Generate
               Keys
             </button>
 
-            <button class="btn btn-primary btn-sm" (click)="generatePublickKey()"
+            <button class="btn btn-primary btn-sm" (click)="generateKeysAndShard(null, null, node.privateKey)"
                     *ngIf="node.selectedPKSource === 1">
               Generate Public Key
             </button>
