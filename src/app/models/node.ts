@@ -44,7 +44,7 @@ export class Node {
       }
     ];
     node.step = 0;
-    node.allocatedShard = 1;
+    node.allocatedShard = null;
     node.selectedBlockchainPath = 1;
     return node;
   }
