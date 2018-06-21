@@ -124,6 +124,17 @@ export class ApiService {
       );
   }
 
+  getAppStatus(): Observable<boolean> {
+    const url = `${this.url}/appstatus`;
+
+    return this.http.get<boolean>(url)
+      .pipe(
+        catchError(this.handleError('status', false))
+      );
+  }
+
+
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

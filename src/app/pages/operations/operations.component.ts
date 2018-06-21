@@ -42,7 +42,7 @@ export class OperationsComponent implements OnInit {
           }
           this.operationsBalance = result;
         });
-      }, 2000);
+      }, 1000);
     }
   }
 
