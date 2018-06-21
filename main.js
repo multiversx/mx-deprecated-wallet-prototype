@@ -7,10 +7,11 @@ var axios = require('axios');
 var win, serve;
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
+var local = args.some(function (val) { return val === '--local'; });
 var apiUrl = 'http://localhost:8080/node/';
 function startAPI() {
-    var exec = require('child_process').exec, child;
-    child = exec('java -jar elrond-api-1.0-SNAPSHOT.jar', function (error, stdout, stderr) {
+    var exec = require('child_process').exec;
+    var child = exec('java -jar elrond-api-1.0-SNAPSHOT.jar', function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error !== null) {
@@ -42,6 +43,9 @@ function createWindow() {
         // if prod
     }
     else {
+        if (local) {
+            win.webContents.openDevTools();
+        }
         win.loadURL(url.format({
             pathname: path.join(__dirname, 'dist/index.html'),
             protocol: 'file:',

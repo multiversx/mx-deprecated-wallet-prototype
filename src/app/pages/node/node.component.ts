@@ -30,7 +30,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   private step;
 
   public isNodeStarted = false;
-  // public ipPattern = '^([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\\\.([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])$';
   public node: Node;
   public isDefaultConfiguration = false;
   public toggleButtonText = 'Start';
@@ -111,6 +110,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.changeDetectionRef.detectChanges();
   }
 
+  clearLocalStorage() {
+    this.nodeDataService.clear('main');
+  }
+
   onChange() {
     this.nodeDataService.save('main', this.node);
   }
@@ -131,8 +134,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
       this[field].filter(item => item.value === this.node[value]).map(item => item.label) :
       this[value];
   }
-
-
 
   pingLocal() {
     const url = `ipAddress=${this.node.instanceIp}&port=${this.node.instancePort}`;
@@ -191,7 +192,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
 
   generateKeys(callback?: (step) => void, index?) {
     this.apiService.generateKeys().subscribe((keys) => {
@@ -296,7 +296,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
     const index = 5;
     this.isDefaultConfiguration = true;
 
+    this.clearLocalStorage();
     this.generateKeys(this.navigateToStep, index);
+  }
+
+  onAdvancedPreFinalize() {
+    this.clearLocalStorage();
   }
 
   startNode() {
