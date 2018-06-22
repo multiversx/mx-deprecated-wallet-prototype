@@ -15,6 +15,11 @@ export class OperationsComponent implements OnInit {
   public operationsFrom: string;
   public operationsTo: string;
   public operationsAmount: string;
+  public operationsMyShard: number;
+
+  public operationsSendShard: number;
+  public operationsSearchShard: number;
+  public operationsBenchShard: number;
 
   public addressToCheck: string;
   public balanceToCheck: string;

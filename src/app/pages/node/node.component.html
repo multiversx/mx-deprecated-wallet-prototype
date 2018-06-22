@@ -1,4 +1,4 @@
-<aw-wizard #WizardComponent  [disableNavigationBar]="isNavigationDisabled()" [defaultStepIndex]="getDefaultStep()">
+<aw-wizard #WizardComponent [disableNavigationBar]="isNavigationDisabled()" [defaultStepIndex]="getDefaultStep()">
   <aw-wizard-step awOptionalStep stepTitle="Intro" (stepEnter)="onStepEnter($event)">
     <div class="step-body container-fluid">
 
@@ -18,7 +18,9 @@
     </div>
 
     <div class="aw-wizard-footer text-center pr-4">
-      <button type="button" class="btn btn-dark btn-lg" awNextStep (click)="onBegin($event)" *ngIf="!isKeyGenerated">Begin</button>
+      <button type="button" class="btn btn-dark btn-lg" awNextStep (click)="onBegin($event)" *ngIf="!isKeyGenerated">
+        Begin
+      </button>
 
       <button type="button" class="btn btn-dark" awNextStep *ngIf="isKeyGenerated">Next</button>
     </div>
@@ -30,92 +32,57 @@
 
       <div class="row justify-content-md-center">
 
-        <div class="col-md-6">
+        <div class="col-md-8">
 
-          <div class="form-group">
-            <label>Instance Name
-              <fa name="question-circle"
-                  ngbTooltip="The name of this instance. Used in case you want multiple instances on the same machine."
-                  placement="right"></fa>
-            </label>
-
-            <input type="text"
-                   class="form-control"
-                   name="instance_name"
-                   required
-                   (change)="onChange()"
-                   [(ngModel)]="node.instanceName">
-          </div>
-
-          <div class="form-row">
+          <div class="row">
             <div class="col-md-8">
-
               <div class="form-group">
-                <label>IP
-                  <fa name="question-circle" ngbTooltip="The ip of your machine, as seen from the LAN or WAN network."
+                <label>Instance Name
+                  <fa name="question-circle"
+                      ngbTooltip="The name of this instance. Used in case you want multiple instances on the same machine."
                       placement="right"></fa>
                 </label>
 
                 <input type="text"
                        class="form-control"
+                       name="instance_name"
                        required
-                       readonly
-                       [dropSpecialCharacters]="false"
-                       mask="099.099.099.099"
                        (change)="onChange()"
-                       [(ngModel)]="node.instanceIp">
+                       [(ngModel)]="node.instanceName">
               </div>
-
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-6">
 
-              <div class="form-group">
-                <label>Port
-                  <fa name="question-circle" ngbTooltip="A port that can be opened through your firewall."
+                  <div class="form-group">
+                    <label>Port
+                      <fa name="question-circle" ngbTooltip="A port that can be opened through your firewall."
+                          placement="right"></fa>
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           required
+                           mask="000000"
+                           (change)="onChange()"
+                           [(ngModel)]="node.instancePort">
+                  </div>
+
+                </div>
+
+                <div class="col-md-6" style="padding-top: 30px">
+                  <button class="btn btn-info btn-sm mr-2" [disabled]="node.instancePort === '' || node.instanceIp === ''"
+                          (click)="pingLocal()">Test
+                  </button>
+
+                  <fa name="question-circle" ngbTooltip="Test to detect if your ip is reachable and your port is open."
                       placement="right"></fa>
-                </label>
-                <input type="text"
-                       class="form-control"
-                       required
-                       mask="000000"
-                       (change)="onChange()"
-                       [(ngModel)]="node.instancePort">
+                </div>
               </div>
-
             </div>
-
-            <div class="col-md-2" style="padding-top: 30px">
-              <button class="btn btn-info btn-sm mr-2" [disabled]="node.instancePort === '' || node.instanceIp === ''"
-                      (click)="pingLocal()">Test
-              </button>
-
-              <fa name="question-circle" ngbTooltip="Test to detect if your ip is reachable and your port is open."
-                  placement="right"></fa>
-            </div>
-
           </div>
 
-        </div>
-
-      </div>
-
-    </div><!-- .end step-body -->
-
-    <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
-      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(1)" awNextStep>Next</button>
-    </div>
-
-  </aw-wizard-step>
-
-  <aw-wizard-step awOptionalStep stepTitle="Node Setup" (stepEnter)="onStepEnter($event)">
-
-    <div class="step-body container-fluid">
-
-      <div class="row justify-content-md-center">
-
-        <div class="col-md-6">
           <div class="form-group">
             <label>Node type
               <fa name="question-circle" ngbTooltip="What node type do you want to start?" placement="right"></fa>
@@ -161,16 +128,18 @@
               </button>
             </div>
           </div>
+
         </div>
 
       </div>
 
-    </div>
+    </div><!-- .end step-body -->
 
     <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
-      <button type="button" class="btn btn-dark ml-2" [disabled]="!canGoNext(3)" awNextStep>Next</button>
+      <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
+      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(1)" awNextStep>Next</button>
     </div>
+
   </aw-wizard-step>
 
   <aw-wizard-step awOptionalStep stepTitle="Keys" (stepEnter)="onStepEnter($event)">
