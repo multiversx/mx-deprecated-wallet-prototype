@@ -320,7 +320,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Key Source
-              <fa name="question-circle" ngbTooltip="How to generate the private and public keys"
+              <fa name="question-circle" ngbTooltip="Method for key generation"
                   placement="right"></fa>
             </label>
 
@@ -371,7 +371,7 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary btn-sm" (click)="generateKeysAndShard()" *ngIf="node.selectedPKSource === 2">
+            <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey()" *ngIf="node.selectedPKSource === 2">
               Generate
               Keys
             </button>

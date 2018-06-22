@@ -201,10 +201,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  generateKeysAndShard(callback?: (step) => void, index?, key?) {
+  generatePublicKeyAndPrivateKey(callback?: (step) => void, index?, key?) {
     const payloadKey = (key) ? key : '';
 
-    this.apiService.generateKeysAndShard(payloadKey).subscribe((keys) => {
+    this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((keys) => {
       this.node.privateKey = keys.a.privateKey;
       this.node.publicKey = keys.a.publicKey;
 

@@ -74,11 +74,11 @@ export class ApiService {
       );
   }
 
-  generateKeysAndShard(privateKey): Observable<any> {
-    const url = `${this.url}/publickeyprivatekeyshardnr?privateKey=${privateKey}`;
+  generatePublicKeyAndPrivateKey(privateKey): Observable<any> {
+    const url = `${this.url}/generatepublickeyandprivateKey?privateKey=${privateKey}`;
     return this.http.get<any[]>(url)
       .pipe(
-        catchError(this.handleError('publickeyfromprivatekey', []))
+        catchError(this.handleError('generatepublickeyandprivateKey', []))
       );
   }
 
