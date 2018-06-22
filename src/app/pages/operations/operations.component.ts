@@ -67,7 +67,7 @@ export class OperationsComponent implements OnInit {
         result = 0;
       }
       this.balanceToCheck = result;
-      this.isSendDisabled = false;
+      // this.isSendDisabled = false;
     });
   }
 
