@@ -21,6 +21,11 @@ export class LoggerComponent implements OnInit {
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
 
   constructor(private nodeDataService: NodeDataService) {
+    this.nodeDataService.status.subscribe(status => {
+      if (status) {
+        this.apiLoggs = [];
+      }
+    });
   }
 
   ngOnInit() {

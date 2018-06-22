@@ -83,6 +83,18 @@ export class NodeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.node = this.nodeDataService.load('main');
     this.step = this.node.step;
+
+    this.getNodeStatus();
+  }
+
+  getNodeStatus(): void {
+    this.apiService.getStatus().subscribe((status) => {
+      console.log('is node started:', status);
+      this.isNodeStarted = status;
+
+      const toggleNodeButtonText = (status) ? 'Stop' : 'Start';
+      this.setupButtonText('toggleButtonText', toggleNodeButtonText);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -185,15 +197,13 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
     this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((keys) => {
       console.log('generated keys: ', keys);
-      this.isKeyGenerated = true;
       if (keys) {
-        this.node.privateKey = keys.privateKey;
-        this.node.publicKey = keys.publicKey;
+        this.isKeyGenerated = true;
 
-        this.apiService.getShardOfAddress(this.node.publicKey).subscribe((res) => {
-          if (res) {
-            this.node.allocatedShard = res + 1;
-          }
+        this.apiService.getShardOfAddress(keys.publicKey).subscribe((res) => {
+          this.node.privateKey = keys.privateKey;
+          this.node.publicKey = keys.publicKey;
+          this.node.allocatedShard = res + 1;
         });
       }
 
@@ -332,6 +342,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   isNavigationDisabled() {
-    return this.wizard.model.currentStepIndex === 4;
+    return this.wizard.model.currentStepIndex === 3;
   }
 }
