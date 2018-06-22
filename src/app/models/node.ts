@@ -29,5 +29,4 @@ export class Node {
     node.allocatedShard = null;
     return node;
   }
-
 }

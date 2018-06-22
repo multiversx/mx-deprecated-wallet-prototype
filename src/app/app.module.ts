@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { ChartsModule } from 'ng4-charts';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -60,7 +61,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     NgxMaskModule.forRoot(),
     ToastrModule.forRoot(),
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    ChartsModule
   ],
   providers: [
     NodeDataService,

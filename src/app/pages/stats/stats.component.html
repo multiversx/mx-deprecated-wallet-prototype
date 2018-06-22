@@ -1,3 +1,144 @@
-<div class="alert alert-success text-center mt-4" role="alert">
-  <h6 class="alert-heading text-center">This section will be available in the next version</h6>
+<div class="app-stats__item layout__item -left">
+  <div class="layout__row -column">
+    <div class="layout__item">
+      <h3>Live stats</h3>
+
+      <ul>
+        <li>
+          <strong>TPS:</strong> <span class="value-label">{{stats.tps}}</span> tps
+        </li>
+        <li>
+          <strong>Active Nodes in the Elrond Network:</strong> <span class="value-label">{{stats.activeNodeNr}}</span> tps
+        </li>
+        <li>
+          <strong>Shards:</strong> <span class="value-label">{{stats.shardsNr}}</span> tps
+        </li>
+        <li>
+          <strong>Average Round time:</strong> <span class="value-label">{{stats.averageRoundTime}}</span> tps
+        </li>
+        <li>
+          <strong>Average Transactions / Block:</strong> <span class="value-label">{{stats.averageTxBlock}}</span> tps
+        </li>
+      </ul>
+    </div>
+    <div class="layout__item">
+      <h3>Benchmark</h3>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <h6>Your account (Sender)</h6>
+          <div class="form-row">
+
+            <div class="col-md-7">
+              <div class="form-group">
+                <label>Address
+                  <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="account.address" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Balance
+                  <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="account.balance" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Shard
+                  <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="account.shard" readonly>
+              </div>
+            </div>
+          </div>
+
+          <h6>Receiver</h6>
+          <div class="form-row">
+            <div class="col-md-10">
+              <div class="form-group">
+                <label>Address
+                  <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="receiver.address">
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Shard
+                  <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="receiver.shard" readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-5">
+              <div class="form-group">
+                <label>Amount per transaction
+                  <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="require.amountPerTx" >
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Nr. of transactions
+                  <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       [(ngModel)]="receiver.nrOfTx" >
+              </div>
+            </div>
+
+            <div class="col-md-3" style="padding-top: 30px;">
+              <button type="button" class="btn btn-danger btn-block">Benchmark</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app-stats__item layout__item -right">
+
+  <h3>TPS chart</h3>
+
+  <canvas baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
 </div>
