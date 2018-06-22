@@ -39,7 +39,7 @@ export class OperationsComponent implements OnInit {
     const node = this.nodeDataService.load('start');
     this.operationsFrom = node.publicKey;
 
-    if (this.operationsFrom && !this.isDisabled) {
+    if (this.operationsFrom) {
       setInterval(() => {
         this.apiService.getBalance(this.operationsFrom).subscribe(result => {
           if (!result) {

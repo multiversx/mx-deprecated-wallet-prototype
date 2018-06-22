@@ -101,7 +101,7 @@
 
           <div class="form-row" *ngIf="node.selectedNodeType === 2">
             <div class="form-group col-md-6">
-              <label>IP
+              <label>Peer IP
                 <fa name="question-circle" ngbTooltip="IP of the peer machine" placement="right"></fa>
               </label>
               <input type="text"
@@ -113,7 +113,7 @@
             </div>
 
             <div class="form-group col-md-2">
-              <label>Port
+              <label>Peer Port
                 <fa name="question-circle" ngbTooltip="Port on the peer machine" placement="right"></fa>
               </label>
               <input type="text"
@@ -146,7 +146,7 @@
 
     <div class="step-body container-fluid">
       <div class="row justify-content-md-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
           <div class="form-group">
             <label>Key Source
               <fa name="question-circle" ngbTooltip="Method for key generation"
@@ -187,29 +187,31 @@
                    readonly>
           </div>
 
-          <div class="form-group">
-            <label>
-              Allocated shard
-              <fa name="question-circle" ngbTooltip="Initially every address is allocated in a shard."
-                  placement="right"></fa>
-            </label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="node.allocatedShard"
-                   readonly>
-          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label>
+                Allocated shard
+                <fa name="question-circle" ngbTooltip="Initially every address is allocated in a shard."
+                    placement="right"></fa>
+              </label>
+              <input type="text"
+                     class="form-control"
+                     [(ngModel)]="node.allocatedShard"
+                     readonly>
+            </div>
 
-          <div class="form-group">
-            <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey()"
-                    *ngIf="node.selectedPKSource === 2">
-              Generate
-              Keys
-            </button>
+            <div class="form-group col-md-4" style="padding-top: 30px">
+              <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey()"
+                      *ngIf="node.selectedPKSource === 2">
+                Generate
+                Keys
+              </button>
 
-            <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey(node.privateKey)"
-                    *ngIf="node.selectedPKSource === 1">
-              Generate Public Key
-            </button>
+              <button class="btn btn-primary btn-sm btn-block" (click)="generatePublicKeyAndPrivateKey(node.privateKey)"
+                      *ngIf="node.selectedPKSource === 1">
+                Generate Public Key
+              </button>
+            </div>
           </div>
         </div>
       </div>

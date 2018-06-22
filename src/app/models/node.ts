@@ -23,7 +23,7 @@ export class Node {
     node.instancePort = '31201';
     node.privateKey = '';
     node.publicKey = '';
-    node.peerIp = '0.0.0.0';
+    node.peerIp = '192.168.11.131';
     node.peerPort = '31201';
     node.step = 0;
     node.allocatedShard = null;
