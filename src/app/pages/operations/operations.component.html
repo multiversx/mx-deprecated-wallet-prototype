@@ -76,7 +76,7 @@
         </div>
       </div>
 
-      <button type="button" class="btn btn-primary" (click)="send($event)">Send</button>
+      <button type="button" class="btn btn-primary" [disabled]="isSendDisabled" (click)="send($event)">Send</button>
     </div>
 
     <div class="col-md-5 mr-auto">
@@ -102,7 +102,7 @@
                [(ngModel)]="balanceToCheck" readonly>
       </div>
 
-      <button type="button" class="btn btn-primary" (click)="checkBalance($event)">Check</button>
+      <button type="button" class="btn btn-primary" [disabled]="isCheckDisabled" (click)="checkBalance($event)">Check</button>
     </div>
 
   </div>

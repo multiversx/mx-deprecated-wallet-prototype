@@ -15,15 +15,15 @@ export class OperationsComponent implements OnInit {
   public operationsFrom: string;
   public operationsTo: string;
   public operationsAmount: string;
-  public operationsMyShard: number;
+  public operationsShard: number;
 
-  public operationsSendShard: number;
-  public operationsSearchShard: number;
-  public operationsBenchShard: number;
+  public toShard: number;
 
   public addressToCheck: string;
   public balanceToCheck: string;
   public isDisabled = true;
+  public isSendDisabled = false;
+  public isCheckDisabled = false;
 
   constructor(private apiService: ApiService,
               private nodeDataService: NodeDataService,
@@ -47,7 +47,11 @@ export class OperationsComponent implements OnInit {
           }
           this.operationsBalance = result;
         });
-      }, 1000);
+
+        this.apiService.getShardOfAddress(this.operationsFrom).subscribe((res) => {
+          this.operationsShard = res + 1;
+        });
+      }, 2000);
     }
   }
 
@@ -56,28 +60,39 @@ export class OperationsComponent implements OnInit {
   }
 
   checkBalance(event) {
+    this.isCheckDisabled = true;
+
     this.apiService.getBalance(this.addressToCheck).subscribe(result => {
       if (!result) {
         result = 0;
       }
       this.balanceToCheck = result;
+      this.isSendDisabled = false;
     });
   }
 
   send(e): void {
+    this.isSendDisabled = true;
+
     this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(result => {
 
-      if (result) {
-        this.toastr.show({
-          title: 'Success',
-          message: `Operation was finished with success`,
-        });
-      } else {
-        this.toastr.show({
-          title: 'Fail',
-          message: `Operation has failed`,
-        }, 'error');
-      }
+      this.apiService.getShardOfAddress(this.operationsTo).subscribe((res) => {
+        this.toShard = res + 1;
+
+        if (result) {
+          this.toastr.show({
+            title: 'Success',
+            message: `Operation was finished with success`,
+          });
+        } else {
+          this.toastr.show({
+            title: 'Fail',
+            message: `Operation has failed`,
+          }, 'error');
+        }
+
+        this.isSendDisabled = false;
+      });
     });
   }
 
