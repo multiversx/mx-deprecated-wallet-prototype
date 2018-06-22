@@ -205,12 +205,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
     const payloadKey = (key) ? key : '';
 
     this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((keys) => {
-      this.node.privateKey = keys.a.privateKey;
-      this.node.publicKey = keys.a.publicKey;
+      this.node.privateKey = keys.privateKey;
+      this.node.publicKey = keys.publicKey;
 
-      if (keys.b !== -1) {
-        this.node.allocatedShard = keys.b + 1;
-      }
+      this.apiService.getShardOfAddress(this.node.publicKey).subscribe((res) => this.node.allocatedShard = res + 1);
 
       this.onChange();
 
@@ -302,8 +300,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
   finalizeDefaultConfiguration(event) {
     const index = 5;
     this.isDefaultConfiguration = true;
-
-    this.generateKeysAndShard(this.navigateToStep, index);
   }
 
   onAdvancedPreFinalize() {

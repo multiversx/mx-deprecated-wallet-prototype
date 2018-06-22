@@ -74,14 +74,21 @@ export class ApiService {
       );
   }
 
-  generatePublicKeyAndPrivateKey(privateKey): Observable<any> {
-    const url = `${this.url}/generatepublickeyandprivateKey?privateKey=${privateKey}`;
+  generatePublicKeyAndPrivateKey(payload): Observable<any> {
+    const url = `${this.url}/generatepublickeyandprivateKey?privateKey=${payload}`;
     return this.http.get<any[]>(url)
       .pipe(
         catchError(this.handleError('generatepublickeyandprivateKey', []))
       );
   }
 
+  getShardOfAddress(payload): Observable<any> {
+    const url = `${this.url}/shardofaddress?address=${payload}`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('shardofaddress', ''))
+      );
+  }
 
   stopNode(): Observable<any> {
     const url = `${this.url}/stop`;
