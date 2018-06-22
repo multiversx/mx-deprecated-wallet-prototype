@@ -30,6 +30,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
   private step;
 
   public isNodeStarted = false;
+  public isKeyGenerated = false;
   public node: Node;
   public isDefaultConfiguration = false;
   public toggleButtonText = 'Start';
@@ -47,17 +48,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
     }
   ];
 
-  public selectNodeAction = [
-    {
-      label: 'Start with an empty state - Genesis',
-      value: 1
-    },
-    {
-      label: 'Restore blockchain - Local folder',
-      value: 2
-    }
-  ];
-
   public selectPrivateKeySource = [
     {
       label: 'Generate a public key from a given private key',
@@ -65,17 +55,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
     },
     {
       label: 'Generate a new set of keys',
-      value: 2
-    }
-  ];
-
-  public selectBlockchainPath = [
-    {
-      label: 'Default (location of running app)',
-      value: 1
-    },
-    {
-      label: 'Choose a local folder',
       value: 2
     }
   ];
@@ -201,20 +180,24 @@ export class NodeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  generatePublicKeyAndPrivateKey(callback?: (step) => void, index?, key?) {
+  generatePublicKeyAndPrivateKey(key?) {
     const payloadKey = (key) ? key : '';
 
     this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((keys) => {
-      this.node.privateKey = keys.privateKey;
-      this.node.publicKey = keys.publicKey;
+      console.log('generated keys: ', keys);
+      this.isKeyGenerated = true;
+      if (keys) {
+        this.node.privateKey = keys.privateKey;
+        this.node.publicKey = keys.publicKey;
 
-      this.apiService.getShardOfAddress(this.node.publicKey).subscribe((res) => this.node.allocatedShard = res + 1);
+        this.apiService.getShardOfAddress(this.node.publicKey).subscribe((res) => {
+          if (res) {
+            this.node.allocatedShard = res + 1;
+          }
+        });
+      }
 
       this.onChange();
-
-      if (callback) {
-        callback(index);
-      }
     });
   }
 
@@ -223,68 +206,33 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.node.peerPort = '';
   }
 
-  addPeer() {
-    const ip = this.node.peerIp;
-    const port = this.node.peerPort;
-    const status = true;
-    const payload = {
-      ip,
-      port,
-      status,
-      delete: true
-    };
-
-    if (ip && port) {
-      this.node.peerTable.push(payload);
-      this.onChange();
-      this.resetPeer();
-    }
-  }
-
-  deletePeer(index) {
-    this.node.peerTable.splice(index, 1);
-  }
-
-  onChangeBlockchain(event) {
-    this.node.instanceBlockchainPath = event.target.files[0].path;
-    this.onChange();
-  }
-
-  onChangePath(event) {
-    this.node.instanceRestorePath = event.target.files[0].path;
-    this.onChange();
-  }
-
   canGoNext(step) {
-    switch (step) {
-      case 1: {
-        return (this.node.instanceName !== '' &&
-          this.node.instanceIp !== '' &&
-          this.node.instancePort // &&
-          // this.node.instanceBlockchainPath
-        );
-      }
-      case 2: {
-        if (this.node.selectedNodeType === 2) {
-          return true;
-        }
+    // switch (step) {
+    //   case 1: {
+    //     return (this.node.instanceName !== '' &&
+    //       this.node.instanceIp !== '' &&
+    //       this.node.instancePort
+    //     );
+    //   }
+    //   case 2: {
+    //     if (this.node.selectedNodeType === 2) {
+    //       return true;
+    //     }
+    //
+    //     return (this.node.selectedNodeType);
+    //   }
+    //   case 3: {
+    //     return this.node.selectedNodeType === 1;
+    //   }
+    //   case 4: {
+    //     return (this.node.privateKey !== '' && this.node.publicKey !== '');
+    //   }
+    //   default: {
+    //     return false;
+    //   }
+    // }
 
-        return (this.node.selectedNodeType && this.node.selectedNodeAction);
-      }
-      case 3: {
-        if (this.node.selectedNodeType === 1) {
-          return true;
-        }
-
-        return (this.node.peerTable.length > 0);
-      }
-      case 4: {
-        return (this.node.privateKey !== '' && this.node.publicKey !== '');
-      }
-      default: {
-        return false;
-      }
-    }
+    return true;
   }
 
   onStepEnter(event) {
@@ -297,31 +245,22 @@ export class NodeComponent implements OnInit, AfterViewInit {
     return (this.step) ? this.step : 0;
   }
 
-  finalizeDefaultConfiguration(event) {
-    const index = 5;
-    this.isDefaultConfiguration = true;
-  }
-
-  onAdvancedPreFinalize() {
+  onBegin(event) {
+    this.generatePublicKeyAndPrivateKey();
   }
 
   startNode() {
     this.loadingService.show();
     this.nodeDataService.save('start', this.node);
-    this.nodeDataService.clear('main');
-
 
     const nodeName = this.node.instanceName;
     const port = this.node.instancePort;
     const privateKey = this.node.privateKey;
 
-    const peerIp = this.node.peerTable[0].ip;
-    const peerPort = this.node.peerTable[0].port;
-
     const isSeedNode = this.node.selectedNodeType === 1;
 
-    const masterPeerPort = (isSeedNode) ? this.node.instancePort : peerPort;
-    const masterPeerIpAddress = (isSeedNode) ? this.node.instanceIp : peerIp;
+    const masterPeerPort = (isSeedNode) ? this.node.instancePort : this.node.peerPort;
+    const masterPeerIpAddress = (isSeedNode) ? this.node.instanceIp : this.node.peerIp;
 
     this.apiService.startNode(
       nodeName,
@@ -392,7 +331,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.isNodeStarted = !this.isNodeStarted;
   }
 
-  navigateToStep = (index) => {
-    this.wizard.navigation.goToStep(index);
-  };
+  isNavigationDisabled() {
+    return this.wizard.model.currentStepIndex === 4;
+  }
 }

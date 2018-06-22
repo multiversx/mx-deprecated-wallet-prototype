@@ -1,4 +1,4 @@
-<aw-wizard #WizardComponent [defaultStepIndex]="getDefaultStep()">
+<aw-wizard #WizardComponent  [disableNavigationBar]="isNavigationDisabled()" [defaultStepIndex]="getDefaultStep()">
   <aw-wizard-step awOptionalStep stepTitle="Intro" (stepEnter)="onStepEnter($event)">
     <div class="step-body container-fluid">
 
@@ -18,10 +18,9 @@
     </div>
 
     <div class="aw-wizard-footer text-center pr-4">
-      <button type="button" class="btn btn-dark btn-lg mr-4" (click)="finalizeDefaultConfiguration($event)">Default
-        Configuration
-      </button>
-      <button type="button" class="btn btn-dark btn-lg" (preFinalize)="onAdvancedPreFinalize()" awNextStep>Advanced Configuration</button>
+      <button type="button" class="btn btn-dark btn-lg" awNextStep (click)="onBegin($event)" *ngIf="!isKeyGenerated">Begin</button>
+
+      <button type="button" class="btn btn-dark" awNextStep *ngIf="isKeyGenerated">Next</button>
     </div>
   </aw-wizard-step>
 
@@ -87,7 +86,9 @@
             </div>
 
             <div class="col-md-2" style="padding-top: 30px">
-              <button class="btn btn-info btn-sm mr-2" [disabled]="node.instancePort === '' || node.instanceIp === ''" (click)="pingLocal()">Test</button>
+              <button class="btn btn-info btn-sm mr-2" [disabled]="node.instancePort === '' || node.instanceIp === ''"
+                      (click)="pingLocal()">Test
+              </button>
 
               <fa name="question-circle" ngbTooltip="Test to detect if your ip is reachable and your port is open."
                   placement="right"></fa>
@@ -95,35 +96,6 @@
 
           </div>
 
-          <div class="form-group">
-            <label>Blockchain path
-              <fa name="question-circle" ngbTooltip="What node type do you want to start?" placement="right"></fa>
-            </label>
-
-            <div class="select-wrapper">
-              <ng-select [items]="selectBlockchainPath"
-                         bindLabel="label"
-                         bindValue="value"
-                         disabled="true"
-                         placeholder="Select option ..."
-                         [(ngModel)]="node.selectedBlockchainPath">
-              </ng-select>
-
-            </div>
-          </div>
-
-          <div class="form-group" *ngIf="node.selectedBlockchainPath === 2">
-            <label>Blockchain path on local drive
-              <fa name="question-circle"
-                  ngbTooltip="Chose the location where the blockchain is saved on the local drive."
-                  placement="right"></fa>
-            </label>
-            <input type="file"
-                   class="form-control"
-                   required
-                   webkitdirectory
-                   (change)="onChangeBlockchain($event)">
-          </div>
         </div>
 
       </div>
@@ -160,84 +132,7 @@
             </div>
           </div>
 
-          <ng-container *ngIf="node.selectedNodeType === 1">
-            <div class="form-group">
-              <label>Node Action
-                <fa name="question-circle"
-                    ngbTooltip="Choose and action, either start from genesis or from a saved state."
-                    placement="right"></fa>
-              </label>
-
-              <div class="select-wrapper">
-                <ng-select [items]="selectNodeAction"
-                           bindLabel="label"
-                           disabled="true"
-                           bindValue="value"
-                           placeholder="Select option ..."
-                           (change)="onChange()"
-                           [(ngModel)]="node.selectedNodeAction">
-                </ng-select>
-              </div>
-            </div>
-
-
-            <div class="form-group" *ngIf="node.selectedNodeAction === 2">
-              <label>Restore Path
-                <fa name="question-circle" ngbTooltip="Path to an existing blockchain previously saved"
-                    placement="right"></fa>
-              </label>
-
-              <input type="file"
-                     class="form-control"
-                     webkitdirectory
-                     (change)="onChangePath($event)">
-            </div>
-
-
-            <div class="form-group" *ngIf="node.selectedNodeAction === 1">
-              <label>ERD's in Genesis Block
-                <fa name="question-circle" ngbTooltip="Total amount of ERD's in the genesis block."
-                    placement="right"></fa>
-              </label>
-              <input type="text"
-                     class="form-control"
-                     mask="0*"
-                     readonly
-                     (change)="onChange()"
-                     [(ngModel)]="node.instanceGenesisCoins">
-            </div>
-
-          </ng-container>
-        </div>
-      </div>
-
-    </div><!-- .end step-body -->
-
-    <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
-
-      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(2)" awNextStep
-              *ngIf="this.node.selectedNodeType === 2">Next
-      </button>
-
-      <button type="button" class="btn btn-dark"
-              [disabled]="!canGoNext(2)"
-              [awGoToStep]="{stepIndex: 4}"
-              *ngIf="this.node.selectedNodeType === 1">Next
-      </button>
-    </div>
-
-  </aw-wizard-step>
-
-  <aw-wizard-step awOptionalStep stepTitle="Network Peers" (stepEnter)="onStepEnter($event)">
-
-    <div class="step-body container-fluid">
-
-      <div class="row justify-content-md-center">
-
-        <div class="col-md-8" *ngIf="node.selectedNodeType === 2">
-
-          <div class="form-row">
+          <div class="form-row" *ngIf="node.selectedNodeType === 2">
             <div class="form-group col-md-6">
               <label>IP
                 <fa name="question-circle" ngbTooltip="IP of the peer machine" placement="right"></fa>
@@ -261,47 +156,12 @@
             </div>
 
             <div class="col-md-4" style="padding-top: 30px;">
-              <button type="button" class="btn btn-primary btn-sm mr-2" [disabled]="node.peerPort === '' || node.peerIp === ''" (click)="pingPeer()">Test</button>
-              <button type="button" class="btn btn-success btn-sm" [disabled]="node.peerPort === '' || node.peerIp === ''" (click)="addPeer()">Add</button>
+              <button type="button" class="btn btn-primary btn-sm mr-2"
+                      [disabled]="node.peerPort === '' || node.peerIp === ''" (click)="pingPeer()">Test
+              </button>
             </div>
           </div>
-
-          <table class="table table-striped table-secondary mt-3" *ngIf="node.peerTable && node.peerTable.length > 0">
-            <thead>
-            <tr>
-              <th class="xs">ID</th>
-              <th>IP</th>
-              <th>Port</th>
-              <th class="text-center sm">Status</th>
-              <th class="text-center sm">Remove</th>
-            </tr>
-            </thead>
-          </table>
-
-          <div class="table-responsive" style="max-height: 100px;"
-               *ngIf="node.peerTable && node.peerTable.length > 0">
-            <table class="table">
-              <tbody>
-              <tr *ngFor="let peer of node.peerTable; let i = index">
-                <td class="xs">{{i}}</td>
-                <td>{{ peer.ip }}</td>
-                <td>{{ peer.port }}</td>
-                <td class="text-center sm">
-                  <fa name="circle" [ngClass]="peer.status ? 'active' : 'not-active'"></fa>
-                </td>
-                <td class="text-center sm">
-                  <button *ngIf="peer.delete" class="btn btn-link btn-icon" (click)="deletePeer(i)">
-                    <fa name="trash"></fa>
-                  </button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-
         </div>
-
-        <p class="lead text-center" *ngIf="node.selectedNodeType === 1">Peers not needed!</p>
 
       </div>
 
@@ -371,12 +231,13 @@
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey()" *ngIf="node.selectedPKSource === 2">
+            <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey()"
+                    *ngIf="node.selectedPKSource === 2">
               Generate
               Keys
             </button>
 
-            <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey(null, null, node.privateKey)"
+            <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey(node.privateKey)"
                     *ngIf="node.selectedPKSource === 1">
               Generate Public Key
             </button>
@@ -391,7 +252,7 @@
     </div>
   </aw-wizard-step>
 
-  <aw-wizard-step awOptionalStep stepTitle="Summary" (stepEnter)="onStepEnter($event)">
+  <aw-wizard-completion-step awEnableBackLinks stepTitle="Summary" (stepEnter)="onStepEnter($event)">
     <div class="step-body container">
       <div class="row justify-content-md-center">
         <div class="col-md-5 ml-auto">
@@ -407,35 +268,11 @@
             </div>
           </div>
 
-          <p *ngIf="node.selectedBlockchainPath">Blockchain path: {{ getSelectLabel('selectBlockchainPath', 'selectedBlockchainPath') }}</p>
-
-          <div *ngIf="node.selectedNodeType === 2">
-
-            <h3>Network peers</h3>
-
-            <div class="network-peers-table">
-              <div class="table-responsive" style="max-height: 100px;"
-                   *ngIf="node.peerTable && node.peerTable.length > 0">
-                <table class="table">
-                  <tbody>
-                  <tr *ngFor="let peer of node.peerTable; let i = index">
-                    <td class="xs">{{i}}</td>
-                    <td>{{ peer.ip }}</td>
-                    <td>{{ peer.port }}</td>
-                    <td class="text-center sm">
-                      <fa name="circle" [ngClass]="peer.status ? 'active' : 'not-active'"></fa>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-          </div>
-
           <h3>Keys</h3>
           <p>Private key: {{ node.privateKey }}</p>
           <p>Public key: {{ node.publicKey }}</p>
+
+          <p>Shard allocation: {{ node.allocatedShard }}</p>
 
         </div>
 
@@ -444,29 +281,27 @@
 
           <p *ngIf="node.selectedNodeType">Node type: {{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
 
-          <p *ngIf="node.selectedNodeType === 1">Node Action: {{ getSelectLabel('selectNodeAction',
-            'selectedNodeAction')}}</p>
-          <p *ngIf="node.selectedNodeAction === 1 && node.instanceGenesisCoins">ERD's in Genesis: {{
-            node.instanceGenesisCoins }}</p>
-          <p *ngIf="node.selectedNodeType === 2 && node.instanceRestorePath">Restore path: {{instanceRestorePath }}</p>
+          <ng-container *ngIf="node.selectedNodeType === 2">
+            <h3>Network peers</h3>
+
+            <p *ngIf="node.peerIp">Peer IP: {{ node.peerIp }}</p>
+
+            <p *ngIf="node.peerPort">Peer Port: {{ node.peerPort }}</p>
+          </ng-container>
         </div>
       </div>
 
     </div><!-- end .step-body -->
 
     <div class="aw-wizard-footer text-right pr-4">
-      <button type="button"
-              class="btn btn-secondary mr-2"
-              awPreviousStep
-              *ngIf="!isDefaultConfiguration">Back
-      </button>
+      <button type="button" class="btn btn-secondary" *ngIf="!this.isNodeStarted" awPreviousStep>Back</button>
 
       <button type="button"
-              class="btn"
+              class="btn ml-2"
               [ngClass]="this.isNodeStarted ? 'btn-secondary' : 'btn-primary'"
               (click)="toggleNode()">{{toggleButtonText}} Node
       </button>
     </div>
-  </aw-wizard-step>
+  </aw-wizard-completion-step>
 
 </aw-wizard>

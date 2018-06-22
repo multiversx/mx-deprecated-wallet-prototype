@@ -11,8 +11,8 @@ import { NodeDataService } from '../../services/node-data.service';
   styleUrls: ['./operations.component.scss']
 })
 export class OperationsComponent implements OnInit {
-  public operationsBalance: number = 0;
-  public operationsFrom = '0326e7875aadaba270ae93ec40ef4706934d070eb21c9acad4743e31289fa4ebc7';
+  public operationsBalance = 0;
+  public operationsFrom: string;
   public operationsTo: string;
   public operationsAmount: string;
 
@@ -34,7 +34,7 @@ export class OperationsComponent implements OnInit {
     const node = this.nodeDataService.load('start');
     this.operationsFrom = node.publicKey;
 
-    if (this.operationsFrom) {
+    if (this.operationsFrom && !this.isDisabled) {
       setInterval(() => {
         this.apiService.getBalance(this.operationsFrom).subscribe(result => {
           if (!result) {
