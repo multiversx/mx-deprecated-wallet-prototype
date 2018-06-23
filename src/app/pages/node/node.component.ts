@@ -81,10 +81,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.loadingService.show();
     this.node = this.nodeDataService.load('main');
     this.step = this.node.step;
 
     this.getNodeStatus();
+    this.loadingService.hideDelay(500);
   }
 
   getNodeStatus(): void {
@@ -196,13 +198,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
     const payloadKey = (key) ? key : '';
 
     this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((keys) => {
-      console.log('generated keys: ', keys);
       if (keys) {
         this.isKeyGenerated = true;
+        this.node.privateKey = keys.privateKey;
+        this.node.publicKey = keys.publicKey;
 
         this.apiService.getShardOfAddress(keys.publicKey).subscribe((res) => {
-          this.node.privateKey = keys.privateKey;
-          this.node.publicKey = keys.publicKey;
           this.node.allocatedShard = res + 1;
         });
       }

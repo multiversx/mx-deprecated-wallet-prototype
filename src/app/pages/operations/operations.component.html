@@ -1,4 +1,4 @@
-<div class="container-fluid pt-4">
+<div class="container-fluid pt-4" *ngIf="isNodeStarted">
 
   <div class="row justify-content-center">
 
@@ -48,7 +48,6 @@
 
           <input type="text"
                  class="form-control"
-                 [disabled]="isDisabled"
                  (change)="onChangeAddress($event, 'toShard')"
                  [(ngModel)]="operationsTo">
         </div>
@@ -62,7 +61,6 @@
                  class="form-control"
                  [dropSpecialCharacters]="false"
                  mask="9*"
-                 [disabled]="isDisabled"
                  [(ngModel)]="operationsAmount">
         </div>
 
@@ -73,7 +71,6 @@
 
           <input type="text"
                  class="form-control text-center"
-                 [disabled]="isDisabled"
                  [(ngModel)]="toShard" readonly>
         </div>
 
@@ -93,7 +90,6 @@
           <input type="text"
                  class="form-control"
                  (change)="onChangeAddress($event, 'checkShard')"
-                 [disabled]="isDisabled"
                  [(ngModel)]="addressToCheck">
         </div>
 
@@ -114,7 +110,6 @@
 
           <input type="text"
                  class="form-control text-center"
-                 [disabled]="isDisabled"
                  [(ngModel)]="checkShard" readonly>
         </div>
 
@@ -129,3 +124,7 @@
   </div>
 
 </div><!-- .end step-body -->
+
+<div class="no-message text-center" style="display: flex; flex: 1; justify-content: center; align-items: center;width: 100%; height: 100%;" *ngIf="!isNodeStarted">
+  <h2>Node is not started</h2>
+</div>

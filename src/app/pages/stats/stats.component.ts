@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Stats } from '../../models/stats';
+import { LoadingService } from '../../services/loading.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-stats',
@@ -8,6 +10,7 @@ import { Stats } from '../../models/stats';
 })
 export class StatsComponent implements OnInit {
   public stats: Stats;
+  public isNodeStarted = false;
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -35,11 +38,19 @@ export class StatsComponent implements OnInit {
     shard: ''
   };
 
-  constructor() {
+  constructor(private loadingService: LoadingService,
+              private apiService: ApiService) {
   }
 
   ngOnInit() {
+    this.loadingService.show();
     this.stats = Stats.getDefault();
+    this.getNodeStatus();
+    this.loadingService.hideDelay(500);
+  }
+
+  getNodeStatus(): void {
+    this.apiService.getStatus().subscribe((status) => this.isNodeStarted = status);
   }
 
   // events

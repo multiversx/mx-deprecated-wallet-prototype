@@ -23,9 +23,9 @@ export class OperationsComponent implements OnInit {
 
   public addressToCheck: string;
   public balanceToCheck: string;
-  public isDisabled = true;
   public isSendDisabled = false;
   public isCheckDisabled = false;
+  isNodeStarted = false;
 
   constructor(private apiService: ApiService,
               private nodeDataService: NodeDataService,
@@ -38,7 +38,7 @@ export class OperationsComponent implements OnInit {
     this.getBalance();
     this.getNodeStatus();
     this.getShardOfAddress(this.operationsFrom, 'operationsShard');
-    this.loadingService.hideDelay();
+    this.loadingService.hideDelay(500);
   }
 
   getBalance() {
@@ -73,7 +73,7 @@ export class OperationsComponent implements OnInit {
   }
 
   getNodeStatus(): void {
-    this.apiService.getStatus().subscribe((status) => this.isDisabled = !status);
+    this.apiService.getStatus().subscribe((status) => this.isNodeStarted = status);
   }
 
   checkBalance(event) {
