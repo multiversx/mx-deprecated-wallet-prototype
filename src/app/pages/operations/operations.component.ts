@@ -15,9 +15,10 @@ export class OperationsComponent implements OnInit {
   public operationsFrom: string;
   public operationsTo: string;
   public operationsAmount: string;
-  public operationsShard: number;
 
+  public operationsShard: number;
   public toShard: number;
+  public checkShard: number;
 
   public addressToCheck: string;
   public balanceToCheck: string;
@@ -60,7 +61,7 @@ export class OperationsComponent implements OnInit {
   }
 
   checkBalance(event) {
-    this.isCheckDisabled = true;
+    // this.isCheckDisabled = true;
 
     this.apiService.getBalance(this.addressToCheck).subscribe(result => {
       console.log('check balance: ', result);
@@ -74,28 +75,27 @@ export class OperationsComponent implements OnInit {
   }
 
   send(e): void {
-    this.isSendDisabled = true;
+    // this.isSendDisabled = true;
 
     this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(result => {
       console.log('send balance: ', result);
 
-      this.apiService.getShardOfAddress(this.operationsTo).subscribe((res) => {
-        this.toShard = res + 1;
+      if (result) {
+        this.toastr.show({
+          title: 'Success',
+          message: `Operation was finished with success`,
+        });
+      } else {
+        this.toastr.show({
+          title: 'Fail',
+          message: `Operation has failed`,
+        }, 'error');
+      }
 
-        if (result) {
-          this.toastr.show({
-            title: 'Success',
-            message: `Operation was finished with success`,
-          });
-        } else {
-          this.toastr.show({
-            title: 'Fail',
-            message: `Operation has failed`,
-          }, 'error');
-        }
-
-        this.isSendDisabled = false;
-      });
+      // this.apiService.getShardOfAddress(this.operationsTo).subscribe((res) => {
+      //   this.toShard = res + 1;
+      //   // this.isSendDisabled = false;
+      // });
     });
   }
 

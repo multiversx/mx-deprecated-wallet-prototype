@@ -27,12 +27,11 @@
       <div class="row">
         <div class="col-md-12">
 
-          <h6>Your account (Sender)</h6>
           <div class="form-row">
 
             <div class="col-md-7">
               <div class="form-group">
-                <label>Address
+                <label>Your Address
                   <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
                 </label>
 
@@ -67,14 +66,12 @@
             </div>
           </div>
 
-          <h6>Receiver</h6>
           <div class="form-row">
             <div class="col-md-10">
               <div class="form-group">
-                <label>Address
+                <label>Receiver Address
                   <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
                 </label>
-
                 <input type="text"
                        class="form-control"
                        [(ngModel)]="receiver.address">
@@ -120,7 +117,7 @@
             </div>
 
             <div class="col-md-3" style="padding-top: 30px;">
-              <button type="button" class="btn btn-danger btn-block">Benchmark</button>
+              <button type="button" class="btn btn-danger btn-sm btn-block">Benchmark</button>
             </div>
           </div>
         </div>
@@ -131,14 +128,16 @@
 
 <div class="app-stats__item layout__item -right">
 
-  <h3>TPS chart</h3>
+  <div class="chart-wrapper">
+    <h3>TPS chart</h3>
 
-  <canvas baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"
-          [legend]="barChartLegend"
-          [chartType]="barChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
 </div>
