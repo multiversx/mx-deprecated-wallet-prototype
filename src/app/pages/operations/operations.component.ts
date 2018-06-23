@@ -14,15 +14,16 @@ import { LoadingService } from '../../services/loading.service';
 export class OperationsComponent implements OnInit {
   public operationsBalance = 0;
   public operationsFrom: string;
+  public operationsShard: number;
+
   public operationsTo: string;
   public operationsAmount: string;
-
-  public operationsShard: number;
   public toShard: number;
-  public checkShard: number;
 
   public addressToCheck: string;
   public balanceToCheck: string;
+  public checkShard: number;
+
   public isSendDisabled = false;
   public isCheckDisabled = false;
   isNodeStarted = false;

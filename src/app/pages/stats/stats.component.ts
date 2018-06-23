@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Stats } from '../../models/stats';
 import { LoadingService } from '../../services/loading.service';
 import { ApiService } from '../../services/api.service';
+import {NodeDataService} from '../../services/node-data.service';
+import {ToastrMessageService} from '../../services/toastr.service';
 
 @Component({
   selector: 'app-stats',
@@ -10,7 +12,19 @@ import { ApiService } from '../../services/api.service';
 })
 export class StatsComponent implements OnInit {
   public stats: Stats;
+
+  public accountBalance = 0;
+  public accountFrom: string;
+  public accountShard: number;
+
+  public benchmarkTo: string;
+  public benchmarkAmount: string;
+  public benchmarkNrTrans: string;
+  public benchmarkShard: number;
+
+  public isSendDisabled = false;
   public isNodeStarted = false;
+
 
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
@@ -38,8 +52,10 @@ export class StatsComponent implements OnInit {
     shard: ''
   };
 
-  constructor(private loadingService: LoadingService,
-              private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+              private nodeDataService: NodeDataService,
+              private toastr: ToastrMessageService,
+              private loadingService: LoadingService) {
   }
 
   ngOnInit() {
@@ -53,6 +69,36 @@ export class StatsComponent implements OnInit {
     this.apiService.getStatus().subscribe((status) => this.isNodeStarted = status);
   }
 
+  sendMultipleTransactions(e): void {
+    this.isSendDisabled = true;
+    this.loadingService.show();
+
+    this.apiService.sendMultipleTransactions(this.benchmarkTo, this.benchmarkAmount, this.benchmarkNrTrans).subscribe(result => {
+      if (result) {
+        console.log(result);
+        this.toastr.show({
+          title: 'Success',
+          message: `Multi Transaction sent to the blockchain`,
+        });
+        this.benchmarkTo = '';
+        this.benchmarkAmount = '';
+        this.benchmarkNrTrans = '';
+      } else {
+        this.toastr.show({
+          title: 'Fail',
+          message: `Multi Transaction sending has failed`,
+        }, 'error');
+      }
+
+      this.isSendDisabled = false;
+      this.loadingService.hideDelay();
+    });
+  }
+
+
+
+
+
   // events
   public chartClicked(e: any): void {
     console.log(e);
@@ -64,7 +110,7 @@ export class StatsComponent implements OnInit {
 
   public randomize(): void {
     // Only Change 3 values
-    let data = [
+    const data = [
       Math.round(Math.random() * 100),
       59,
       80,
@@ -72,7 +118,7 @@ export class StatsComponent implements OnInit {
       56,
       (Math.random() * 100),
       40];
-    let clone = JSON.parse(JSON.stringify(this.barChartData));
+    const clone = JSON.parse(JSON.stringify(this.barChartData));
     clone[0].data = data;
     this.barChartData = clone;
   }

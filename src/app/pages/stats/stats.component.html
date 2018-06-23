@@ -75,7 +75,7 @@
                   </label>
                   <input type="text"
                          class="form-control"
-                         [(ngModel)]="receiver.address">
+                         [(ngModel)]="benchmarkTo">
                 </div>
               </div>
 
@@ -101,7 +101,7 @@
 
                   <input type="text"
                          class="form-control"
-                         [(ngModel)]="receiver.amountPerTx" >
+                         [(ngModel)]="benchmarkAmount" >
                 </div>
               </div>
 
@@ -113,12 +113,12 @@
 
                   <input type="text"
                          class="form-control"
-                         [(ngModel)]="receiver.nrOfTx" >
+                         [(ngModel)]="benchmarkNrTrans" >
                 </div>
               </div>
 
               <div class="col-md-3" style="padding-top: 30px;">
-                <button type="button" class="btn btn-danger btn-sm btn-block">Benchmark</button>
+                <button type="button" class="btn btn-danger btn-sm btn-block" (click)="sendMultipleTransactions($event)">Benchmark</button>
               </div>
             </div>
           </div>

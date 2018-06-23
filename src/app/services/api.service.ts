@@ -74,6 +74,14 @@ export class ApiService {
       );
   }
 
+  sendMultipleTransactions(address, value, nrtranzactions): Observable<any> {
+    const url = `${this.url}/sendMultipleTransactions?address=${address}&value=${value}&nrTransactions=${nrtranzactions}`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('send', null))
+      );
+  }
+
   generatePublicKeyAndPrivateKey(payload): Observable<any> {
     const url = `${this.url}/generatepublickeyandprivateKey?privateKey=${payload}`;
     return this.http.get<any[]>(url)
