@@ -1,9 +1,8 @@
-<div class="container-fluid">
+<div class="container-fluid pt-4">
 
-  <div class="row justify-content-md-center">
+  <div class="row justify-content-center">
 
-
-    <div class="col-md-5 ml-auto">
+    <div class="col-md-10 ml-auto mr-auto">
       <h3>Your account</h3>
 
       <div class="form-row">
@@ -27,7 +26,7 @@
                  [(ngModel)]="operationsBalance" readonly>
         </div>
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-1">
           <label>Shard
             <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
           </label>
@@ -37,7 +36,6 @@
                  [(ngModel)]="operationsShard" readonly>
         </div>
       </div>
-
 
       <h3>Send ERD's</h3>
 
@@ -64,7 +62,7 @@
                  [(ngModel)]="operationsAmount">
         </div>
 
-        <div class="form-group col-3">
+        <div class="form-group col-1">
           <label>Shard
             <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa>
           </label>
@@ -74,35 +72,53 @@
                  [disabled]="isDisabled"
                  [(ngModel)]="toShard">
         </div>
+
+        <div class="col-md-2" style="padding-top: 30px;">
+          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="isSendDisabled" (click)="send($event)">Send</button>
+        </div>
       </div>
 
-      <button type="button" class="btn btn-primary" [disabled]="isSendDisabled" (click)="send($event)">Send</button>
-    </div>
-
-    <div class="col-md-5 mr-auto">
       <h3>Check address balance</h3>
-      <div class="form-group">
-        <label>Address:
-          <fa name="question-circle" ngbTooltip="The address. The public key" placement="right"></fa>
-        </label>
+      <div class="form-row">
 
-        <input type="text"
-               class="form-control"
-               [disabled]="isDisabled"
-               [(ngModel)]="addressToCheck">
+        <div class="form-group col-md-6">
+          <label>Address:
+            <fa name="question-circle" ngbTooltip="The address. The public key" placement="right"></fa>
+          </label>
+
+          <input type="text"
+                 class="form-control"
+                 [disabled]="isDisabled"
+                 [(ngModel)]="addressToCheck">
+        </div>
+
+        <div class="form-group col-md-3">
+          <label>Balance
+            <fa name="question-circle" ngbTooltip="The total balance of the account" placement="right"></fa>
+          </label>
+
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="balanceToCheck" readonly>
+        </div>
+
+        <div class="form-group col-1">
+          <label>Shard
+            <fa name="question-circle" ngbTooltip="Tooltip on top" placement="right"></fa>
+          </label>
+
+          <input type="text"
+                 class="form-control"
+                 [disabled]="isDisabled"
+                 [(ngModel)]="toShard">
+        </div>
+
+        <div class="col-md-2" style="padding-top: 30px">
+          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="isCheckDisabled" (click)="checkBalance($event)">Check</button>
+        </div>
+
       </div>
 
-      <div class="form-group">
-        <label>Balance
-          <fa name="question-circle" ngbTooltip="The total balance of the account" placement="right"></fa>
-        </label>
-
-        <input type="text"
-               class="form-control"
-               [(ngModel)]="balanceToCheck" readonly>
-      </div>
-
-      <button type="button" class="btn btn-primary" [disabled]="isCheckDisabled" (click)="checkBalance($event)">Check</button>
     </div>
 
   </div>
