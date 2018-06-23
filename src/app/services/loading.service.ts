@@ -19,4 +19,10 @@ export class LoadingService {
   hide() {
     this.loaderSubject.next(<LoadingState>{show: false});
   }
+
+  hideDelay(time = 1000) {
+    setTimeout(() => {
+      this.hide();
+    }, time);
+  }
 }

@@ -13,6 +13,7 @@
 
           <input type="text"
                  class="form-control"
+                 (change)="onChangeAddress($event, 'operationsShard')"
                  [(ngModel)]="operationsFrom" readonly>
         </div>
 
@@ -48,6 +49,7 @@
           <input type="text"
                  class="form-control"
                  [disabled]="isDisabled"
+                 (change)="onChangeAddress($event, 'toShard')"
                  [(ngModel)]="operationsTo">
         </div>
 
@@ -58,6 +60,8 @@
 
           <input type="text"
                  class="form-control"
+                 [dropSpecialCharacters]="false"
+                 mask="9*"
                  [disabled]="isDisabled"
                  [(ngModel)]="operationsAmount">
         </div>
@@ -74,7 +78,7 @@
         </div>
 
         <div class="col-md-2" style="padding-top: 30px;">
-          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!operationsTo || !operationsAmount" (click)="send($event)">Send</button>
+          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!operationsTo || !operationsAmount || isSendDisabled" (click)="send($event)">Send</button>
         </div>
       </div>
 
@@ -88,6 +92,7 @@
 
           <input type="text"
                  class="form-control"
+                 (change)="onChangeAddress($event, 'checkShard')"
                  [disabled]="isDisabled"
                  [(ngModel)]="addressToCheck">
         </div>
@@ -114,7 +119,7 @@
         </div>
 
         <div class="col-md-2" style="padding-top: 30px">
-          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!addressToCheck" (click)="checkBalance($event)">Check</button>
+          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!addressToCheck || isCheckDisabled" (click)="checkBalance($event)">Check</button>
         </div>
 
       </div>

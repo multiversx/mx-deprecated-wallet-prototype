@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { ToastrMessageService } from '../../services/toastr.service';
 import { NodeDataService } from '../../services/node-data.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-operations',
@@ -28,12 +29,16 @@ export class OperationsComponent implements OnInit {
 
   constructor(private apiService: ApiService,
               private nodeDataService: NodeDataService,
-              private toastr: ToastrMessageService) {
+              private toastr: ToastrMessageService,
+              private loadingService: LoadingService) {
   }
 
   ngOnInit() {
+    this.loadingService.show();
     this.getBalance();
     this.getNodeStatus();
+    this.getShardOfAddress(this.operationsFrom, 'operationsShard');
+    this.loadingService.hideDelay();
   }
 
   getBalance() {
@@ -48,12 +53,23 @@ export class OperationsComponent implements OnInit {
           }
           this.operationsBalance = result;
         });
-
-        this.apiService.getShardOfAddress(this.operationsFrom).subscribe((res) => {
-          this.operationsShard = res + 1;
-        });
       }, 2000);
     }
+  }
+
+  onChangeAddress(event, field) {
+    this.getShardOfAddress(event.target.value, field);
+  }
+
+  getShardOfAddress(address, field): void {
+    if (address === '') {
+      this[field] = '';
+      return;
+    }
+
+    this.apiService.getShardOfAddress(address).subscribe((res) => {
+      this[field] = res + 1;
+    });
   }
 
   getNodeStatus(): void {
@@ -61,25 +77,24 @@ export class OperationsComponent implements OnInit {
   }
 
   checkBalance(event) {
-    // this.isCheckDisabled = true;
+    this.isCheckDisabled = true;
+    this.loadingService.show();
 
     this.apiService.getBalance(this.addressToCheck).subscribe(result => {
-      console.log('check balance: ', result);
-
       if (!result) {
         result = 0;
       }
       this.balanceToCheck = result;
-      // this.isSendDisabled = false;
+      this.isCheckDisabled = false;
+      this.loadingService.hideDelay();
     });
   }
 
   send(e): void {
-    // this.isSendDisabled = true;
+    this.isSendDisabled = true;
+    this.loadingService.show();
 
     this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(result => {
-      console.log('send balance: ', result);
-
       if (result) {
         this.toastr.show({
           title: 'Success',
@@ -92,14 +107,8 @@ export class OperationsComponent implements OnInit {
         }, 'error');
       }
 
-      // this.apiService.getShardOfAddress(this.operationsTo).subscribe((res) => {
-      //   this.toShard = res + 1;
-      //   // this.isSendDisabled = false;
-      // });
+      this.isSendDisabled = false;
+      this.loadingService.hideDelay();
     });
-  }
-
-  check(e) {
-    console.log(e);
   }
 }
