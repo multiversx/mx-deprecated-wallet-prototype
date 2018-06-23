@@ -200,10 +200,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((keys) => {
       if (keys) {
         this.isKeyGenerated = true;
-        this.node.privateKey = keys.privateKey;
-        this.node.publicKey = keys.publicKey;
 
         this.apiService.getShardOfAddress(keys.publicKey).subscribe((res) => {
+          this.node.privateKey = keys.privateKey;
+          this.node.publicKey = keys.publicKey;
+
           this.node.allocatedShard = res + 1;
         });
       }
