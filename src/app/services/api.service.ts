@@ -70,7 +70,7 @@ export class ApiService {
     const url = `${this.url}/send?address=${address}&value=${value}`;
     return this.http.get<any[]>(url)
       .pipe(
-        catchError(this.handleError('ping', []))
+        catchError(this.handleError('send', null))
       );
   }
 

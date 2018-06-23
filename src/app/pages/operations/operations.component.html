@@ -74,7 +74,7 @@
         </div>
 
         <div class="col-md-2" style="padding-top: 30px;">
-          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="isSendDisabled" (click)="send($event)">Send</button>
+          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!operationsTo || !operationsAmount" (click)="send($event)">Send</button>
         </div>
       </div>
 
@@ -114,7 +114,7 @@
         </div>
 
         <div class="col-md-2" style="padding-top: 30px">
-          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="isCheckDisabled" (click)="checkBalance($event)">Check</button>
+          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!addressToCheck" (click)="checkBalance($event)">Check</button>
         </div>
 
       </div>
