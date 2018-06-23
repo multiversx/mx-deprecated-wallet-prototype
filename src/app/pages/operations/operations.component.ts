@@ -98,12 +98,14 @@ export class OperationsComponent implements OnInit {
       if (result) {
         this.toastr.show({
           title: 'Success',
-          message: `Operation was finished with success`,
+          message: `Transaction sent to the blockchain`,
         });
+        this.operationsTo = '';
+        this.operationsAmount = '';
       } else {
         this.toastr.show({
           title: 'Fail',
-          message: `Operation has failed`,
+          message: `Transaction sending has failed`,
         }, 'error');
       }
 
