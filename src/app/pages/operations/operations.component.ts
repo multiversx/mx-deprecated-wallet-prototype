@@ -63,6 +63,8 @@ export class OperationsComponent implements OnInit {
     this.isCheckDisabled = true;
 
     this.apiService.getBalance(this.addressToCheck).subscribe(result => {
+      console.log('check balance: ', result);
+
       if (!result) {
         result = 0;
       }
@@ -75,6 +77,7 @@ export class OperationsComponent implements OnInit {
     this.isSendDisabled = true;
 
     this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(result => {
+      console.log('send balance: ', result);
 
       this.apiService.getShardOfAddress(this.operationsTo).subscribe((res) => {
         this.toShard = res + 1;
