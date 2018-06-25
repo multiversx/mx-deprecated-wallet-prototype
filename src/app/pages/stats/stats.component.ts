@@ -63,6 +63,7 @@ export class StatsComponent implements OnInit {
     this.stats = Stats.getDefault();
     this.getNodeStatus();
     this.loadingService.hideDelay(500);
+this.getStats();
 
     this.nodeDataService.nodeStatus.subscribe(status => this.isNodeStarted = status);
   }
@@ -74,6 +75,22 @@ export class StatsComponent implements OnInit {
       }
     });
   }
+
+getStats() {
+     setInterval(() => {
+       this.apiService.getStats().subscribe(result => {
+          console.log(result);
+    this.stats.activeNodes = result.activeNodes;
+    this.stats.nrShards = result.nrShards;
+    this.stats.averageRoundTime = result.averageRoundTime;
+    this.stats.averageNrTxPerBlock = result.averageNrTxPerBlock;
+    this.stats.liveTps = result.liveTps
+    this.stats.peakTps = result.peakTps;
+    this.stats.averageTps = result.averageTps;
+    this.stats.liveNrTransactionsPerBlock = result.liveNrTransactionsPerBlock;
+       });
+     }, 2000);
+   }
 
   sendMultipleTransactions(e): void {
     this.isSendDisabled = true;

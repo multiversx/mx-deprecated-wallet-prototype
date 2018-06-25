@@ -4,21 +4,21 @@
       <div class="layout__item">
         <h3>Live stats</h3>
 
-        <ul>
+        <ul style="margin-bottom:5px;">
           <li>
-            <strong>TPS:</strong> <span class="value-label">{{stats.tps}}</span> tps
+            <strong>Active Nodes:</strong> <span class="value-label">{{stats.activeNodes}}</span>
           </li>
           <li>
-            <strong>Active Nodes in the Elrond Network:</strong> <span class="value-label">{{stats.activeNodeNr}}</span> tps
+            <strong>Shards:</strong> <span class="value-label">{{stats.nrShards}}</span>
           </li>
           <li>
-            <strong>Shards:</strong> <span class="value-label">{{stats.shardsNr}}</span> tps
+            <strong>Average Round time(seconds):</strong> <span class="value-label">{{stats.averageRoundTime}}</span>
           </li>
           <li>
-            <strong>Average Round time:</strong> <span class="value-label">{{stats.averageRoundTime}}</span> tps
+            <strong>Average Transactions / Block:</strong> <span class="value-label">{{stats.averageNrTxPerBlock}}</span>
           </li>
           <li>
-            <strong>Average Transactions / Block:</strong> <span class="value-label">{{stats.averageTxBlock}}</span> tps
+            <strong>Transactions / Last Block:</strong> <span class="value-label">{{stats.liveNrTransactionsPerBlock}}</span>
           </li>
         </ul>
       </div>
@@ -38,7 +38,7 @@
 
                   <input type="text"
                          class="form-control"
-                         [(ngModel)]="account.address" readonly>
+                         [(ngModel)]="accountFrom" readonly>
                 </div>
               </div>
 
@@ -50,7 +50,7 @@
 
                   <input type="text"
                          class="form-control"
-                         [(ngModel)]="account.balance" readonly>
+                         [(ngModel)]="accountBalance" readonly>
                 </div>
               </div>
 
@@ -62,7 +62,7 @@
 
                   <input type="text"
                          class="form-control"
-                         [(ngModel)]="account.shard" readonly>
+                         [(ngModel)]="accountShard" readonly>
                 </div>
               </div>
             </div>
@@ -87,7 +87,7 @@
 
                   <input type="text"
                          class="form-control"
-                         [(ngModel)]="receiver.shard" readonly>
+                         [(ngModel)]="benchmarkShard" readonly>
                 </div>
               </div>
             </div>
@@ -141,6 +141,10 @@
               (chartHover)="chartHovered($event)"
               (chartClick)="chartClicked($event)"></canvas>
     </div>
+    Live TPS: <span class="value-label">{{stats.liveTps}}</span>
+    Peak TPS: <span class="value-label">{{stats.peakTps}}</span>
+    Average TPS: <span class="value-label">{{stats.averageTps}}</span>
+
   </div>
 </ng-container>
 

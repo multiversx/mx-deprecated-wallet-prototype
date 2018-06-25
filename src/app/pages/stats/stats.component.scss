@@ -6,8 +6,8 @@
   font-size: 14px;
 
   h3 {
-    font-size:  18px;
-    margin: 0 0 10px;
+    font-size:  15px;
+    margin: 0 0 5px;
   }
 
   strong {
@@ -48,7 +48,7 @@
   .chart-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100%;
   }
 

@@ -1,19 +1,23 @@
 export class Stats {
-  tps: string;
-  activeNodeNr: string;
-  shardsNr: string;
+  activeNodes: string;
+  nrShards: string;
   averageRoundTime: string;
-  averageTxBlock: string;
+  averageNrTxPerBlock: string;
+  liveTps: string;
+  peakTps: string;
+  averageTps: string;
+  liveNrTransactionsPerBlock: string;
 
   public static getDefault() {
     const stats = new Stats();
-
-    stats.tps = '2500';
-    stats.activeNodeNr = '125';
-    stats.shardsNr = '3';
-    stats.averageRoundTime = '5';
-    stats.averageTxBlock = '1000';
-
+    stats.activeNodes = '0';
+    stats.nrShards = '0';
+    stats.averageRoundTime = '0';
+    stats.averageNrTxPerBlock = '0';
+    stats.liveTps = '0';
+    stats.peakTps = '0';
+    stats.averageTps = '0';
+    stats.liveNrTransactionsPerBlock = '0';
     return stats;
   }
 }

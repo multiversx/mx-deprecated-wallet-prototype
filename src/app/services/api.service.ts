@@ -46,6 +46,13 @@ export class ApiService {
       );
   }
 
+  getStats(): Observable<any> {
+    const url = `${this.url}/getStats`;
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('ping', []))
+      );
+  }
 
   /**
    * Get balance
