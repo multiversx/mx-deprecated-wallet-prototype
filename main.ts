@@ -4,11 +4,14 @@ import * as url from 'url';
 
 const axios = require('axios');
 
-let win, serve;
+let win;
+let serve;
+let splashWindow;
+const apiUrl = 'http://localhost:8080/node/';
+
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 const local = args.some(val => val === '--local');
-const apiUrl = 'http://localhost:8080/node/';
 
 function startAPI() {
   const exec = require('child_process').exec;
@@ -29,8 +32,6 @@ function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-  console.log('ic elctron debug');
-
   // Create the browser window.
   win = new BrowserWindow({
     width: 1200,
@@ -43,6 +44,20 @@ function createWindow() {
     show: false
   });
 
+  splashWindow = new BrowserWindow({
+    width: 300,
+    height: 300,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true
+  });
+
+  splashWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'splash.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+
   // if dev
   if (serve) {
     require('electron-reload')(__dirname, {
@@ -52,7 +67,6 @@ function createWindow() {
     win.webContents.openDevTools();
     // if prod
   } else {
-
     if (local) {
       win.webContents.openDevTools();
     }
@@ -64,8 +78,11 @@ function createWindow() {
     }));
   }
 
+  // splashWindow.loadURL(`file://${__dirname}/splash.html`);
+
   // Show win when all is set
   win.once('ready-to-show', () => {
+    splashWindow.destroy();
     win.show();
   });
 
