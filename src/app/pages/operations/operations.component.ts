@@ -40,6 +40,8 @@ export class OperationsComponent implements OnInit {
     this.getNodeStatus();
     this.getShardOfAddress(this.operationsFrom, 'operationsShard');
     this.loadingService.hideDelay(500);
+
+    this.nodeDataService.nodeStatus.subscribe(status => this.isNodeStarted = status);
   }
 
   getBalance() {
@@ -74,7 +76,11 @@ export class OperationsComponent implements OnInit {
   }
 
   getNodeStatus(): void {
-    this.apiService.getStatus().subscribe((status) => this.isNodeStarted = status);
+    this.apiService.getStatus().subscribe((status) => {
+      if (this.isNodeStarted !== status) {
+        this.nodeDataService.set(status);
+      }
+    });
   }
 
   checkBalance(event) {

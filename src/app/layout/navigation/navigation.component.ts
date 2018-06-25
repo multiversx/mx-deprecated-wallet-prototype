@@ -15,10 +15,7 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.nodeDataService.getStatus().subscribe((status) => {
-      console.log('node status: ', status);
-      this.isNodeStarted = status;
-    });
+    this.nodeDataService.nodeStatus.subscribe((status) => this.isNodeStarted = status);
 
     this.getAppStatus();
   }

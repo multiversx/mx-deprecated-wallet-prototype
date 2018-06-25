@@ -7,8 +7,8 @@ import { Node } from '../models/node';
   providedIn: 'root'
 })
 export class NodeDataService {
-  private nodeStatus = new Subject<boolean>();
-  public status = this.nodeStatus.asObservable();
+  private status = new Subject<boolean>();
+  public nodeStatus = this.status.asObservable();
 
   constructor() {
   }
@@ -27,15 +27,7 @@ export class NodeDataService {
     return (localStorageData) ? JSON.parse(localStorageData) as Node : Node.getDefault();
   }
 
-  start() {
-    this.nodeStatus.next(true);
-  }
-
-  stop() {
-    this.nodeStatus.next(false);
-  }
-
-  getStatus(): Observable<boolean> {
-    return this.nodeStatus.asObservable();
+  set(status) {
+    this.status.next(status);
   }
 }

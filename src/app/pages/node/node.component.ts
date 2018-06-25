@@ -82,29 +82,37 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loadingService.show();
+
     this.node = this.nodeDataService.load('main');
     this.step = this.node.step;
-
     this.getNodeStatus();
-    this.loadingService.hideDelay(500);
-  }
 
-  getNodeStatus(): void {
-    this.apiService.getStatus().subscribe((status) => {
-      console.log('is node started:', status);
+    this.nodeDataService.nodeStatus.subscribe(status => {
       this.isNodeStarted = status;
 
       const toggleNodeButtonText = (status) ? 'Stop' : 'Start';
       this.setupButtonText('toggleButtonText', toggleNodeButtonText);
     });
+
+    this.loadingService.hideDelay(500);
+  }
+
+  getNodeStatus(): void {
+    this.apiService.getStatus().subscribe((status) => {
+
+      if (this.isNodeStarted !== status) {
+        this.nodeDataService.set(status);
+      }
+
+      if (status) {
+        this.step = 3;
+        this.wizard.navigation.goToStep(this.step);
+      }
+    });
   }
 
   ngAfterViewInit(): void {
     this.changeDetectionRef.detectChanges();
-  }
-
-  clearLocalStorage() {
-    this.nodeDataService.clear('main');
   }
 
   onChange() {
@@ -287,25 +295,23 @@ export class NodeComponent implements OnInit, AfterViewInit {
           message: `Operation was finished with success`,
         });
 
-        this.nodeDataService.start();
+        this.nodeDataService.set(true);
+
       } else {
         this.toastr.show({
           title: 'Fail',
           message: `Operation has failed`,
         }, 'error');
 
-        this.setupButtonText('toggleButtonText', 'Start');
-        this.isNodeStarted = false;
-        this.nodeDataService.stop();
+        this.nodeDataService.set(false);
       }
 
-      this.loadingService.hide();
+      this.loadingService.hideDelay();
     });
   }
 
   stopNode() {
     this.loadingService.show();
-    this.nodeDataService.stop();
 
     this.apiService.stopNode().subscribe(result => {
       if (result) {
@@ -320,6 +326,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
         }, 'error');
       }
 
+      this.nodeDataService.set(false);
       this.loadingService.hide();
     });
   }
@@ -329,18 +336,13 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   toggleNode() {
-    const startText = 'Start';
-    const stopText = 'Stop';
-
     if (this.isNodeStarted) {
-      this.setupButtonText('toggleButtonText', 'Start');
       this.stopNode();
-    } else {
-      this.setupButtonText('toggleButtonText', 'Stop');
-      this.startNode();
+
+      return;
     }
 
-    this.isNodeStarted = !this.isNodeStarted;
+    this.startNode();
   }
 
   isNavigationDisabled() {

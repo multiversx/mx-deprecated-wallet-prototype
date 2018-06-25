@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Stats } from '../../models/stats';
 import { LoadingService } from '../../services/loading.service';
 import { ApiService } from '../../services/api.service';
-import {NodeDataService} from '../../services/node-data.service';
-import {ToastrMessageService} from '../../services/toastr.service';
+import { NodeDataService } from '../../services/node-data.service';
+import { ToastrMessageService } from '../../services/toastr.service';
 
 @Component({
   selector: 'app-stats',
@@ -63,10 +63,16 @@ export class StatsComponent implements OnInit {
     this.stats = Stats.getDefault();
     this.getNodeStatus();
     this.loadingService.hideDelay(500);
+
+    this.nodeDataService.nodeStatus.subscribe(status => this.isNodeStarted = status);
   }
 
   getNodeStatus(): void {
-    this.apiService.getStatus().subscribe((status) => this.isNodeStarted = status);
+    this.apiService.getStatus().subscribe((status) => {
+      if (this.isNodeStarted !== status) {
+        this.nodeDataService.set(status);
+      }
+    });
   }
 
   sendMultipleTransactions(e): void {
@@ -94,9 +100,6 @@ export class StatsComponent implements OnInit {
       this.loadingService.hideDelay();
     });
   }
-
-
-
 
 
   // events
