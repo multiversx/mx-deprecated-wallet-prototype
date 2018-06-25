@@ -4,11 +4,13 @@ var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 var axios = require('axios');
-var win, serve;
+var win;
+var serve;
+var splashWindow;
+var apiUrl = 'http://localhost:8080/node/';
 var args = process.argv.slice(1);
 serve = args.some(function (val) { return val === '--serve'; });
 var local = args.some(function (val) { return val === '--local'; });
-var apiUrl = 'http://localhost:8080/node/';
 function startAPI() {
     var exec = require('child_process').exec;
     var jarPath = (process.platform === 'darwin') ? './Contents/elrond-api-1.0-SNAPSHOT.jar' : 'elrond-api-1.0-SNAPSHOT.jar';
@@ -23,7 +25,6 @@ function startAPI() {
 function createWindow() {
     var electronScreen = electron_1.screen;
     var size = electronScreen.getPrimaryDisplay().workAreaSize;
-    console.log('ic elctron debug');
     // Create the browser window.
     win = new electron_1.BrowserWindow({
         width: 1200,
@@ -35,6 +36,18 @@ function createWindow() {
         backgroundColor: '#ffffff',
         show: false
     });
+    splashWindow = new electron_1.BrowserWindow({
+        width: 400,
+        height: 400,
+        transparent: true,
+        frame: false,
+        alwaysOnTop: true
+    });
+    splashWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'splash.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
     // if dev
     if (serve) {
         require('electron-reload')(__dirname, {
@@ -54,8 +67,10 @@ function createWindow() {
             slashes: true
         }));
     }
+    // splashWindow.loadURL(`file://${__dirname}/splash.html`);
     // Show win when all is set
     win.once('ready-to-show', function () {
+        splashWindow.destroy();
         win.show();
     });
     // Emitted when the window is closed.
