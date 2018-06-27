@@ -71,7 +71,7 @@ export class OperationsComponent implements OnInit {
     }
 
     this.apiService.getShardOfAddress(address).subscribe((res) => {
-      this[field] = res + 1;
+      this[field] = res;
     });
   }
 

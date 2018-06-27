@@ -62,10 +62,42 @@ export class StatsComponent implements OnInit {
     this.loadingService.show();
     this.stats = Stats.getDefault();
     this.getNodeStatus();
+    this.getBalance();
+    this.getShardOfAddress(this.accountFrom, 'accountShard');
     this.loadingService.hideDelay(500);
-this.getStats();
-
+    this.getStats();
     this.nodeDataService.nodeStatus.subscribe(status => this.isNodeStarted = status);
+  }
+
+  getBalance() {
+    const node = this.nodeDataService.load('start');
+    this.accountFrom = node.publicKey;
+
+    if (this.accountFrom) {
+      setInterval(() => {
+        this.apiService.getBalance(this.accountFrom).subscribe(result => {
+          if (!result) {
+            result = 0;
+          }
+          this.accountBalance = result;
+        });
+      }, 2000);
+    }
+  }
+
+  onChangeAddress(event, field) {
+    this.getShardOfAddress(event.target.value, field);
+  }
+
+  getShardOfAddress(address, field): void {
+    if (address === '') {
+      this[field] = '';
+      return;
+    }
+
+    this.apiService.getShardOfAddress(address).subscribe((res) => {
+      this[field] = res;
+    });
   }
 
   getNodeStatus(): void {

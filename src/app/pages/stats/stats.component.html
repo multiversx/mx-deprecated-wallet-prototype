@@ -38,6 +38,7 @@
 
                   <input type="text"
                          class="form-control"
+                         (change)="onChangeAddress($event, 'accountShard')"
                          [(ngModel)]="accountFrom" readonly>
                 </div>
               </div>
@@ -75,6 +76,7 @@
                   </label>
                   <input type="text"
                          class="form-control"
+                         (change)="onChangeAddress($event, 'benchmarkShard')"
                          [(ngModel)]="benchmarkTo">
                 </div>
               </div>

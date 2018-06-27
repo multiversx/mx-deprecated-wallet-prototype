@@ -37,8 +37,8 @@ function createWindow() {
         show: false
     });
     splashWindow = new electron_1.BrowserWindow({
-        width: 400,
-        height: 400,
+        width: 300,
+        height: 300,
         transparent: true,
         frame: false,
         alwaysOnTop: true
