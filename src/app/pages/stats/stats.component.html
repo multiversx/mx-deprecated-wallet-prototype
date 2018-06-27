@@ -15,6 +15,9 @@
             <strong>Average Round time(seconds):</strong> <span class="value-label">{{stats.averageRoundTime}}</span>
           </li>
           <li>
+            <strong>Live Round time(seconds):</strong> <span class="value-label">{{stats.liveRoundTime}}</span>
+          </li>
+          <li>
             <strong>Average Transactions / Block:</strong> <span class="value-label">{{stats.averageNrTxPerBlock}}</span>
           </li>
           <li>
@@ -146,6 +149,7 @@
     Live TPS: <span class="value-label">{{stats.liveTps}}</span>
     Peak TPS: <span class="value-label">{{stats.peakTps}}</span>
     Average TPS: <span class="value-label">{{stats.averageTps}}</span>
+    Tx: <span class="value-label">{{stats.totalNrProcessedTransactions}}</span>
 
   </div>
 </ng-container>

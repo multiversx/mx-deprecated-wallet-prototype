@@ -30,13 +30,13 @@ export class StatsComponent implements OnInit {
     scaleShowVerticalLines: false,
     responsive: true
   };
-  public barChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  public barChartType = 'bar';
+  public barChartLabels: string[] = ['-12', '-11', '-10', '-9', '-8', '-7', '-6', '-5', '-4', '-3', '-2', '-1', '0'];
+  public barChartType = 'line';
   public barChartLegend = true;
 
+  public tpsData : any[] = [0,0,0,0,0,0,0,0,0,0,0,0,0];
   public barChartData: any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
+    {data: [65, 59, 80, 81, 56, 55, 40], label: 'TPS'}
   ];
 
   public receiver = {
@@ -114,14 +114,23 @@ getStats() {
           console.log(result);
     this.stats.activeNodes = result.activeNodes;
     this.stats.nrShards = result.nrShards;
-    this.stats.averageRoundTime = result.averageRoundTime;
+    this.stats.averageRoundTime = (result.averageRoundTime / 1000).toString();
+    this.stats.liveRoundTime = (result.liveRoundTime / 1000).toString();
+    this.stats.totalNrProcessedTransactions = result.totalNrProcessedTransactions;
     this.stats.averageNrTxPerBlock = result.averageNrTxPerBlock;
-    this.stats.liveTps = result.liveTps
-    this.stats.peakTps = result.peakTps;
-    this.stats.averageTps = result.averageTps;
+    this.stats.liveTps = Number(result.liveTps).toFixed(2);
+    this.stats.peakTps = Number(result.peakTps).toFixed(2);
+    this.stats.averageTps = Number(result.averageTps).toFixed(2);
     this.stats.liveNrTransactionsPerBlock = result.liveNrTransactionsPerBlock;
+    this.tpsData.push(result.liveTps);
+    this.tpsData.splice(0, 1);
+    this.barChartData = [
+      {data: this.tpsData, label: 'TPS'}
+      ];
        });
      }, 2000);
+
+
    }
 
   sendMultipleTransactions(e): void {
@@ -135,9 +144,6 @@ getStats() {
           title: 'Success',
           message: `Multi Transaction sent to the blockchain`,
         });
-        this.benchmarkTo = '';
-        this.benchmarkAmount = '';
-        this.benchmarkNrTrans = '';
       } else {
         this.toastr.show({
           title: 'Fail',
