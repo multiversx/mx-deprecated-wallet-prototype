@@ -15,12 +15,13 @@ h5,
 h6 {
   color: $title-color;
   margin: 0;
+  font-family: 'Nexa-Light', Helvetica, sans-serif;
+  font-weight: normal;
 }
 
 .h1 {
-  font-size: (30/16 + rem);
+  font-size: (26/16 + rem);
   line-height: 1;
-  font-weight: normal;
 }
 
 .h2 {

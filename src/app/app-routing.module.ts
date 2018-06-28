@@ -5,7 +5,8 @@ import { NodeComponent } from './pages/node/node.component';
 import { OperationsComponent } from './pages/operations/operations.component';
 import { StatsComponent } from './pages/stats/stats.component';
 import { SearchComponent } from './pages/search/search.component';
-import {WelcomeComponent} from './pages/welcome/welcome.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { LoggerComponent } from './layout/logger/logger.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,11 @@ const routes: Routes = [
   {
     path: 'search',
     component: SearchComponent,
+  },
+  {
+    path: 'path-logger',
+    component: LoggerComponent,
+    outlet: 'logger'
   },
   {
     path: '',

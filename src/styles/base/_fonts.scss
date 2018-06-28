@@ -4,7 +4,7 @@
 // Vars
 // ---------------
 
-$font-path: '/assets/fonts';
+$font-path: 'assets/fonts';
 
 
 // Base
@@ -50,11 +50,11 @@ $font-path: '/assets/fonts';
   @extend %font__primary;
 }
 
-@mixin font__primary--light() {
+@mixin font__primary--light {
   @extend %font__primary--light;
 }
 
-@mixin font__primary--bold() {
+@mixin font__primary--bold {
   @extend %font__primary--bold;
 }
 

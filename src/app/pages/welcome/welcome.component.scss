@@ -1,21 +1,84 @@
 :host {
-  display: block;
-  padding: 85px 0 0;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
 
   .logo-elrond {
-    display: inline-block;
+    display: block;
     line-height: 0;
-    margin: 0 0 30px;
+    margin: 0 0 70px;
   }
 
-
   h1 {
-    font-size: 54px;
-    line-height: 66px;
-    color: #666666;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 100;
-    margin: 0;
+    font-size: 26px;
+    line-height: 32px;
+    margin: 0 0 25px;
     padding: 0;
+  }
+
+  .circle-graphic {
+    position: absolute;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .circle-large {
+    width: 393px;
+    height: 393px;
+  }
+
+  .circle-top-left {
+    background: rgba(#6CCAD6, 0.33);
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .circle-top-right {
+    background: #48C7EF;
+    width: 121px;
+    height: 121px;
+    top: 52px;
+    right: 126px;
+  }
+
+  .circle-bottom-right {
+    background: #C31A8C;
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 050%);
+  }
+
+  .circle-bottom-left {
+    background: #6D55A7;
+    width: 105px;
+    height: 105px;
+    bottom: 105px;
+    left: 132px;
+  }
+
+  .btn-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 60px;
+
+    .btn {
+      margin: 0 15px;
+    }
+  }
+
+  .app-version {
+    font-size: 14px;
+    margin: 0;
+    text-align: center;
+    font-family: 'Nexa-Bold', Helvetica, sans-serif;
+    font-weight: normal;
   }
 }
