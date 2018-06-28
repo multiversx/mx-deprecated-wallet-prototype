@@ -1,13 +1,12 @@
 @import "../../../styles/base/variables";
 
 :host {
+  background: $brand-grey;
   position: absolute;
-  height: 140px;
-  left: $sidebar-width;
+  height: 136px;
+  left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.77;
-  background-image: linear-gradient(-180deg, #FDFDFD 10%, #F9F9F9 75%);
   border-top: 1px dashed #BABABA;
 
   .scrollable-content {

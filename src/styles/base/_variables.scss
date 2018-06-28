@@ -1,16 +1,26 @@
 // Variables
 // ======================
 
+$font__family--secondary: 'Montserrat', sans-serif;
+$line-height-body: 1.555;
+$font-size-body: 16px;
+$content__padding: 35px;
+
 // Color
 //
 
 $title-color: #4F4F4F;
 $text-color: #666666;
 $link-color: #4F4F4F;
-$line-height-body: 1.555;
-$font-size-body: 16px;
-$primary: #4F4F4F;
+
+$brand-primary: #4F4F4F;
+$brand-blue: #47C3F5;
+$brand-green: #66C300;
 $light-blue: #E7F6FA;
+$brand-grey: #F7F7F7;
+
+// Layout
+//
 
 $sidebar-width: 68px;
 

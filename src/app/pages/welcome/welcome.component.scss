@@ -1,3 +1,12 @@
+// Welcome
+//
+// Vars
+//
+@import "../../../styles/base/breakpoints";
+
+// Base
+//
+
 :host {
   display: flex;
   overflow: hidden;
@@ -12,65 +21,44 @@
   .logo-elrond {
     display: block;
     line-height: 0;
-    margin: 0 0 70px;
+    margin: 0 0 35px;
+
+    @include media-breakpoint-up(md) {
+      margin: 0 0 70px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      transform: scale(0.7);
+    }
   }
 
   h1 {
     font-size: 26px;
     line-height: 32px;
-    margin: 0 0 25px;
+    margin: 0 0 15px;
     padding: 0;
-  }
 
-  .circle-graphic {
-    position: absolute;
-    border-radius: 50%;
-    display: block;
-  }
-
-  .circle-large {
-    width: 393px;
-    height: 393px;
-  }
-
-  .circle-top-left {
-    background: rgba(#6CCAD6, 0.33);
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%);
-  }
-
-  .circle-top-right {
-    background: #48C7EF;
-    width: 121px;
-    height: 121px;
-    top: 52px;
-    right: 126px;
-  }
-
-  .circle-bottom-right {
-    background: #C31A8C;
-    bottom: 0;
-    right: 0;
-    transform: translate(50%, 050%);
-  }
-
-  .circle-bottom-left {
-    background: #6D55A7;
-    width: 105px;
-    height: 105px;
-    bottom: 105px;
-    left: 132px;
+    @include media-breakpoint-up(md) {
+      margin: 0 0 25px;
+    }
   }
 
   .btn-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 0 0 60px;
+    margin: 0 0 30px;
+
+    @include media-breakpoint-up(md) {
+      margin: 0 0 60px;
+    }
 
     .btn {
-      margin: 0 15px;
+      margin: 0 7px;
+
+      @include media-breakpoint-up(md) {
+        margin: 0 15px;
+      }
     }
   }
 
@@ -80,5 +68,11 @@
     text-align: center;
     font-family: 'Nexa-Bold', Helvetica, sans-serif;
     font-weight: normal;
+  }
+
+  .btn-wrapper,
+  .app-version {
+    position: relative;
+    z-index: 10;
   }
 }

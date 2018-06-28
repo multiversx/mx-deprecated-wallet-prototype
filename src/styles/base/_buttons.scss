@@ -4,31 +4,53 @@
 // Vars
 // -------------------------
 
-$btn__primary--bg: #4F4F4F;
+$btn__primary--bg: $brand-primary;
+$btn__info--bg: $brand-blue;
+$btn__success--bg: $brand-green;
+
+// Mixin
+//
+
+@mixin make-button($background, $color) {
+  background: $background;
+  color: $color;
+
+  &:hover,
+  &:focus {
+    background: rgba($background, 0.5);
+    box-shadow: none;
+    color: $color;
+  }
+}
 
 // Base
 // -------------------------
 
 .btn {
-  border: 0;
-  box-shadow: none;
-}
-
-.btn-primary {
   @extend %font__primary--bold;
 
-  background: $btn__primary--bg;
+  border: 0;
+  box-shadow: none;
   border-radius: 44px;
-  padding: 14px 20px 13px;
-  margin: 0;
+  padding: 14px 21px 13px;
   min-width: 120px;
-  color: #fff;
   font-size: 13px;
   line-height: 1;
   text-align: center;
+}
 
-  &:hover,
-  &:focus {
-    background: $btn__primary--bg;
-  }
+// Button variation
+//
+
+.btn-primary {
+  background: $btn__primary--bg;
+  @include make-button($btn__primary--bg, #ffffff);
+}
+
+.btn-info {
+  @include make-button($btn__info--bg, #ffffff);
+}
+
+.btn-success {
+  @include make-button($btn__success--bg, #ffffff);
 }

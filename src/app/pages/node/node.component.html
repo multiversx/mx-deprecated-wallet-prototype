@@ -1,28 +1,27 @@
 <aw-wizard #WizardComponent [disableNavigationBar]="isNavigationDisabled()" [defaultStepIndex]="getDefaultStep()">
   <aw-wizard-step awOptionalStep stepTitle="Intro" (stepEnter)="onStepEnter($event)">
     <div class="step-body container-fluid">
+      <div class="start-node">
+        <h2>Setup Wizard for Elrond Network Node</h2>
 
-      <div class="alert alert-info text-center mt-4" role="alert">
-        <h6 class="alert-heading text-center">Setup Wizard for Elrond Network Node</h6>
-        <p></p>
-        <p>Please follow this guided process in order to successfully launch a node.</p>
-        <p>For a smooth experience, do consider that all the fields are mandatory.</p>
-        <p>Follow the
+        <p>
+          Please follow this guided process in order to successfully launch a node. <br>
+          For a smooth experience, do consider that all the fields are mandatory. <br>
+          Follow the
           <fa name="question-circle" ngbTooltip="Get help." placement="bottom"></fa>
           to get specific details for each item.
         </p>
-        <hr>
+
         <p class="mb-0">Hit the start button and let's unleash the Elrond Blockchain</p>
       </div>
 
-    </div>
+      <div class="aw-wizard-footer">
+        <button type="button" class="btn btn-primary" awNextStep (click)="onBegin($event)" *ngIf="!isKeyGenerated">
+          Start Configuration
+        </button>
 
-    <div class="aw-wizard-footer text-center pr-4">
-      <button type="button" class="btn btn-dark btn-lg" awNextStep (click)="onBegin($event)" *ngIf="!isKeyGenerated">
-        Begin
-      </button>
-
-      <button type="button" class="btn btn-dark" awNextStep *ngIf="isKeyGenerated">Next</button>
+        <button type="button" class="btn btn-primary" awNextStep *ngIf="isKeyGenerated">Next</button>
+      </div>
     </div>
   </aw-wizard-step>
 
@@ -276,3 +275,5 @@
   </aw-wizard-completion-step>
 
 </aw-wizard>
+
+<span class="circle-bottom-right circle-large circle-graphic circle-light-blue"></span>

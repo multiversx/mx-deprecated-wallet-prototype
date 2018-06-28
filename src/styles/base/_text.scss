@@ -13,10 +13,10 @@ h3,
 h4,
 h5,
 h6 {
-  color: $title-color;
+  @extend %font__primary--bold;
+
   margin: 0;
-  font-family: 'Nexa-Light', Helvetica, sans-serif;
-  font-weight: normal;
+  padding: 0;
 }
 
 .h1 {
@@ -25,19 +25,25 @@ h6 {
 }
 
 .h2 {
-  font-size: (30/16 + rem);
+  font-size: (24/16 + rem);
   line-height: 1;
-  font-weight: normal;
+  margin: 0 0 20px;
 }
 
-.section-title {
-  @extend .h1;
+p,
+li {
+  font-size: (14/16 + rem);
+  line-height: 22px;
 }
 
-.lead {
-  color: $title-color;
+p {
+  margin: 0 0 25px;
 }
 
 h1 {
   @extend .h1;
+}
+
+h2 {
+  @extend .h2;
 }
