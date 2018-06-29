@@ -65,6 +65,16 @@ $menu__button-bg--active: #4F4F4F;
         display: none;
       }
 
+      &.status-item {
+        padding-top: 38px;
+
+        svg {
+          * {
+            fill: #4F4F4F;
+          }
+        }
+      }
+
       &.is-active {
         svg {
           .status-circle {
@@ -84,8 +94,8 @@ $menu__button-bg--active: #4F4F4F;
 
       &.is-node-started {
         svg {
-          .status-circle {
-            fill: green;
+          * {
+            fill: #ACC73F;
           }
         }
       }

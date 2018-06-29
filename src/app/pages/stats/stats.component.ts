@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Stats } from '../../models/stats';
 import { LoadingService } from '../../services/loading.service';
 import { ApiService } from '../../services/api.service';
 import { NodeDataService } from '../../services/node-data.service';
 import { ToastrMessageService } from '../../services/toastr.service';
 
+const visibleChartIndex = [false, false];
+
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnInit, AfterViewInit {
+  self = this;
   public stats: Stats;
 
   public accountBalance = 0;
@@ -25,18 +28,28 @@ export class StatsComponent implements OnInit {
   public isSendDisabled = false;
   public isNodeStarted = false;
 
-
-  public barChartOptions: any = {
+  // Chart
+  //
+  public chartOptions: any = {
     scaleShowVerticalLines: true,
-    responsive: true
+    responsive: true,
+    animation: {
+      duration: 0,
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          suggestedMin: 0,
+          suggestedMax: 50
+        }
+      }]
+    }
   };
-  public barChartLabels: string[] = ['-12', '-11', '-10', '-9', '-8', '-7', '-6', '-5', '-4', '-3', '-2', '-1', '0'];
-  public barChartType = 'line';
-  public barChartLegend = true;
-
-  public tpsData: any[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  public barChartData: any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'TPS'}
+  public chartType = 'line';
+  public chartLegend = true;
+  public chartLabels: string[] = ['t-11', 't-10', 't-9', 't-8', 't-7', 't-6', 't-5', 't-4', 't-3', 't-2', 't-1', 't'];
+  public chartDatasets: any[] = [
+    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Live TPS', hidden: false}
   ];
 
   public receiver = {
@@ -52,10 +65,13 @@ export class StatsComponent implements OnInit {
     shard: ''
   };
 
+  @ViewChild('statsChart') public statsChart;
+
   constructor(private apiService: ApiService,
               private nodeDataService: NodeDataService,
               private toastr: ToastrMessageService,
-              private loadingService: LoadingService) {
+              private loadingService: LoadingService,
+              private changeDetectionRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -67,6 +83,14 @@ export class StatsComponent implements OnInit {
     this.loadingService.hideDelay(500);
     this.getStats();
     this.nodeDataService.nodeStatus.subscribe(status => this.isNodeStarted = status);
+  }
+
+  ngAfterViewInit(): void {
+    this.changeDetectionRef.detectChanges();
+  }
+
+  toggleDataset(index) {
+    visibleChartIndex[index] = !visibleChartIndex[index];
   }
 
   getBalance() {
@@ -108,8 +132,16 @@ export class StatsComponent implements OnInit {
     });
   }
 
+  addData(data, value) {
+    data.push(value);
+    data.shift();
+    return data;
+  }
+
   getStats() {
     setInterval(() => {
+      console.log('chart', this.statsChart);
+
       this.apiService.getStats().subscribe(result => {
         this.stats.activeNodes = result.activeNodes;
         this.stats.nrShards = result.nrShards;
@@ -119,14 +151,16 @@ export class StatsComponent implements OnInit {
         this.stats.averageNrTxPerBlock = result.averageNrTxPerBlock;
         this.stats.liveTps = Number(result.liveTps).toFixed(2);
         this.stats.peakTps = Number(result.peakTps).toFixed(2);
-        this.stats.averageTps = Number(result.averageTps).toFixed(2);
         this.stats.liveNrTransactionsPerBlock = result.liveNrTransactionsPerBlock;
 
-        this.tpsData.push(result.liveTps);
-        this.tpsData.splice(0, 1);
-        this.barChartData = [
-          {data: this.tpsData, label: 'TPS'},
-          {data: this.tpsData, label: 'Shard'}
+        this.chartDatasets = [
+          {
+            data: this.addData(this.chartDatasets[0].data, result.liveTps),
+            label: 'Live TPS',
+            lineTension: 0,
+            pointRadius: 4,
+            hidden: visibleChartIndex[0]
+          },
         ];
       });
     }, 2000);

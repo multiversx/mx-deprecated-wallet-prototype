@@ -1,6 +1,6 @@
 <div class="container-fluid -right" *ngIf="isNodeStarted">
   <div class="row">
-    <div class="col-sm-7">
+    <div class="col-sm-7 pr-5">
       <h3>Live Stats</h3>
 
       <div class="row">
@@ -104,7 +104,7 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
           <div class="form-group">
             <label>Amount per transaction
               <fa name="question-circle" ngbTooltip="Amount per transaction" placement="right"></fa>
@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div class="col-sm-2 text-right" style="padding-top: 30px;">
+        <div class="col-sm-3 text-right" style="padding-top: 30px;">
           <button type="button" class="btn btn-info" (click)="sendMultipleTransactions($event)">Benchmark
           </button>
         </div>
@@ -136,25 +136,31 @@
 
     </div>
 
-    <div class="col-sm-5 pl-4">
+    <div class="col-sm-5 col-chart">
       <div class="chart-header">
         <h3>TPS chart</h3>
 
         <div class="chart-stats">
-          Live TPS: <span class="value-label">{{stats.liveTps}}</span>
-          Peak TPS: <span class="value-label">{{stats.peakTps}}</span>
-          Average TPS: <span class="value-label">{{stats.averageTps}}</span>
-          Tx: <span class="value-label">{{stats.totalNrProcessedTransactions}}</span>
+          <ul class="live-list">
+            <li>
+              Peak TPS: <span class="value-label">{{stats.peakTps}}</span>
+            </li>
+            <li>
+              Live TPS: <span class="value-label">{{stats.liveTps}}</span>
+            </li>
+            <li>
+              Tx: <span class="value-label">{{stats.totalNrProcessedTransactions}}</span>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="chart-wrapper">
-        <canvas baseChart
-                [datasets]="barChartData"
-                [labels]="barChartLabels"
-                [options]="barChartOptions"
-                [legend]="barChartLegend"
-                [chartType]="barChartType"
-                (chartHover)="chartHovered($event)"></canvas>
+      <div class="chart-wrapper" *ngIf="chartDatasets.length > 0">
+        <canvas #statsChart baseChart
+                [datasets]="chartDatasets"
+                [labels]="chartLabels"
+                [options]="chartOptions"
+                [legend]="chartLegend"
+                [chartType]="chartType"></canvas>
       </div>
     </div>
   </div>
