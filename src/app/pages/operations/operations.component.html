@@ -1,130 +1,292 @@
-<div class="container-fluid pt-4" *ngIf="isNodeStarted">
+<div class="container-fluid" *ngIf="isNodeStarted">
 
-  <div class="row justify-content-center">
+  <div class="row">
+    <div class="col-md-5 pr-5">
+      <h2>Wallet</h2>
 
-    <div class="col-md-10 ml-auto mr-auto">
-      <h3>Your account</h3>
+      <div class="form-group">
+        <label class="display-4">Address
+          <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
+        </label>
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label>Address
-            <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
-          </label>
+        <input type="text"
+               class="form-control -material"
+               (change)="onChangeAddress($event, 'operationsShard')"
+               [(ngModel)]="operationsFrom" readonly>
+      </div>
 
-          <input type="text"
-                 class="form-control"
-                 (change)="onChangeAddress($event, 'operationsShard')"
-                 [(ngModel)]="operationsFrom" readonly>
-        </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Shard Nr.
+              <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
+            </label>
 
-        <div class="form-group col-md-3">
-          <label>Balance
-            <fa name="question-circle" ngbTooltip="The total balance of your address" placement="right"></fa>
-          </label>
-
-          <input type="text"
-                 class="form-control"
-                 [(ngModel)]="operationsBalance" readonly>
-        </div>
-
-        <div class="form-group col-md-1">
-          <label>Shard
-            <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
-          </label>
-
-          <input type="text"
-                 class="form-control text-center"
-                 [(ngModel)]="operationsShard" readonly>
+            <input type="text"
+                   class="form-control -material -center"
+                   [(ngModel)]="operationsShard" readonly>
+          </div>
         </div>
       </div>
 
-      <h3>Send ERD's</h3>
-
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label>To
-            <fa name="question-circle" ngbTooltip="Receiver Address" placement="right"></fa>
-          </label>
-
-          <input type="text"
-                 class="form-control"
-                 (change)="onChangeAddress($event, 'toShard')"
-                 [(ngModel)]="operationsTo">
-        </div>
-
-        <div class="form-group col-3">
-          <label>Amount
-            <fa name="question-circle" ngbTooltip="Amount to send" placement="right"></fa>
-          </label>
-
-          <input type="text"
-                 class="form-control"
-                 [dropSpecialCharacters]="false"
-                 mask="9*"
-                 [(ngModel)]="operationsAmount">
-        </div>
-
-        <div class="form-group col-1">
-          <label>Shard
-            <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
-          </label>
-
-          <input type="text"
-                 class="form-control text-center"
-                 [(ngModel)]="toShard" readonly>
-        </div>
-
-        <div class="col-md-2" style="padding-top: 30px;">
-          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!operationsTo || !operationsAmount || isSendDisabled" (click)="send($event)">Send</button>
+      <div class="row">
+        <div class="col-md-6 pt-4">
+          <div class="form-group">
+            <label class="display-4">Total Balance
+              <fa name="question-circle" ngbTooltip="The total balance of your address" placement="right"></fa>
+            </label>
+            <input type="text"
+                   class="form-control -material"
+                   [(ngModel)]="operationsBalance" readonly>
+          </div>
         </div>
       </div>
 
-      <h3>Check address balance</h3>
-      <div class="form-row">
+    </div>
 
-        <div class="form-group col-md-6">
-          <label>Address:
-            <fa name="question-circle" ngbTooltip="Address to check" placement="right"></fa>
-          </label>
+    <div class="col-md-7">
 
-          <input type="text"
-                 class="form-control"
-                 (change)="onChangeAddress($event, 'checkShard')"
-                 [(ngModel)]="addressToCheck">
-        </div>
+      <ngb-tabset>
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <span class="tab-label">
+              <svg width="22px" height="16px" viewBox="0 0 22 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <g transform="translate(-584.000000, -62.000000)" fill-rule="nonzero">
+                          <path d="M591.840039,62.2 C587.520039,62.2 584.040039,65.68 584.040039,70 C584.040039,74.32 587.520039,77.8 591.840039,77.8 C596.160039,77.8 599.640039,74.32 599.640039,70 C599.640039,65.68 596.160039,62.2 591.840039,62.2 Z M603.240039,62.2 C603.090039,62.2 602.940508,62.2604686 602.820508,62.3804686 L601.020508,64.1804686 C600.780508,64.4204686 600.780508,64.7795314 601.020508,65.0195314 C601.260508,65.2595314 601.61957,65.2595314 601.85957,65.0195314 L602.640039,64.2402346 L602.640039,74.8 C602.640039,75.82 601.860039,76.6 600.840039,76.6 L598.440039,76.6 C598.080039,76.6 597.840039,76.84 597.840039,77.2 C597.840039,77.56 598.080039,77.8 598.440039,77.8 L600.840039,77.8 C602.520039,77.8 603.840039,76.48 603.840039,74.8 L603.840039,64.2402346 L604.620508,65.0195314 C604.740508,65.1395314 604.920039,65.2 605.040039,65.2 C605.160039,65.2 605.33957,65.1395314 605.45957,65.0195314 C605.69957,64.7795314 605.69957,64.4204686 605.45957,64.1804686 L603.65957,62.3804686 C603.53957,62.2604686 603.390039,62.2 603.240039,62.2 Z M591.840039,63.4 C595.500039,63.4 598.440039,66.34 598.440039,70 C598.440039,73.66 595.500039,76.6 591.840039,76.6 C588.180039,76.6 585.240039,73.66 585.240039,70 C585.240039,66.34 588.180039,63.4 591.840039,63.4 Z M595.440039,67 C595.290039,67 595.140508,67.0604686 595.020508,67.1804686 L590.640039,71.5597654 L588.65957,69.5804686 C588.41957,69.3404686 588.060508,69.3404686 587.820508,69.5804686 C587.580508,69.8204686 587.580508,70.1795314 587.820508,70.4195314 L590.220508,72.8195314 C590.340508,72.9395314 590.460039,73 590.640039,73 C590.820039,73 590.93957,72.9395314 591.05957,72.8195314 L595.85957,68.0195314 C596.09957,67.7795314 596.09957,67.4204686 595.85957,67.1804686 C595.73957,67.0604686 595.590039,67 595.440039,67 Z"></path>
+                      </g>
+                  </g>
+              </svg>
+              Send
+            </span>
+          </ng-template>
 
-        <div class="form-group col-md-3">
-          <label>Balance
-            <fa name="question-circle" ngbTooltip="The total balance of the address" placement="right"></fa>
-          </label>
+          <ng-template ngbTabContent>
+            <h3 class="tab-title">
+              Send Tokens
 
-          <input type="text"
-                 class="form-control"
-                 [(ngModel)]="balanceToCheck" readonly>
-        </div>
+              <svg width="35px" height="36px" viewBox="0 0 35 36" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                   xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-23.000000, -21.000000)">
+                    <g transform="translate(22.750000, 20.500000)">
+                      <path
+                        d="M11.4779899,8.25784332 C13.3092275,7.06440358 15.3367107,6.46202278 17.5618908,6.45737791 C19.7586212,6.45302335 21.7884268,7.0591781 23.652759,8.2706167 L27.5561866,4.36718911 C24.5210583,2.03749951 21.1909811,0.872219257 17.5650842,0.875702905 C13.9206078,0.879476857 10.5922724,2.04156377 7.58065869,4.36051212 L11.4779899,8.25784332 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path
+                        d="M7.63642609,24.2869206 C6.39886014,22.4072022 5.7790611,20.3756548 5.78312536,18.1908269 C5.78747992,15.9772589 6.4029244,13.9477437 7.62365272,12.0999587 L3.73096638,8.20727236 C1.44366117,11.1872429 0.298411885,14.5158686 0.294637933,18.1931494 C0.291154285,21.8370452 1.44191934,25.1656708 3.74199793,28.1810585 L7.63642609,24.2869206 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path
+                        d="M23.684228,28.1606791 C21.8312176,29.4078251 19.8046053,30.0424297 17.6026495,30.0572352 C15.3652766,30.072331 13.3136982,29.4426616 11.4467532,28.1731622 L7.57032387,32.0495915 C10.5851309,34.393506 13.9364003,35.5529802 17.6250029,35.5236595 C21.2773175,35.4949194 24.5908474,34.334284 27.5658828,32.0423339 L23.684228,28.1606791 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path
+                        d="M27.5219598,12.0979846 C28.7714282,13.9849606 29.3851309,16.0522154 29.3587132,18.3012005 C29.3328761,20.4706423 28.7162704,22.4676435 27.5144119,24.2942363 L31.409711,28.189245 C33.7039835,25.2028878 34.8669413,21.8910998 34.8956814,18.2533003 C34.9247118,14.5644074 33.7655279,11.213138 31.4216134,8.198331 L27.5219598,12.0979846 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path d="M3.54482346,4.17288865 L31.5269357,32.1550009" class="logo-stroke" stroke="#4F4F4F"
+                            stroke-width="1.05"
+                            stroke-dasharray="2.099999964237213,2.099999964237213,2.099999964237213,2.099999964237213"></path>
+                      <path d="M31.3507792,4.34892899 L3.36866699,32.3310412" class="logo-stroke" stroke="#4F4F4F"
+                            stroke-width="1.05"
+                            stroke-dasharray="2.099999964237213,2.099999964237213,2.099999964237213,2.099999964237213"></path>
+                      <path
+                        d="M31.5268486,29.4463485 C33.0227851,29.4463485 34.2353849,30.6589483 34.2353849,32.1548848 C34.2353849,33.6508213 33.0227851,34.8634211 31.5268486,34.8634211 C30.0309121,34.8634211 28.8183123,33.6508213 28.8183123,32.1548848 C28.8183123,30.6589483 30.0309121,29.4463485 31.5268486,29.4463485"
+                        fill="#56C8F8"></path>
+                      <path
+                        d="M3.61313199,29.4515739 C5.1090685,29.4515739 6.32166831,30.6641737 6.32166831,32.1601103 C6.32166831,33.6560468 5.1090685,34.8686466 3.61313199,34.8686466 C2.11719548,34.8686466 0.904595668,33.6560468 0.904595668,32.1601103 C0.904595668,30.6641737 2.11719548,29.4515739 3.61313199,29.4515739"
+                        fill="#5F6DF6"></path>
+                      <path
+                        d="M31.5522212,1.51251376 C33.0481577,1.51251376 34.2607575,2.72511357 34.2607575,4.22105008 C34.2607575,5.71669629 33.0481577,6.9295864 31.5522212,6.9295864 C30.0562847,6.9295864 28.8436849,5.71669629 28.8436849,4.22105008 C28.8436849,2.72511357 30.0562847,1.51251376 31.5522212,1.51251376"
+                        fill="#DE6AFC"></path>
+                      <path
+                        d="M3.54482346,1.46446845 C5.04075997,1.46446845 6.25335978,2.67706826 6.25335978,4.17300477 C6.25335978,5.66865098 5.04075997,6.88154109 3.54482346,6.88154109 C2.04888694,6.88154109 0.836287136,5.66865098 0.836287136,4.17300477 C0.836287136,2.67706826 2.04888694,1.46446845 3.54482346,1.46446845"
+                        fill="#80EDE9"></path>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </h3>
 
-        <div class="form-group col-1">
-          <label>Shard
-            <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
-          </label>
+            <div class="row">
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <label>Recipient
+                    <fa name="question-circle" ngbTooltip="Receiver Address" placement="right"></fa>
+                  </label>
 
-          <input type="text"
-                 class="form-control text-center"
-                 [(ngModel)]="checkShard" readonly>
-        </div>
+                  <input type="text"
+                         class="form-control"
+                         (change)="onChangeAddress($event, 'toShard')"
+                         [(ngModel)]="operationsTo">
+                </div>
+              </div>
 
-        <div class="col-md-2" style="padding-top: 30px">
-          <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="!addressToCheck || isCheckDisabled" (click)="checkBalance($event)">Check</button>
-        </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>Shard
+                    <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
+                  </label>
 
-      </div>
+                  <input type="text"
+                         class="form-control -material -center -xl"
+                         [(ngModel)]="toShard" readonly>
+                </div>
+              </div>
+            </div>
 
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label>Amount
+                    <fa name="question-circle" ngbTooltip="Amount to send" placement="right"></fa>
+                  </label>
+
+                  <input type="text"
+                         class="form-control"
+                         [dropSpecialCharacters]="false"
+                         mask="9*"
+                         [(ngModel)]="operationsAmount">
+                </div>
+              </div>
+
+              <div class="col-md-3 ml-auto" style="padding-top: 30px;">
+                <button type="button" class="btn btn-info btn-block"
+                        [disabled]="!operationsTo || !operationsAmount || isSendDisabled" (click)="send($event)">Send
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab>
+          <ng-template ngbTabTitle>
+            <span class="tab-label">
+                <svg width="19px" height="18px" viewBox="0 0 19 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g transform="translate(-761.000000, -60.000000)" fill-rule="nonzero">
+                            <g id="icon-check-balance" transform="translate(761.000000, 60.000000)">
+                                <path d="M9.47128906,0.220256022 C4.61013125,0.220256022 0.66484375,4.16554352 0.66484375,9.02670133 C0.66484375,13.8878591 4.61013125,17.8331466 9.47128906,17.8331466 C14.3324469,17.8331466 18.2777344,13.8878591 18.2777344,9.02670133 C18.2777344,4.16554352 14.3324469,0.220256022 9.47128906,0.220256022 Z M9.47128906,16.6706959 C5.24419531,16.6706959 1.82729453,13.2537951 1.82729453,9.02670133 C1.82729453,4.79960758 5.24419531,1.3827068 9.47128906,1.3827068 C13.6983828,1.3827068 17.1152836,4.79960758 17.1152836,9.02670133 C17.1152836,13.2537951 13.6983828,16.6706959 9.47128906,16.6706959 Z"></path>
+                                <path d="M10.774643,5.50412321 C10.4576109,5.50412321 10.1758047,5.75070368 10.1758047,6.10296149 L10.1758047,12.3379248 C10.1758047,12.6549568 10.4223852,12.9367631 10.774643,12.9367631 C11.1269008,12.9367631 11.3734812,12.6901826 11.3734812,12.3379248 L11.3734812,6.10296149 C11.3734812,5.78592946 11.1269008,5.50412321 10.774643,5.50412321 Z"></path>
+                                <path d="M8.20316094,7.47676696 C7.88612891,7.47676696 7.60432266,7.72334743 7.60432266,8.07560524 L7.60432266,12.3379248 C7.60432266,12.6549568 7.85090312,12.9367631 8.20316094,12.9367631 C8.55541875,12.9367631 8.80199922,12.6901826 8.80199922,12.3379248 L8.80199922,8.07560524 C8.76677344,7.75857321 8.52019297,7.47676696 8.20316094,7.47676696 Z"></path>
+                                <path d="M5.59645312,8.81534665 C5.27942109,8.81534665 4.99761484,9.06192712 4.99761484,9.41418493 L4.99761484,12.3379248 C4.99761484,12.6549568 5.24419531,12.9367631 5.59645312,12.9367631 C5.94871094,12.9367631 6.19529141,12.6901826 6.19529141,12.3379248 L6.19529141,9.41418493 C6.16006562,9.0971529 5.91348516,8.81534665 5.59645312,8.81534665 Z"></path>
+                                <path d="M13.3813508,8.81534665 C13.0643187,8.81534665 12.7825125,9.06192712 12.7825125,9.41418493 L12.7825125,12.3379248 C12.7825125,12.6549568 13.029093,12.9367631 13.3813508,12.9367631 C13.7336086,12.9367631 13.9801891,12.6901826 13.9801891,12.3379248 L13.9801891,9.41418493 C13.9801891,9.0971529 13.6983828,8.81534665 13.3813508,8.81534665 Z"></path>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+
+              Check Balance
+            </span>
+          </ng-template>
+
+          <ng-template ngbTabContent>
+            <h3 class="tab-title">
+              Check address balance
+
+              <svg width="35px" height="36px" viewBox="0 0 35 36" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                   xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g transform="translate(-23.000000, -21.000000)">
+                    <g transform="translate(22.750000, 20.500000)">
+                      <path
+                        d="M11.4779899,8.25784332 C13.3092275,7.06440358 15.3367107,6.46202278 17.5618908,6.45737791 C19.7586212,6.45302335 21.7884268,7.0591781 23.652759,8.2706167 L27.5561866,4.36718911 C24.5210583,2.03749951 21.1909811,0.872219257 17.5650842,0.875702905 C13.9206078,0.879476857 10.5922724,2.04156377 7.58065869,4.36051212 L11.4779899,8.25784332 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path
+                        d="M7.63642609,24.2869206 C6.39886014,22.4072022 5.7790611,20.3756548 5.78312536,18.1908269 C5.78747992,15.9772589 6.4029244,13.9477437 7.62365272,12.0999587 L3.73096638,8.20727236 C1.44366117,11.1872429 0.298411885,14.5158686 0.294637933,18.1931494 C0.291154285,21.8370452 1.44191934,25.1656708 3.74199793,28.1810585 L7.63642609,24.2869206 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path
+                        d="M23.684228,28.1606791 C21.8312176,29.4078251 19.8046053,30.0424297 17.6026495,30.0572352 C15.3652766,30.072331 13.3136982,29.4426616 11.4467532,28.1731622 L7.57032387,32.0495915 C10.5851309,34.393506 13.9364003,35.5529802 17.6250029,35.5236595 C21.2773175,35.4949194 24.5908474,34.334284 27.5658828,32.0423339 L23.684228,28.1606791 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path
+                        d="M27.5219598,12.0979846 C28.7714282,13.9849606 29.3851309,16.0522154 29.3587132,18.3012005 C29.3328761,20.4706423 28.7162704,22.4676435 27.5144119,24.2942363 L31.409711,28.189245 C33.7039835,25.2028878 34.8669413,21.8910998 34.8956814,18.2533003 C34.9247118,14.5644074 33.7655279,11.213138 31.4216134,8.198331 L27.5219598,12.0979846 Z"
+                        class="logo-fill" fill="#4F4F4F"></path>
+                      <path d="M3.54482346,4.17288865 L31.5269357,32.1550009" class="logo-stroke" stroke="#4F4F4F"
+                            stroke-width="1.05"
+                            stroke-dasharray="2.099999964237213,2.099999964237213,2.099999964237213,2.099999964237213"></path>
+                      <path d="M31.3507792,4.34892899 L3.36866699,32.3310412" class="logo-stroke" stroke="#4F4F4F"
+                            stroke-width="1.05"
+                            stroke-dasharray="2.099999964237213,2.099999964237213,2.099999964237213,2.099999964237213"></path>
+                      <path
+                        d="M31.5268486,29.4463485 C33.0227851,29.4463485 34.2353849,30.6589483 34.2353849,32.1548848 C34.2353849,33.6508213 33.0227851,34.8634211 31.5268486,34.8634211 C30.0309121,34.8634211 28.8183123,33.6508213 28.8183123,32.1548848 C28.8183123,30.6589483 30.0309121,29.4463485 31.5268486,29.4463485"
+                        fill="#56C8F8"></path>
+                      <path
+                        d="M3.61313199,29.4515739 C5.1090685,29.4515739 6.32166831,30.6641737 6.32166831,32.1601103 C6.32166831,33.6560468 5.1090685,34.8686466 3.61313199,34.8686466 C2.11719548,34.8686466 0.904595668,33.6560468 0.904595668,32.1601103 C0.904595668,30.6641737 2.11719548,29.4515739 3.61313199,29.4515739"
+                        fill="#5F6DF6"></path>
+                      <path
+                        d="M31.5522212,1.51251376 C33.0481577,1.51251376 34.2607575,2.72511357 34.2607575,4.22105008 C34.2607575,5.71669629 33.0481577,6.9295864 31.5522212,6.9295864 C30.0562847,6.9295864 28.8436849,5.71669629 28.8436849,4.22105008 C28.8436849,2.72511357 30.0562847,1.51251376 31.5522212,1.51251376"
+                        fill="#DE6AFC"></path>
+                      <path
+                        d="M3.54482346,1.46446845 C5.04075997,1.46446845 6.25335978,2.67706826 6.25335978,4.17300477 C6.25335978,5.66865098 5.04075997,6.88154109 3.54482346,6.88154109 C2.04888694,6.88154109 0.836287136,5.66865098 0.836287136,4.17300477 C0.836287136,2.67706826 2.04888694,1.46446845 3.54482346,1.46446845"
+                        fill="#80EDE9"></path>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </h3>
+
+            <div class="row">
+
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <label>Address:
+                    <fa name="question-circle" ngbTooltip="Address to check" placement="right"></fa>
+                  </label>
+
+                  <input type="text"
+                         class="form-control"
+                         (change)="onChangeAddress($event, 'checkShard')"
+                         [(ngModel)]="addressToCheck">
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="form-group ">
+                  <label>Shard
+                    <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
+                  </label>
+
+                  <input type="text"
+                         class="form-control -material -center -xl"
+                         [(ngModel)]="checkShard" readonly>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row pt-2">
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label>Amount
+                    <fa name="question-circle" ngbTooltip="The total balance of the address" placement="right"></fa>
+                  </label>
+
+                  <input type="text"
+                         class="form-control -material -xl"
+                         [(ngModel)]="balanceToCheck" readonly>
+                </div>
+              </div>
+
+              <div class="col-sm-3 ml-auto" style="padding-top: 30px">
+                <button type="button" class="btn btn-info btn-block"
+                        [disabled]="!addressToCheck || isCheckDisabled" (click)="checkBalance($event)">Check
+                </button>
+              </div>
+            </div>
+
+
+          </ng-template>
+        </ngb-tab>
+
+      </ngb-tabset>
     </div>
 
   </div>
 
 </div><!-- .end step-body -->
 
-<div class="no-message text-center" style="display: flex; flex: 1; justify-content: center; align-items: center;width: 100%; height: 100%;" *ngIf="!isNodeStarted">
+<div class="no-message text-center"
+     style="display: flex; flex: 1; justify-content: center; align-items: center;width: 100%; height: 100%;"
+     *ngIf="!isNodeStarted">
   <h2>Node is not started</h2>
 </div>
+
+<span class="circle-bottom-right circle-large circle-graphic circle-light-blue"></span>

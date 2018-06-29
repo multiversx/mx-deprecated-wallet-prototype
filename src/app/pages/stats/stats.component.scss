@@ -1,48 +1,32 @@
+// Wallet page
+//
+
+// Vars
+//
+
+@import "../../../styles/base/variables";
+$border__color: #C6C6C6;
+
+// Base
+//
+
 :host {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  padding: 0 20px 10px;
-  font-size: 14px;
+  display: block;
+  margin-bottom: 140px;
+  position: relative;
+  height: calc(100% - 137px);
 
   h3 {
-    font-size:  15px;
-    margin: 0 0 5px;
-  }
-
-  strong {
-    font-weight: 400;
-  }
-
-  &,
-  .layout__row {
-    display: flex;
-    height: 100%;
-  }
-
-  .layout__item {
-    flex: 1;
-  }
-
-  .layout__row {
-    &.-column {
-      flex-direction: column;
-    }
-  }
-
-  ul {
-    display: block;
-    list-style: none;
-    padding: 0;
     margin: 0 0 15px;
-
-    li {
-      margin: 0 0 3px;
-    }
   }
 
-  .value-label {
-    color: blue;
+  .container-fluid {
+    padding: 40px $content__padding 0;
+    height: 100%;
+
+    &.-right {
+      padding-right: 20px;
+    }
   }
 
   .chart-wrapper {
@@ -52,15 +36,19 @@
     height: 100%;
   }
 
-  // Columns
-  //
+  .live-list {
+    margin: 0 0 25px;
+    padding: 0;
+    list-style: none;
+    font-size: (12/16 + rem);
 
-  .-left {
-    padding-right: 15px;
-  }
+    li {
+      padding: 0;
+      color: #666;
+    }
 
-  .-right {
-    padding-left: 15px;
-    position: relative;
+    .value-label {
+      color: $brand-blue;
+    }
   }
 }

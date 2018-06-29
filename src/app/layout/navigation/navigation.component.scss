@@ -4,7 +4,7 @@
 // Vars
 // -----------------------
 
-$menu__button: #4F4F4F;
+$menu__button: #525252;
 $menu__button--active: #fff;
 $menu__button-bg--active: #4F4F4F;
 
@@ -34,15 +34,15 @@ $menu__button-bg--active: #4F4F4F;
     }
 
     &__menu-item {
-      display: block;
-      padding: 0 15px 0 58px;
-      height: 50px;
-      line-height: 50px;
-      font-size: (12/16 + rem);
+      display: flex;
+      padding: 49px 0 0;
+      height: 80px;
+      font-size: (11/16 + rem);
       color: $menu__button;
       transition: all 0.3s;
-      background-image: linear-gradient(-180deg, #FDFDFD 10%, #F9F9F9 75%);
       position: relative;
+      justify-content: center;
+      background-image: linear-gradient(-180deg, #FDFDFD 10%, #F9F9F9 75%);
 
       &,
       &:hover {
@@ -51,24 +51,34 @@ $menu__button-bg--active: #4F4F4F;
 
       .icon {
         position: absolute;
-        top: 50%;
-        left: 25px;
-        transform: translateY(-50%);
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
         line-height: 0;
       }
 
+      .menu-icon {
+        fill: #525252;
+      }
+
+      .menu-circle {
+        display: none;
+      }
+
       &.is-active {
-        background: $menu__button-bg--active;
-        color: $menu__button--active;
-
         svg {
-          * {
-            fill: #fff;
-          }
-
           .status-circle {
             fill: #6FD0DC;
           }
+        }
+
+        .menu-circle {
+          fill: #505050;
+          display: block;
+        }
+
+        .menu-icon {
+          fill: #fff;
         }
       }
 

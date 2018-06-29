@@ -8,6 +8,9 @@ body {
 }
 
 body {
+  @extend %font__primary;
+
+  color: #4F4F4F;
   font-size: 16px;
   line-height: 1.4;
   margin: 0;
@@ -17,4 +20,68 @@ body {
 .btn-icon {
   line-height: 0;
   padding: 0 10px;
+}
+
+// Helper
+//
+
+.circle-light-blue {
+  background: rgba(#6CCAD6, 0.33);
+}
+
+.circle-purple {
+  background: #C31A8C;
+}
+
+.circle-graphic {
+  position: absolute;
+  border-radius: 50%;
+  display: block;
+}
+
+.circle-large {
+  width: 393px;
+  height: 393px;
+}
+
+.circle-top-left {
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.circle-top-right {
+  background: #48C7EF;
+  width: 121px;
+  height: 121px;
+  top: 52px;
+  right: 126px;
+}
+
+.circle-bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 050%);
+}
+
+.circle-bottom-left {
+  background: #6D55A7;
+  width: 105px;
+  height: 105px;
+  bottom: 105px;
+  left: 132px;
+}
+
+.circle-top-right,
+.circle-bottom-left {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+}
+
+// Spacing
+//
+
+.mb-30 {
+  margin-bottom: 30px !important;
 }

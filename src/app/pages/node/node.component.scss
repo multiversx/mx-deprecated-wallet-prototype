@@ -1,70 +1,199 @@
+// Node page
+//
+
+// Vars
+//
+
 @import "../../../styles/base/variables";
+$border__color: #C6C6C6;
+
+
+// Base
+//
 
 :host {
   display: block;
-  height: 100%;
+  margin-bottom: 140px;
+  position: relative;
+  height: calc(100% - 137px);
 
-  h3 {
-    font-size: 16px;
-    line-height: 18px;
-    margin: 0 0 10px;
+  .container-fluid {
+    padding: 40px $content__padding 0;
+    height: 100%;
+
+    &.align-middle {
+      padding-top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 
-  .table {
-    table-layout: fixed;
+  .aw-wizard-footer {
+    position: relative;
+    z-index: 100;
 
-    th {
-      font-size: 10px;
+    &.-bottom {
+      position: absolute;
+      bottom: 50px;
+      right: 35px;
+
+      .btn {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .result-item {
+    border-bottom: 1px solid $border__color;
+    padding-bottom: 10px;
+    margin: 0 0 19px;
+
+    &.-no-border {
+      border-bottom: 0;
+      padding: 0;
+    }
+
+    &.-multiple {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+
+      p {
+        display: table-cell;
+        vertical-align: top;
+      }
+    }
+
+    label,
+    p {
+      font-size: (12/16 + rem);
+      line-height: 1;
+    }
+
+    label {
+      display: block;
       text-transform: uppercase;
-      padding: 5px;
-      border: 0;
+      margin: 0 0 10px;
     }
 
-    td {
-      padding: 5px;
-      font-size: 14px;
+    p {
+      font-family: $font__family--secondary;
+      font-weight: 600;
+      margin: 0;
     }
 
-    .sm {
-      width: 80px;
-    }
-
-    .xs {
-      width: 50px;
+    input {
+      //padding-top: 0;
+      height: 22px;
     }
   }
 
   // Wizard
   //
 
-  aw-wizard {
-    height: 100%;
-  }
-
-  aw-wizard-step {
-    padding-top: 5px;
-  }
-
-  .aw-wizard-footer {
-    position: absolute;
-    bottom: 20px;
-    right: 0;
-  }
-
   ::ng-deep {
-    aw-wizard-navigation-bar {
+    aw-wizard {
+      height: 100%;
 
-      ul.steps-indicator {
-        li.current:after,
-        li.editing:after {
-          background-color: deepskyblue !important;
-        }
+      .wizard-steps {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
       }
 
-    }
+      aw-wizard-navigation-bar.horizontal {
+        background: #FFFFFF;
+        box-shadow: 0 2px 10px 0 rgba(216,216,216,0.50);
+        padding-left: 35px;
 
-    .ng-select.ng-select-disabled>.ng-select-container {
-      background-color: #e9ecef;
+        &.small {
+          ul.steps-indicator {
+            padding: 0;
+          }
+        }
+
+        ul.steps-indicator {
+          height: 50px;
+          justify-content: flex-start;
+          align-items: center;
+
+          li {
+            width: auto;
+            padding: 0 0 0 14px;
+            position: relative;
+            margin-right: 55px;
+
+            &.current {
+              &::after {
+                background-color: $brand-blue;
+              }
+
+              a {
+                color: $brand-primary;
+                font-family: 'Nexa-Bold', Helvetica, sans-serif;
+                font-weight: normal;
+              }
+            }
+
+            &.done {
+              &::after {
+                background-color: $brand-primary;
+              }
+
+              a {
+                color: $brand-primary;
+              }
+            }
+
+            &::before {
+              display: none;
+            }
+
+            &:after {
+              width: 5px;
+              height: 5px;
+              display: block;
+              margin-right: 9px;
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateY(-50%);
+              opacity: 1;
+            }
+
+            &::after,
+            &.optional::after {
+              background-color: #CBCBCB;
+            }
+
+            a {
+              color: #CBCBCB;
+              font-size: 12px;
+              line-height: 1;
+              text-transform: capitalize;
+              padding-top: 3px;
+            }
+          }
+        }
+
+      }
     }
   }
+}
+
+// Start node
+//
+
+.start-node {
+  margin: 0 0 70px;
+}
+
+// Helper
+//
+
+.pt-40 {
+  padding-top: 20px;
 }

@@ -1,0 +1,64 @@
+// Buttons
+// =========================
+
+// Vars
+// -------------------------
+
+$btn__primary--bg: $brand-primary;
+$btn__info--bg: $brand-blue;
+$btn__success--bg: $brand-green;
+
+// Mixin
+//
+
+@mixin make-button($background, $color) {
+  background: $background;
+  color: $color;
+
+  &:hover,
+  &:focus {
+    background: rgba($background, 0.5);
+    box-shadow: none;
+    color: $color;
+  }
+}
+
+// Base
+// -------------------------
+
+.btn {
+  @extend %font__primary--bold;
+
+  border: 0;
+  box-shadow: none;
+  border-radius: 44px;
+  padding: 14px 21px 13px;
+  min-width: 120px;
+  font-size: 13px;
+  line-height: 1;
+  text-align: center;
+
+  &[disabled] {
+    opacity: 0.25;
+  }
+}
+
+// Button variation
+//
+
+.btn-primary {
+  background: $btn__primary--bg;
+  @include make-button($btn__primary--bg, #ffffff);
+}
+
+.btn-info {
+  @include make-button($btn__info--bg, #ffffff);
+}
+
+.btn-success {
+  @include make-button($btn__success--bg, #ffffff);
+}
+
+.btn-back {
+  opacity: 0.5;
+}

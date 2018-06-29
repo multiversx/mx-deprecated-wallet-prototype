@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="8px" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="UI-Node-Progress-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="11.Node-NodeType-JoinAsAPeer" transform="translate(-689.000000, -138.000000)" fill="#A6A6A6" fill-rule="nonzero">
+            <path d="M695.588747,145.248141 C695.750773,145.236554 695.904243,145.171007 696.024646,145.061968 L701.836647,139.831171 C702.029725,139.657603 702.115529,139.394209 702.061735,139.140219 C702.00794,138.886229 701.822721,138.680237 701.575856,138.599849 C701.328991,138.51946 701.057991,138.57689 700.864953,138.750502 L695.538793,143.545398 L690.212646,138.750502 C690.019614,138.576846 689.748591,138.519384 689.501699,138.599768 C689.254806,138.680153 689.069567,138.886167 689.015779,139.140183 C688.961992,139.3942 689.047831,139.657614 689.240952,139.831171 L695.052953,145.061968 C695.198951,145.194055 695.392302,145.261239 695.588747,145.248141 Z" id="Shape" transform="translate(695.538761, 141.906904) scale(-1, 1) translate(-695.538761, -141.906904) "></path>
+        </g>
+    </g>
+</svg>

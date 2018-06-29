@@ -5,14 +5,12 @@
   position: relative;
   height: 100%;
   overflow: hidden;
+  margin-left: $sidebar-width;
+  height: 100%;
 
   .app-main {
-    position: absolute;
-    top: 0;
-    bottom: 140px;
-    left: $sidebar-width;
-    padding: 10px 0;
-    width: calc(100% - #{$sidebar-width});
-    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
   }
 }
