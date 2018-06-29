@@ -165,7 +165,6 @@ export class StatsComponent implements OnInit, AfterViewInit {
   getStats() {
     setInterval(() => {
       this.apiService.getStats().subscribe(results => {
-        console.log(results);
 
         const cDataSet = [];
         let peakTpsSum = 0;
@@ -205,13 +204,15 @@ export class StatsComponent implements OnInit, AfterViewInit {
           );
         }
 
+        const globalData = (this.chartDatasets[2] && this.chartDatasets[2].data) ? this.chartDatasets[2].data : initialData;
+
         cDataSet.push(
           {
-            data: this.addData(initialData, liveTpsSum),
+            data: this.addData(globalData, liveTpsSum),
             label: `Global`,
             lineTension: 0,
             pointRadius: 4,
-            hidden: visibleChartIndex[3]
+            hidden: visibleChartIndex[1]
           }
         );
 
