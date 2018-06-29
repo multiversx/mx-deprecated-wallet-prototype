@@ -48,9 +48,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
   public chartType = 'line';
   public chartLegend = true;
   public chartLabels: string[] = ['t-11', 't-10', 't-9', 't-8', 't-7', 't-6', 't-5', 't-4', 't-3', 't-2', 't-1', 't'];
-  public chartDatasets: any[] = [
-    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Live TPS', hidden: false}
-  ];
+  public chartDatasets: any[] = [];
 
   public receiver = {
     address: '',
@@ -140,28 +138,37 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
   getStats() {
     setInterval(() => {
-      console.log('chart', this.statsChart);
+      this.apiService.getStats().subscribe(results => {
+        console.table(results);
+        const cDataSet = [];
 
-      this.apiService.getStats().subscribe(result => {
-        this.stats.activeNodes = result.activeNodes;
-        this.stats.nrShards = result.nrShards;
-        this.stats.averageRoundTime = (result.averageRoundTime / 1000).toString();
-        this.stats.liveRoundTime = (result.liveRoundTime / 1000).toString();
-        this.stats.totalNrProcessedTransactions = result.totalNrProcessedTransactions;
-        this.stats.averageNrTxPerBlock = result.averageNrTxPerBlock;
-        this.stats.liveTps = Number(result.liveTps).toFixed(2);
-        this.stats.peakTps = Number(result.peakTps).toFixed(2);
-        this.stats.liveNrTransactionsPerBlock = result.liveNrTransactionsPerBlock;
+        for (let i = 0; i < results.length; i++) {
+          const result = results[i];
 
-        this.chartDatasets = [
-          {
-            data: this.addData(this.chartDatasets[0].data, result.liveTps),
-            label: 'Live TPS',
+          this.stats.activeNodes = result.activeNodes;
+          this.stats.nrShards = result.nrShards;
+          this.stats.averageRoundTime = (result.averageRoundTime / 1000).toString();
+          this.stats.liveRoundTime = (result.liveRoundTime / 1000).toString();
+          this.stats.totalNrProcessedTransactions = result.totalNrProcessedTransactions;
+          this.stats.averageNrTxPerBlock = result.averageNrTxPerBlock;
+          this.stats.liveTps = Number(result.liveTps).toFixed(2);
+          this.stats.peakTps = Number(result.peakTps).toFixed(2);
+          this.stats.liveNrTransactionsPerBlock = result.liveNrTransactionsPerBlock;
+
+          const initialData =  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+          const cData = (this.chartDatasets[i] && this.chartDatasets[i].data) ? this.chartDatasets[i].data :  initialData;
+
+          cDataSet.push({
+            data: this.addData(cData, result.liveTps),
+            label: `Live TPS ${i}`,
             lineTension: 0,
             pointRadius: 4,
-            hidden: visibleChartIndex[0]
-          },
-        ];
+            hidden: visibleChartIndex[i]
+          });
+        }
+
+        this.chartDatasets = cDataSet;
       });
     }, 2000);
 

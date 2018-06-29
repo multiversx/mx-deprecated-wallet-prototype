@@ -154,7 +154,7 @@
           </ul>
         </div>
       </div>
-      <div class="chart-wrapper" *ngIf="chartDatasets.length > 0">
+      <div class="chart-wrapper" *ngIf="chartDatasets && chartDatasets.length > 0">
         <canvas #statsChart baseChart
                 [datasets]="chartDatasets"
                 [labels]="chartLabels"

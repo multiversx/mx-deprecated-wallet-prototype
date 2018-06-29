@@ -51,6 +51,8 @@ export class LoggerComponent implements OnInit {
     const newLine = '\n';
 
     const stompClient = Stomp.over(new SockJS(this.url));
+    stompClient.debug = null;
+
     stompClient.connect({}, function (frame) {
 
       stompClient.subscribe('/topic/public', (message) => {
