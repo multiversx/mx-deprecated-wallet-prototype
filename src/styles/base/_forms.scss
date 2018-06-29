@@ -8,6 +8,7 @@ $input__height: 40px;
 $input__border-radius: 44px;
 $input__bg--focus: #F7F7F7;
 $input__border--focus: #45C2F4;
+$input__box-shadow: 0 0 10px 2px #D3EFFA;
 
 // Base
 // -------------------------
@@ -52,6 +53,7 @@ $input__border--focus: #45C2F4;
   &:focus {
     background: $input__bg--focus;
     border-color: $input__border--focus;
+    box-shadow: $input__box-shadow;
   }
 
   // Variation
@@ -68,6 +70,10 @@ $input__border--focus: #45C2F4;
     padding-left: 0;
     padding-top: 0;
     height: 22px;
+
+    &.-xl {
+      height: 40px;
+    }
 
     &:focus {
       background: none;

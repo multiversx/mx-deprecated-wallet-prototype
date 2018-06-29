@@ -1,0 +1,100 @@
+// Tabs
+//
+
+// Vars
+//
+
+$tab__border: #DADADA;
+$tab__border-radius: 5px;
+$tab__item: #BCBCBC;
+
+// Base
+//
+
+ngb-tabset {
+  background: #fff;
+  display: block;
+  border: 1px solid $tab__border;
+  border-radius: $tab__border-radius;
+  position: relative;
+  z-index: 10;
+
+  .nav-tabs {
+    display: flex;
+    flex-direction: row;
+    background: #fff;
+    height: 67px;
+    border-bottom: 1px solid $tab__border;
+    border-top-right-radius: $tab__border-radius;
+    border-top-left-radius: $tab__border-radius;
+    justify-content: center;
+
+    .nav-item {
+      flex: 0 0 33.33%;
+      margin: 0;
+      position: relative;
+
+      a {
+        @extend %font__primary--bold;
+
+        border: 0;
+        color: $tab__item;
+        display: flex;
+        padding: 0;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        &.active {
+          color: $brand-blue;
+
+          svg * {
+            fill: $brand-blue;
+          }
+        }
+
+        .tab-label {
+          font-size: (12/16 + rem);
+          line-height: 1;
+          display: inline-block;
+          position: relative;
+          padding-left: 35px;
+          padding-top: 4px;
+          line-height: 22px;
+        }
+      }
+
+      svg {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+
+        * {
+          fill: #C4C4C4;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    padding: 25px 30px 45px;
+  }
+
+  .tab-title {
+    @extend %font__primary;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 30px;
+    font-size: 22px;
+
+    svg {
+      width: 27px;
+      height: 27px;
+    }
+  }
+}

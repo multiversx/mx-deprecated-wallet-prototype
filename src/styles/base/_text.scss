@@ -30,6 +30,12 @@ h6 {
   margin: 0 0 20px;
 }
 
+.h3 {
+  font-size: (18/16 + rem);
+  line-height: 1;
+  margin: 0 0 20px;
+}
+
 p,
 li {
   font-size: (14/16 + rem);
@@ -46,4 +52,8 @@ h1 {
 
 h2 {
   @extend .h2;
+}
+
+h3 {
+  @extend .h3;
 }

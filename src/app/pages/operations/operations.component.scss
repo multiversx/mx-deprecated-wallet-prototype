@@ -1,9 +1,29 @@
-:host {
-  padding: 10px 0 0;
+// Wallet page
+//
 
-  h3 {
-    font-size: 16px;
-    line-height: 18px;
-    margin: 0 0 10px;
+// Vars
+//
+
+@import "../../../styles/base/variables";
+$border__color: #C6C6C6;
+
+// Base
+//
+
+:host {
+  display: block;
+  margin-bottom: 140px;
+  position: relative;
+  height: calc(100% - 137px);
+  position: relative;
+
+  .container-fluid {
+    padding: 40px $content__padding 0;
+    height: 100%;
+  }
+
+  .display-4 {
+    font-size: 22px;
+    margin-bottom: 20px;
   }
 }

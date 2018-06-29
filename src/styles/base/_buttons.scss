@@ -37,6 +37,10 @@ $btn__success--bg: $brand-green;
   font-size: 13px;
   line-height: 1;
   text-align: center;
+
+  &[disabled] {
+    opacity: 0.25;
+  }
 }
 
 // Button variation
@@ -45,10 +49,6 @@ $btn__success--bg: $brand-green;
 .btn-primary {
   background: $btn__primary--bg;
   @include make-button($btn__primary--bg, #ffffff);
-
-  &[disabled] {
-    opacity: 0.75;
-  }
 }
 
 .btn-info {
