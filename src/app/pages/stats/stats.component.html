@@ -37,16 +37,16 @@
               <div class="row">
                 <div class="col-sm-6">
                   <ul class="live-list">
-                    <li>
-                      Average Round time(seconds): <span class="value-label">{{shardDataList[0].averageRoundTime}}</span>
+                    <li *ngIf="shardDataList && shardDataList[0].averageRoundTime">
+                      Average Round time(seconds): <span class="value-label" >{{shardDataList[0].averageRoundTime}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[0].peakTps">
                       Peak TPS: <span class="value-label">{{shardDataList[0].peakTps}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[0].liveTps">
                       Live TPS: <span class="value-label">{{shardDataList[0].liveTps}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[0].totalNrProcessedTransactions">
                       Tx: <span class="value-label">{{shardDataList[0].totalNrProcessedTransactions}}</span>
                     </li>
                   </ul>
@@ -54,15 +54,15 @@
 
                 <div class="col-sm-6">
                   <ul class="live-list">
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[0].liveRoundTime">
                       Live Round time(seconds):
                       <span class="value-label">{{shardDataList[0].liveRoundTime}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[0].averageNrTxPerBlock">
                       Average Transactions / Block:
                       <span class="value-label">{{shardDataList[0].averageNrTxPerBlock}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[0].liveNrTransactionsPerBlock">
                       Transactions / Last Block:
                       <span class="value-label">{{shardDataList[0].liveNrTransactionsPerBlock}}</span>
                     </li>
@@ -81,16 +81,16 @@
               <div class="row">
                 <div class="col-sm-6">
                   <ul class="live-list">
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[1].averageRoundTime">
                       Average Round time(seconds): <span class="value-label">{{shardDataList[1].averageRoundTime}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[1].peakTps">
                       Peak TPS: <span class="value-label">{{shardDataList[1].peakTps}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[1].liveTps">
                       Live TPS: <span class="value-label">{{shardDataList[1].liveTps}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[1].totalNrProcessedTransactions">
                       Tx: <span class="value-label">{{shardDataList[1].totalNrProcessedTransactions}}</span>
                     </li>
                   </ul>
@@ -98,15 +98,15 @@
 
                 <div class="col-sm-6">
                   <ul class="live-list">
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[1].liveRoundTime">
                       Live Round time(seconds):
                       <span class="value-label">{{shardDataList[1].liveRoundTime}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[1].averageNrTxPerBlock">
                       Average Transactions / Block:
                       <span class="value-label">{{shardDataList[1].averageNrTxPerBlock}}</span>
                     </li>
-                    <li>
+                    <li *ngIf="shardDataList && shardDataList[1].liveNrTransactionsPerBlock">
                       Transactions / Last Block:
                       <span class="value-label">{{shardDataList[1].liveNrTransactionsPerBlock}}</span>
                     </li>

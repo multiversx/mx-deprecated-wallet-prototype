@@ -165,6 +165,8 @@ export class StatsComponent implements OnInit, AfterViewInit {
   getStats() {
     setInterval(() => {
       this.apiService.getStats().subscribe(results => {
+        console.log(results);
+
         const cDataSet = [];
         let peakTpsSum = 0;
         let liveTpsSum = 0;
@@ -177,8 +179,8 @@ export class StatsComponent implements OnInit, AfterViewInit {
             liveRoundTime: (result.liveRoundTime / 1000).toString(),
             totalNrProcessedTransactions: result.totalNrProcessedTransactions,
             averageNrTxPerBlock: result.averageNrTxPerBlock,
-            liveTps: Number(result.liveTps).toFixed(2),
-            peakTps: Number(result.peakTps).toFixed(2),
+            liveTps: Number(result.liveTps).toFixed(0),
+            peakTps: Number(result.peakTps).toFixed(0),
             liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock,
           };
         });
@@ -214,8 +216,8 @@ export class StatsComponent implements OnInit, AfterViewInit {
         );
 
         this.global.activeNodes = results[0].shardActiveNodes + results[1].shardActiveNodes;
-        this.global.peakTps = peakTpsSum;
-        this.global.liveTps = liveTpsSum;
+        this.global.peakTps = Math.floor(peakTpsSum);
+        this.global.liveTps = Math.floor(liveTpsSum);
 
         this.chartDatasets = cDataSet;
       });
