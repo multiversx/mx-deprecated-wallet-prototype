@@ -214,8 +214,8 @@ export class StatsComponent implements OnInit, AfterViewInit {
         );
 
         this.global.activeNodes = results[0].shardActiveNodes + results[1].shardActiveNodes;
-        this.global.peakTps = Number(peakTpsSum).toFixed(0);
-        this.global.liveTps = Number(liveTpsSum).toFixed(0);
+        this.global.peakTps = peakTpsSum;
+        this.global.liveTps = liveTpsSum;
 
         this.chartDatasets = cDataSet;
       });
