@@ -1,4 +1,15 @@
+// Node page
+//
+
+// Vars
+//
+
 @import "../../../styles/base/variables";
+$border__color: #C6C6C6;
+
+
+// Base
+//
 
 :host {
   display: block;
@@ -8,11 +19,81 @@
   position: relative;
 
   .container-fluid {
-    padding: 0 $content__padding;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 40px $content__padding 0;
     height: 100%;
+
+    &.align-middle {
+      padding-top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  .aw-wizard-footer {
+    position: relative;
+    z-index: 100;
+
+    &.-bottom {
+      position: absolute;
+      bottom: 50px;
+      right: 35px;
+
+      .btn {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .result-item {
+    border-bottom: 1px solid $border__color;
+    padding-bottom: 10px;
+    margin: 0 0 19px;
+
+    &.-no-border {
+      border-bottom: 0;
+      padding: 0;
+    }
+
+    &.-multiple {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+
+      p {
+        display: table-cell;
+        vertical-align: top;
+      }
+    }
+
+    label,
+    p {
+      font-size: (12/16 + rem);
+      line-height: 1;
+    }
+
+    label {
+      display: block;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+
+    p {
+      font-family: $font__family--secondary;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    input {
+      //padding-top: 0;
+      height: 22px;
+    }
+  }
+
+  h3 {
+    font-size: (18/16 + rem);
+    line-height: 1;
+    margin: 0 0 20px;
   }
 
   // Wizard
@@ -115,4 +196,11 @@
 
 .start-node {
   margin: 0 0 70px;
+}
+
+// Helper
+//
+
+.pt-40 {
+  padding-top: 20px;
 }

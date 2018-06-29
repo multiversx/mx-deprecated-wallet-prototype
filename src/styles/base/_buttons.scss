@@ -45,6 +45,10 @@ $btn__success--bg: $brand-green;
 .btn-primary {
   background: $btn__primary--bg;
   @include make-button($btn__primary--bg, #ffffff);
+
+  &[disabled] {
+    opacity: 0.75;
+  }
 }
 
 .btn-info {
@@ -53,4 +57,8 @@ $btn__success--bg: $brand-green;
 
 .btn-success {
   @include make-button($btn__success--bg, #ffffff);
+}
+
+.btn-back {
+  opacity: 0.5;
 }

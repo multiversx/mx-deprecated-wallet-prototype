@@ -1,6 +1,6 @@
 <aw-wizard #WizardComponent [disableNavigationBar]="isNavigationDisabled()" [defaultStepIndex]="getDefaultStep()">
   <aw-wizard-step awOptionalStep stepTitle="Intro" (stepEnter)="onStepEnter($event)">
-    <div class="step-body container-fluid">
+    <div class="step-body container-fluid align-middle">
       <div class="start-node">
         <h2>Setup Wizard for Elrond Network Node</h2>
 
@@ -29,7 +29,7 @@
 
     <div class="step-body container-fluid">
 
-      <div class="row justify-content-md-center">
+      <div class="row">
 
         <div class="col-md-8">
 
@@ -71,12 +71,12 @@
                 </div>
 
                 <div class="col-md-6" style="padding-top: 30px">
-                  <button class="btn btn-info btn-sm mr-2" [disabled]="node.instancePort === '' || node.instanceIp === ''"
+                  <button class="btn btn-info btn-block" [disabled]="node.instancePort === '' || node.instanceIp === ''"
                           (click)="pingLocal()">Test
                   </button>
 
-                  <fa name="question-circle" ngbTooltip="Test to detect if your ip is reachable and your port is open."
-                      placement="right"></fa>
+                  <!--<fa name="question-circle" ngbTooltip="Test to detect if your ip is reachable and your port is open."-->
+                  <!--placement="right"></fa>-->
                 </div>
               </div>
             </div>
@@ -98,31 +98,35 @@
             </div>
           </div>
 
-          <div class="form-row" *ngIf="node.selectedNodeType === 2">
-            <div class="form-group col-md-6">
-              <label>Peer IP
-                <fa name="question-circle" ngbTooltip="IP of the peer machine" placement="right"></fa>
-              </label>
-              <input type="text"
-                     class="form-control"
-                     autofocus
-                     [dropSpecialCharacters]="false"
-                     mask="099.099.099.099"
-                     [(ngModel)]="node.peerIp">
+          <div class="row" *ngIf="node.selectedNodeType === 2">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label>Peer IP
+                  <fa name="question-circle" ngbTooltip="IP of the peer machine" placement="right"></fa>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       autofocus
+                       [dropSpecialCharacters]="false"
+                       mask="099.099.099.099"
+                       [(ngModel)]="node.peerIp">
+              </div>
             </div>
 
-            <div class="form-group col-md-2">
-              <label>Peer Port
-                <fa name="question-circle" ngbTooltip="Port on the peer machine" placement="right"></fa>
-              </label>
-              <input type="text"
-                     class="form-control"
-                     mask="000000"
-                     [(ngModel)]="node.peerPort">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Peer Port
+                  <fa name="question-circle" ngbTooltip="Port on the peer machine" placement="right"></fa>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       mask="000000"
+                       [(ngModel)]="node.peerPort">
+              </div>
             </div>
 
-            <div class="col-md-4" style="padding-top: 30px;">
-              <button type="button" class="btn btn-primary btn-sm mr-2"
+            <div class="col-md-2" style="padding-top: 30px;">
+              <button type="button" class="btn btn-info btn-block"
                       [disabled]="node.peerPort === '' || node.peerIp === ''" (click)="pingPeer()">Test
               </button>
             </div>
@@ -132,19 +136,19 @@
 
       </div>
 
-    </div><!-- .end step-body -->
+      <div class="aw-wizard-footer -bottom">
+        <button type="button" class="btn btn-primary btn-back" awPreviousStep>Back</button>
+        <button type="button" class="btn btn-primary" [disabled]="!canGoNext(1)" awNextStep>Continue</button>
+      </div>
 
-    <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-secondary mr-2" awPreviousStep>Back</button>
-      <button type="button" class="btn btn-dark" [disabled]="!canGoNext(1)" awNextStep>Next</button>
-    </div>
+    </div><!-- .end step-body -->
 
   </aw-wizard-step>
 
   <aw-wizard-step awOptionalStep stepTitle="Keys" (stepEnter)="onStepEnter($event)">
 
     <div class="step-body container-fluid">
-      <div class="row justify-content-md-center">
+      <div class="row">
         <div class="col-md-8">
           <div class="form-group">
             <label>Key Source
@@ -163,7 +167,7 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group mb-30">
             <label>
               Private key
               <fa name="question-circle" ngbTooltip="This is your private key, keep it safe" placement="right"></fa>
@@ -174,104 +178,135 @@
                    [readonly]="node.selectedPKSource !== 1">
           </div>
 
-          <div class="form-group">
-            <label>
-              Public key
-              <fa name="question-circle" ngbTooltip="This is your public key, also used as an address for transactions."
-                  placement="right"></fa>
-            </label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="node.publicKey"
-                   readonly>
+          <div class="form-group mb-30">
+            <button class="btn btn-info" (click)="generatePublicKeyAndPrivateKey()" *ngIf="node.selectedPKSource === 2">
+              Generate
+              Keys
+            </button>
+
+            <button class="btn btn-info" (click)="generatePublicKeyAndPrivateKey(node.privateKey)" *ngIf="node.selectedPKSource === 1">
+              Generate Public Key
+            </button>
           </div>
 
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <label>
-                Allocated shard
-                <fa name="question-circle" ngbTooltip="Initially every address is allocated in a shard."
-                    placement="right"></fa>
-              </label>
-              <input type="text"
-                     class="form-control"
-                     [(ngModel)]="node.allocatedShard"
-                     readonly>
+          <div class="row">
+            <div class="col-md-10">
+              <div class="form-group">
+                <label>
+                  Public key
+                  <fa name="question-circle" ngbTooltip="This is your public key, also used as an address for transactions."
+                      placement="right"></fa>
+                </label>
+                <input type="text"
+                       class="form-control -material"
+                       [(ngModel)]="node.publicKey"
+                       readonly>
+              </div>
             </div>
 
-            <div class="form-group col-md-4" style="padding-top: 30px">
-              <button class="btn btn-primary btn-sm" (click)="generatePublicKeyAndPrivateKey()"
-                      *ngIf="node.selectedPKSource === 2">
-                Generate
-                Keys
-              </button>
-
-              <button class="btn btn-primary btn-sm btn-block" (click)="generatePublicKeyAndPrivateKey(node.privateKey)"
-                      *ngIf="node.selectedPKSource === 1">
-                Generate Public Key
-              </button>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>
+                  Shard Nr.
+                  <fa name="question-circle" ngbTooltip="Initially every address is allocated in a shard."
+                      placement="right"></fa>
+                </label>
+                <input type="text"
+                       class="form-control -material -center"
+                       [(ngModel)]="node.allocatedShard"
+                       readonly>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div><!-- end .step-body -->
 
-    <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
-      <button type="button" class="btn btn-dark ml-2" [disabled]="!canGoNext(4)" awNextStep>Next</button>
-    </div>
+      <div class="aw-wizard-footer -bottom">
+        <button type="button" class="btn btn-secondary" awPreviousStep>Back</button>
+        <button type="button" class="btn btn-dark" [disabled]="!canGoNext(4)" awNextStep>Continue</button>
+      </div>
+    </div><!-- end .step-body -->
   </aw-wizard-step>
 
   <aw-wizard-completion-step awEnableBackLinks stepTitle="Summary" (stepEnter)="onStepEnter($event)">
-    <div class="step-body container">
-      <div class="row justify-content-md-center">
-        <div class="col-md-5 ml-auto">
+    <div class="step-body container-fluid">
+      <div class="row">
+        <div class="col-md-6">
           <h3>Instance setup</h3>
-          <p>Instance name: {{ node.instanceName }}</p>
+
+          <div class="result-item">
+            <label>Instance name</label>
+            <p>{{ node.instanceName }}</p>
+          </div>
 
           <div class="row">
             <div class="col-md-6">
-              <p>Instance IP: {{ node.instanceIp }}</p>
+              <div class="result-item">
+                <label>Instance IP</label>
+                <p>{{ node.instanceIp }}</p>
+              </div>
             </div>
             <div class="col-md-6">
-              <p>Instance Port: {{ node.instancePort }}</p>
+              <div class="result-item">
+                <label>Instance Port</label>
+                <p>{{ node.instancePort }}</p>
+              </div>
             </div>
           </div>
 
-          <h3>Keys</h3>
-          <p>Private key: {{ node.privateKey }}</p>
-          <p>Public key: {{ node.publicKey }}</p>
+          <h3 class="pt-40">Keys</h3>
+          <div class="result-item -no-border">
+            <label>Private key</label>
+            <input type="text" class="form-control -material" readonly value="{{ node.privateKey }}">
+          </div>
 
-          <p>Shard allocation: {{ node.allocatedShard }}</p>
+          <div class="row">
+            <div class="col-md-9">
+              <div class="result-item -no-border">
+                <label>Public key</label>
+                <input type="text" class="form-control -material" readonly value="{{ node.publicKey }}">
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="result-item -no-border">
+                <label>Shard Nr.</label>
+                <input type="text" class="form-control -material -center" readonly value="{{ node.allocatedShard  }}">
+              </div>
+            </div>
+          </div>
 
         </div>
 
         <div class="col-md-5 ml-auto">
           <h3>Node setup</h3>
 
-          <p *ngIf="node.selectedNodeType">Node type: {{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
+          <div class="result-item" *ngIf="node.selectedNodeType">
+            <label>Node type</label>
+            <p>{{ getSelectLabel('selectNodeTypes', 'selectedNodeType') }}</p>
+          </div>
 
           <ng-container *ngIf="node.selectedNodeType === 2">
-            <h3>Network peers</h3>
+            <h3 class="pt-40">Network peers</h3>
+            <div class="result-item -multiple">
+              <p *ngIf="node.peerIp">{{ node.peerIp }}</p>
 
-            <p *ngIf="node.peerIp">Peer IP: {{ node.peerIp }}</p>
-
-            <p *ngIf="node.peerPort">Peer Port: {{ node.peerPort }}</p>
+              <p *ngIf="node.peerPort">{{ node.peerPort }}</p>
+            </div>
           </ng-container>
         </div>
       </div>
 
+      <div class="aw-wizard-footer -bottom">
+        <button type="button" class="btn btn-primary btn-back" *ngIf="!this.isNodeStarted" awPreviousStep>Back</button>
+
+        <button type="button"
+                class="btn ml-2"
+                [ngClass]="this.isNodeStarted ? 'btn-primary' : 'btn-success'"
+                (click)="toggleNode()">{{toggleButtonText}} Node
+        </button>
+      </div>
     </div><!-- end .step-body -->
-
-    <div class="aw-wizard-footer text-right pr-4">
-      <button type="button" class="btn btn-secondary" *ngIf="!this.isNodeStarted" awPreviousStep>Back</button>
-
-      <button type="button"
-              class="btn ml-2"
-              [ngClass]="this.isNodeStarted ? 'btn-secondary' : 'btn-primary'"
-              (click)="toggleNode()">{{toggleButtonText}} Node
-      </button>
-    </div>
   </aw-wizard-completion-step>
 
 </aw-wizard>
