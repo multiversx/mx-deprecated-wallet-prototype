@@ -13,7 +13,6 @@ const visibleChartIndex = [false, false];
   styleUrls: ['./stats.component.scss']
 })
 export class StatsComponent implements OnInit, AfterViewInit {
-  self = this;
   public stats: Stats;
 
   public accountBalance = 0;
@@ -27,6 +26,33 @@ export class StatsComponent implements OnInit, AfterViewInit {
 
   public isSendDisabled = false;
   public isNodeStarted = false;
+  public shardDataList = [
+    {
+      averageRoundTime: 0,
+      liveRoundTime: 0,
+      totalNrProcessedTransactions: 0,
+      averageNrTxPerBlock: 0,
+      liveTps: 0,
+      peakTps: 0,
+      liveNrTransactionsPerBlock: 0,
+    },
+    {
+      averageRoundTime: 0,
+      liveRoundTime: 0,
+      totalNrProcessedTransactions: 0,
+      averageNrTxPerBlock: 0,
+      liveTps: 0,
+      peakTps: 0,
+      liveNrTransactionsPerBlock: 0,
+    }
+  ];
+
+  public global = {
+    activeNodes: 0,
+    nrShards: 0,
+    peakTps: 0,
+    liveTps: 0,
+  };
 
   // Chart
   //
@@ -139,34 +165,57 @@ export class StatsComponent implements OnInit, AfterViewInit {
   getStats() {
     setInterval(() => {
       this.apiService.getStats().subscribe(results => {
-        console.table(results);
         const cDataSet = [];
+        let peakTpsSum = 0;
+        let liveTpsSum = 0;
+        const initialData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        this.shardDataList = results.map((result) => {
+          return {
+            index: result.currentShardNumber,
+            averageRoundTime: (result.averageRoundTime / 1000).toString(),
+            liveRoundTime: (result.liveRoundTime / 1000).toString(),
+            totalNrProcessedTransactions: result.totalNrProcessedTransactions,
+            averageNrTxPerBlock: result.averageNrTxPerBlock,
+            liveTps: Number(result.liveTps).toFixed(2),
+            peakTps: Number(result.peakTps).toFixed(2),
+            liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock,
+          };
+        });
 
         for (let i = 0; i < results.length; i++) {
           const result = results[i];
 
-          this.stats.activeNodes = result.activeNodes;
-          this.stats.nrShards = result.nrShards;
-          this.stats.averageRoundTime = (result.averageRoundTime / 1000).toString();
-          this.stats.liveRoundTime = (result.liveRoundTime / 1000).toString();
-          this.stats.totalNrProcessedTransactions = result.totalNrProcessedTransactions;
-          this.stats.averageNrTxPerBlock = result.averageNrTxPerBlock;
-          this.stats.liveTps = Number(result.liveTps).toFixed(2);
-          this.stats.peakTps = Number(result.peakTps).toFixed(2);
-          this.stats.liveNrTransactionsPerBlock = result.liveNrTransactionsPerBlock;
+          const cData = (this.chartDatasets[i] && this.chartDatasets[i].data) ? this.chartDatasets[i].data : initialData;
 
-          const initialData =  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          this.global.nrShards = results[0].nrShards;
+          peakTpsSum = peakTpsSum + results[i].peakTps;
+          liveTpsSum = liveTpsSum + results[i].liveTps;
 
-          const cData = (this.chartDatasets[i] && this.chartDatasets[i].data) ? this.chartDatasets[i].data :  initialData;
+          cDataSet.push(
+            {
+              data: this.addData(cData, result.liveTps),
+              label: `Shard ${i}`,
+              lineTension: 0,
+              pointRadius: 4,
+              hidden: visibleChartIndex[i]
+            }
+          );
+        }
 
-          cDataSet.push({
-            data: this.addData(cData, result.liveTps),
-            label: `Live TPS ${i}`,
+        cDataSet.push(
+          {
+            data: this.addData(initialData, liveTpsSum),
+            label: `Global`,
             lineTension: 0,
             pointRadius: 4,
-            hidden: visibleChartIndex[i]
-          });
-        }
+            hidden: visibleChartIndex[3]
+          }
+        );
+
+        this.global.activeNodes = results[0].shardActiveNodes + results[1].shardActiveNodes;
+        this.global.peakTps = Number(peakTpsSum).toFixed(0);
+        this.global.liveTps = Number(liveTpsSum).toFixed(0);
 
         this.chartDatasets = cDataSet;
       });

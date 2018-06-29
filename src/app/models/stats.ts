@@ -5,8 +5,8 @@ export class Stats {
   liveRoundTime: string;
   totalNrProcessedTransactions: string;
   averageNrTxPerBlock: string;
-  liveTps: string;
-  peakTps: string;
+  liveTps: number;
+  peakTps: number;
   averageTps: string;
   liveNrTransactionsPerBlock: string;
 
@@ -17,8 +17,8 @@ export class Stats {
     stats.averageRoundTime = '0';
     stats.liveRoundTime = '0';
     stats.averageNrTxPerBlock = '0';
-    stats.liveTps = '0';
-    stats.peakTps = '0';
+    stats.liveTps = 0;
+    stats.peakTps = 0;
     stats.averageTps = '0';
     stats.liveNrTransactionsPerBlock = '0';
     stats.totalNrProcessedTransactions = '0';

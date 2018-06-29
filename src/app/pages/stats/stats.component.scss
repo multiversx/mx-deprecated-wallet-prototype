@@ -17,11 +17,11 @@ $border__color: #C6C6C6;
   height: calc(100% - 137px);
 
   h3 {
-    margin: 0 0 15px;
+    margin: 0 0 10px;
   }
 
   .container-fluid {
-    padding: 40px $content__padding 0;
+    padding: 15px $content__padding 0;
     height: 100%;
 
     &.-right {
@@ -32,7 +32,7 @@ $border__color: #C6C6C6;
   .chart-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -41,7 +41,7 @@ $border__color: #C6C6C6;
   }
 
   .live-list {
-    margin: 0 0 25px;
+    margin: 0;
     padding: 0;
     list-style: none;
     font-size: (12/16 + rem);

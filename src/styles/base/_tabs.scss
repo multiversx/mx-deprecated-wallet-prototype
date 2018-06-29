@@ -19,6 +19,18 @@ ngb-tabset {
   position: relative;
   z-index: 10;
 
+  &.tab--small {
+    margin: 0 0 15px;
+
+    .nav-tabs {
+      height: 30px;
+    }
+
+    .tab-content {
+      padding: 10px;
+    }
+  }
+
   .nav-tabs {
     display: flex;
     flex-direction: row;

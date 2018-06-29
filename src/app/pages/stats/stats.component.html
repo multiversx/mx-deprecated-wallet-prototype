@@ -1,40 +1,122 @@
 <div class="container-fluid -right" *ngIf="isNodeStarted">
   <div class="row">
     <div class="col-sm-7 pr-5">
-      <h3>Live Stats</h3>
+      <ng-container>
+        <h3>Live Stats</h3>
 
-      <div class="row">
-        <div class="col-sm-6">
-          <ul class="live-list">
-            <li>
-              Active Nodes: <span class="value-label">{{stats.activeNodes}}</span>
-            </li>
-            <li>
-              Shards: <span class="value-label">{{stats.nrShards}}</span>
-            </li>
-            <li>
-              Average Round time(seconds): <span class="value-label">{{stats.averageRoundTime}}</span>
-            </li>
-          </ul>
-        </div>
+        <ngb-tabset class="tab--small">
+          <ngb-tab>
+            <ng-template ngbTabTitle>
+              Global
+            </ng-template>
 
-        <div class="col-sm-6">
-          <ul class="live-list">
-            <li>
-              Live Round time(seconds):
-              <span class="value-label">{{stats.liveRoundTime}}</span>
-            </li>
-            <li>
-              Average Transactions / Block:
-              <span class="value-label">{{stats.averageNrTxPerBlock}}</span>
-            </li>
-            <li>
-              Transactions / Last Block:
-              <span class="value-label">{{stats.liveNrTransactionsPerBlock}}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+            <ng-template ngbTabContent>
+              <ul class="live-list">
+                <li>
+                  Active Nodes: <span class="value-label">{{global.activeNodes}}</span>
+                </li>
+                <li>
+                  Shards: <span class="value-label">{{global.nrShards}}</span>
+                </li>
+                <li>
+                  Global Peak TPS: <span class="value-label">{{global.peakTps}}</span>
+                </li>
+                <li>
+                  Global Live TPS: <span class="value-label">{{global.liveTps}}</span>
+                </li>
+              </ul>
+            </ng-template>
+          </ngb-tab>
+
+          <ngb-tab>
+            <ng-template ngbTabTitle>
+              Shard 0
+            </ng-template>
+
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-sm-6">
+                  <ul class="live-list">
+                    <li>
+                      Average Round time(seconds): <span class="value-label">{{shardDataList[0].averageRoundTime}}</span>
+                    </li>
+                    <li>
+                      Peak TPS: <span class="value-label">{{shardDataList[0].peakTps}}</span>
+                    </li>
+                    <li>
+                      Live TPS: <span class="value-label">{{shardDataList[0].liveTps}}</span>
+                    </li>
+                    <li>
+                      Tx: <span class="value-label">{{shardDataList[0].totalNrProcessedTransactions}}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="col-sm-6">
+                  <ul class="live-list">
+                    <li>
+                      Live Round time(seconds):
+                      <span class="value-label">{{shardDataList[0].liveRoundTime}}</span>
+                    </li>
+                    <li>
+                      Average Transactions / Block:
+                      <span class="value-label">{{shardDataList[0].averageNrTxPerBlock}}</span>
+                    </li>
+                    <li>
+                      Transactions / Last Block:
+                      <span class="value-label">{{shardDataList[0].liveNrTransactionsPerBlock}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+
+          <ngb-tab>
+            <ng-template ngbTabTitle>
+              Shard 1
+            </ng-template>
+
+            <ng-template ngbTabContent>
+              <div class="row">
+                <div class="col-sm-6">
+                  <ul class="live-list">
+                    <li>
+                      Average Round time(seconds): <span class="value-label">{{shardDataList[1].averageRoundTime}}</span>
+                    </li>
+                    <li>
+                      Peak TPS: <span class="value-label">{{shardDataList[1].peakTps}}</span>
+                    </li>
+                    <li>
+                      Live TPS: <span class="value-label">{{shardDataList[1].liveTps}}</span>
+                    </li>
+                    <li>
+                      Tx: <span class="value-label">{{shardDataList[1].totalNrProcessedTransactions}}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="col-sm-6">
+                  <ul class="live-list">
+                    <li>
+                      Live Round time(seconds):
+                      <span class="value-label">{{shardDataList[1].liveRoundTime}}</span>
+                    </li>
+                    <li>
+                      Average Transactions / Block:
+                      <span class="value-label">{{shardDataList[1].averageNrTxPerBlock}}</span>
+                    </li>
+                    <li>
+                      Transactions / Last Block:
+                      <span class="value-label">{{shardDataList[1].liveNrTransactionsPerBlock}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </ng-container>
 
       <h3>Benchmark</h3>
 
@@ -138,21 +220,7 @@
 
     <div class="col-sm-5 col-chart">
       <div class="chart-header">
-        <h3>TPS chart</h3>
-
-        <div class="chart-stats">
-          <ul class="live-list">
-            <li>
-              Peak TPS: <span class="value-label">{{stats.peakTps}}</span>
-            </li>
-            <li>
-              Live TPS: <span class="value-label">{{stats.liveTps}}</span>
-            </li>
-            <li>
-              Tx: <span class="value-label">{{stats.totalNrProcessedTransactions}}</span>
-            </li>
-          </ul>
-        </div>
+        <h3>Live TPS chart</h3>
       </div>
       <div class="chart-wrapper" *ngIf="chartDatasets && chartDatasets.length > 0">
         <canvas #statsChart baseChart
