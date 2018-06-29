@@ -1,155 +1,162 @@
-<ng-container *ngIf="isNodeStarted">
-  <div class="app-stats__item layout__item -left">
-    <div class="layout__row -column">
-      <div class="layout__item">
-        <h3>Live stats</h3>
+<div class="container-fluid -right" *ngIf="isNodeStarted">
+  <div class="row">
+    <div class="col-sm-7">
+      <h3>Live Stats</h3>
 
-        <ul style="margin-bottom:5px;">
-          <li>
-            <strong>Active Nodes:</strong> <span class="value-label">{{stats.activeNodes}}</span>
-          </li>
-          <li>
-            <strong>Shards:</strong> <span class="value-label">{{stats.nrShards}}</span>
-          </li>
-          <li>
-            <strong>Average Round time(seconds):</strong> <span class="value-label">{{stats.averageRoundTime}}</span>
-          </li>
-          <li>
-            <strong>Average Transactions / Block:</strong> <span class="value-label">{{stats.averageNrTxPerBlock}}</span>
-          </li>
-          <li>
-            <strong>Transactions / Last Block:</strong> <span class="value-label">{{stats.liveNrTransactionsPerBlock}}</span>
-          </li>
-        </ul>
+      <div class="row">
+        <div class="col-sm-6">
+          <ul class="live-list">
+            <li>
+              Active Nodes: <span class="value-label">{{stats.activeNodes}}</span>
+            </li>
+            <li>
+              Shards: <span class="value-label">{{stats.nrShards}}</span>
+            </li>
+            <li>
+              Average Round time(seconds): <span class="value-label">{{stats.averageRoundTime}}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-sm-6">
+          <ul class="live-list">
+            <li>
+              Average Transactions / Block: <span class="value-label">{{stats.averageNrTxPerBlock}}</span>
+            </li>
+            <li>
+              Transactions / Last Block: <span class="value-label">{{stats.liveNrTransactionsPerBlock}}</span>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="layout__item">
-        <h3>Benchmark</h3>
 
-        <div class="row">
-          <div class="col-md-12">
+      <h3>Benchmark</h3>
 
-            <div class="form-row">
+      <div class="row">
+        <div class="col-sm-7">
+          <div class="form-group">
+            <label>Your Address
+              <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
+            </label>
 
-              <div class="col-md-7">
-                <div class="form-group">
-                  <label>Your Address
-                    <fa name="question-circle" ngbTooltip="Your address. Your public key" placement="right"></fa>
-                  </label>
+            <input type="text"
+                   class="form-control -material"
+                   (change)="onChangeAddress($event, 'accountShard')"
+                   [(ngModel)]="accountFrom" readonly>
+          </div>
+        </div>
 
-                  <input type="text"
-                         class="form-control"
-                         (change)="onChangeAddress($event, 'accountShard')"
-                         [(ngModel)]="accountFrom" readonly>
-                </div>
-              </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label>Balance
+              <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
+            </label>
 
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label>Balance
-                    <fa name="question-circle" ngbTooltip="The total balance of your account" placement="right"></fa>
-                  </label>
+            <input type="text"
+                   class="form-control -material"
+                   [(ngModel)]="accountBalance" readonly>
+          </div>
+        </div>
 
-                  <input type="text"
-                         class="form-control"
-                         [(ngModel)]="accountBalance" readonly>
-                </div>
-              </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label>Shard
+              <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
+            </label>
 
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>Shard
-                    <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
-                  </label>
-
-                  <input type="text"
-                         class="form-control"
-                         [(ngModel)]="accountShard" readonly>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="col-md-10">
-                <div class="form-group">
-                  <label>Receiver Address
-                    <fa name="question-circle" ngbTooltip="Receiver address" placement="right"></fa>
-                  </label>
-                  <input type="text"
-                         class="form-control"
-                         (change)="onChangeAddress($event, 'benchmarkShard')"
-                         [(ngModel)]="benchmarkTo">
-                </div>
-              </div>
-
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>Shard
-                    <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
-                  </label>
-
-                  <input type="text"
-                         class="form-control"
-                         [(ngModel)]="benchmarkShard" readonly>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="col-md-5">
-                <div class="form-group">
-                  <label>Amount per transaction
-                    <fa name="question-circle" ngbTooltip="Amount per transaction" placement="right"></fa>
-                  </label>
-
-                  <input type="text"
-                         class="form-control"
-                         [(ngModel)]="benchmarkAmount" >
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Nr. of transactions
-                    <fa name="question-circle" ngbTooltip="Nr. of transactions to be generated" placement="right"></fa>
-                  </label>
-
-                  <input type="text"
-                         class="form-control"
-                         [(ngModel)]="benchmarkNrTrans" >
-                </div>
-              </div>
-
-              <div class="col-md-3" style="padding-top: 30px;">
-                <button type="button" class="btn btn-danger btn-sm btn-block" (click)="sendMultipleTransactions($event)">Benchmark</button>
-              </div>
-            </div>
+            <input type="text"
+                   class="form-control -material -center"
+                   [(ngModel)]="accountShard" readonly>
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <label>Recipient
+              <fa name="question-circle" ngbTooltip="Recipient address" placement="right"></fa>
+            </label>
+            <input type="text"
+                   class="form-control"
+                   (change)="onChangeAddress($event, 'benchmarkShard')"
+                   [(ngModel)]="benchmarkTo">
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>Shard
+              <fa name="question-circle" ngbTooltip="Shard" placement="right"></fa>
+            </label>
+
+            <input type="text"
+                   class="form-control -material -center"
+                   [(ngModel)]="benchmarkShard" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Amount per transaction
+              <fa name="question-circle" ngbTooltip="Amount per transaction" placement="right"></fa>
+            </label>
+
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="benchmarkAmount">
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Nr. of transactions
+              <fa name="question-circle" ngbTooltip="Nr. of transactions to be generated" placement="right"></fa>
+            </label>
+
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="benchmarkNrTrans">
+          </div>
+        </div>
+
+        <div class="col-sm-2 text-right" style="padding-top: 30px;">
+          <button type="button" class="btn btn-info" (click)="sendMultipleTransactions($event)">Benchmark
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-sm-5 pl-4">
+      <div class="chart-header">
+        <h3>TPS chart</h3>
+
+        <div class="chart-stats">
+          Live TPS: <span class="value-label">{{stats.liveTps}}</span>
+          Peak TPS: <span class="value-label">{{stats.peakTps}}</span>
+          Average TPS: <span class="value-label">{{stats.averageTps}}</span>
+        </div>
+      </div>
+      <div class="chart-wrapper">
+        <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+      </div>
     </div>
   </div>
+</div>
 
-  <div class="app-stats__item layout__item -right">
-
-    <div class="chart-wrapper">
-      <h3>TPS chart</h3>
-
-      <canvas baseChart
-              [datasets]="barChartData"
-              [labels]="barChartLabels"
-              [options]="barChartOptions"
-              [legend]="barChartLegend"
-              [chartType]="barChartType"
-              (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)"></canvas>
-    </div>
-    Live TPS: <span class="value-label">{{stats.liveTps}}</span>
-    Peak TPS: <span class="value-label">{{stats.peakTps}}</span>
-    Average TPS: <span class="value-label">{{stats.averageTps}}</span>
-
-  </div>
-</ng-container>
-
-<div class="no-message text-center" style="display: flex; justify-content: center; align-items: center;width: 100%;" *ngIf="!isNodeStarted">
+<div class="no-message text-center" style="display: flex; justify-content: center; align-items: center;width: 100%;"
+     *ngIf="!isNodeStarted">
   <h2>Node is not started</h2>
 </div>
+
+<span class="circle-bottom-right circle-large circle-graphic circle-light-blue"></span>
