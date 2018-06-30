@@ -50,7 +50,7 @@ ngb-tabset {
         @extend %font__primary--bold;
 
         border: 0;
-        color: $tab__item;
+        color: $brand-primary;
         display: flex;
         padding: 0;
         flex: 1;
@@ -70,6 +70,10 @@ ngb-tabset {
           color: $tab__item;
           opacity: 0.4;
           cursor: not-allowed;
+
+          svg * {
+            fill: $brand-primary;
+          }
         }
 
         .tab-label {
@@ -90,7 +94,7 @@ ngb-tabset {
         transform: translateY(-50%);
 
         * {
-          fill: #C4C4C4;
+          fill: $brand-primary;
         }
       }
     }

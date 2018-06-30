@@ -83,8 +83,10 @@ function createWindow() {
     // splashWindow.loadURL(`file://${__dirname}/splash.html`);
     // Show win when all is set
     win.once('ready-to-show', function () {
-        splashWindow.destroy();
-        win.show();
+        setTimeout(function () {
+            splashWindow.destroy();
+            win.show();
+        }, 1000);
     });
     // Emitted when the window is closed.
     win.on('closed', function () {

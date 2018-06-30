@@ -97,8 +97,10 @@ function createWindow() {
 
   // Show win when all is set
   win.once('ready-to-show', () => {
-    splashWindow.destroy();
-    win.show();
+    setTimeout(() => {
+      splashWindow.destroy();
+      win.show();
+    }, 1000);
   });
 
   // Emitted when the window is closed.
