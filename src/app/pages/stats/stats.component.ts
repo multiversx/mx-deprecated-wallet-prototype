@@ -243,10 +243,11 @@ export class StatsComponent implements OnInit, AfterViewInit {
             hidden: visibleChartIndex[1]
           }
         );
-
-        this.global.activeNodes = 0; // results[0].shardActiveNodes + results[1].shardActiveNodes;
-        this.global.peakTps = Math.floor(peakTpsSum);
-        this.global.liveTps = Math.floor(liveTpsSum);
+//console.log(results);
+        //this.global.activeNodes = 0;
+        this.global.activeNodes = results[0].shardActiveNodes + results[1].shardActiveNodes;
+        this.global.peakTps = Number(peakTpsSum.toFixed(0));
+        this.global.liveTps = Number(liveTpsSum.toFixed(0));
 
         this.chartDatasets = cDataSet;
       });
