@@ -76,12 +76,13 @@ $menu__button-bg--active: #4F4F4F;
       }
 
       &.is-active {
-        svg {
-          .status-circle {
-            fill: #6FD0DC;
+        &.status-item {
+          svg {
+            * {
+              fill: #6FD0DC;
+            }
           }
         }
-
         .menu-circle {
           fill: #505050;
           display: block;
@@ -93,9 +94,11 @@ $menu__button-bg--active: #4F4F4F;
       }
 
       &.is-node-started {
-        svg {
-          * {
-            fill: #ACC73F;
+        &.status-item {
+          svg {
+            * {
+              fill: #ACC73F;
+            }
           }
         }
       }

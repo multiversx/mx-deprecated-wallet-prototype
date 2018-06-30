@@ -66,7 +66,6 @@ export class StatsComponent implements OnInit, AfterViewInit {
       yAxes: [{
         ticks: {
           suggestedMin: 0,
-          suggestedMax: 50
         }
       }]
     }

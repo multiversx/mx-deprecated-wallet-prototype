@@ -66,6 +66,12 @@ ngb-tabset {
           }
         }
 
+        &.disabled {
+          color: $tab__item;
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+
         .tab-label {
           font-size: (12/16 + rem);
           line-height: 1;

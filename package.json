@@ -24,6 +24,7 @@
     "e2e": "ng e2e"
   },
   "dependencies": {
+    "@swimlane/ngx-charts": "^8.1.0",
     "axios": "^0.18.0",
     "buffer": "^5.1.0",
     "chart.js": "^2.7.2",
