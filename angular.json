@@ -29,7 +29,7 @@
               "node_modules/font-awesome/scss/font-awesome.scss"
             ],
             "scripts": [
-              "node_modules/chart.js/dist/chart.js"
+              "node_modules/chart.js/dist/Chart.js"
             ]
           },
           "configurations": {
