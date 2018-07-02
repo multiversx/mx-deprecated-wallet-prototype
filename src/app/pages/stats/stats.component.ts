@@ -14,7 +14,6 @@ const visibleChartIndex = [false, false];
 })
 export class StatsComponent implements OnInit, AfterViewInit {
   public stats: Stats;
-
   public accountBalance = 0;
   public accountFrom: string;
   public accountShard: number;

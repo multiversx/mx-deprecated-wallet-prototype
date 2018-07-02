@@ -48,6 +48,7 @@ $border__color: #C6C6C6;
     border-bottom: 1px solid $border__color;
     padding-bottom: 10px;
     margin: 0 0 19px;
+    position: relative;
 
     &.-no-border {
       border-bottom: 0;

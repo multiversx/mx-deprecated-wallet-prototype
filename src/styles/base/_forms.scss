@@ -15,6 +15,7 @@ $input__box-shadow: 0 0 10px 2px #D3EFFA;
 
 .form-group {
   margin: 0 0 20px;
+  position: relative;
 
   label {
     display: block;
@@ -38,6 +39,10 @@ $input__box-shadow: 0 0 10px 2px #D3EFFA;
   font-family: $font__family--secondary;
   font-weight: 600;
   letter-spacing: 0.2px;
+
+  &.-has-clipboard {
+    padding-right: 40px;
+  }
 
   &:disabled,
   &[readonly] {
@@ -71,6 +76,10 @@ $input__box-shadow: 0 0 10px 2px #D3EFFA;
     padding-top: 0;
     height: 22px;
 
+    &.-has-clipboard {
+      padding-right: 40px;
+    }
+
     &.-xl {
       height: 40px;
     }
@@ -83,6 +92,10 @@ $input__box-shadow: 0 0 10px 2px #D3EFFA;
   &.-center {
     text-align: center;
   }
+}
+
+.input-wrapper {
+  position: relative;
 }
 
 // Select

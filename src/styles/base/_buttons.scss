@@ -62,3 +62,21 @@ $btn__success--bg: $brand-green;
 .btn-back {
   opacity: 0.5;
 }
+
+.btn-icon {
+  padding: 0;
+  min-width: inherit;
+  line-height: 0;
+
+  &,
+  &:focus,
+  &:hover {
+    background: none;
+  }
+}
+
+.btn-clipboard {
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+}

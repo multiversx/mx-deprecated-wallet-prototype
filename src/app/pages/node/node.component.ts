@@ -348,4 +348,13 @@ export class NodeComponent implements OnInit, AfterViewInit {
   isNavigationDisabled() {
     return this.wizard.model.currentStepIndex === 3;
   }
+
+  onCopySuccess(event) {
+    if (event.isSuccess) {
+      this.toastr.show({
+        title: 'Success',
+        message: `Copied to clipboard!`,
+      });
+    }
+  }
 }
