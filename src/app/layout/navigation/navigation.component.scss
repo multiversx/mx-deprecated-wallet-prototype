@@ -102,6 +102,11 @@ $menu__button-bg--active: #4F4F4F;
           }
         }
       }
+
+      &.-is-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
 }

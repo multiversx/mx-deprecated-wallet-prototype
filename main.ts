@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -8,7 +8,6 @@ let win;
 let serve;
 let splashWindow;
 const apiUrl = 'http://localhost:8080/node/';
-
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 const local = args.some(val => val === '--local');
@@ -31,6 +30,7 @@ function startAPI() {
 function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
+
 
   // Create the browser window.
   win = new BrowserWindow({
@@ -58,6 +58,21 @@ function createWindow() {
     slashes: true
   }));
 
+  // Create the Application's main menu
+  const template = [
+    {
+      label: 'Edit',
+      submenu: [
+        {label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:'},
+        {label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:'},
+        {label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:'},
+      ]
+    }
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+
   // if dev
   if (serve) {
     require('electron-reload')(__dirname, {
@@ -82,8 +97,10 @@ function createWindow() {
 
   // Show win when all is set
   win.once('ready-to-show', () => {
-    splashWindow.destroy();
-    win.show();
+    setTimeout(() => {
+      splashWindow.destroy();
+      win.show();
+    }, 1000);
   });
 
   // Emitted when the window is closed.

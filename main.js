@@ -48,6 +48,19 @@ function createWindow() {
         protocol: 'file:',
         slashes: true
     }));
+    // Create the Application's main menu
+    var template = [
+        {
+            label: 'Edit',
+            submenu: [
+                { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+                { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+                { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+            ]
+        }
+    ];
+    var menu = electron_1.Menu.buildFromTemplate(template);
+    electron_1.Menu.setApplicationMenu(menu);
     // if dev
     if (serve) {
         require('electron-reload')(__dirname, {
@@ -70,8 +83,10 @@ function createWindow() {
     // splashWindow.loadURL(`file://${__dirname}/splash.html`);
     // Show win when all is set
     win.once('ready-to-show', function () {
-        splashWindow.destroy();
-        win.show();
+        setTimeout(function () {
+            splashWindow.destroy();
+            win.show();
+        }, 1000);
     });
     // Emitted when the window is closed.
     win.on('closed', function () {
