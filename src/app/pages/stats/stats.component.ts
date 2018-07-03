@@ -71,10 +71,10 @@ export class StatsComponent implements OnInit, AfterViewInit {
   };
   public chartType = 'line';
   public chartLegend = true;
-  public chartLabels: string[] = ['t-11', 't-10', 't-9', 't-8', 't-7', 't-6', 't-5', 't-4', 't-3', 't-2', 't-1', 't'];
+  public chartLabels: string[] = ['t-20', 't-19', 't-18', 't-17', 't-16', 't-15', 't-14', 't-13', 't-12','t-11', 't-10', 't-9', 't-8', 't-7', 't-6', 't-5', 't-4', 't-3', 't-2', 't-1', 't'];
 
   public xxx =  {
-    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     label: `No data`,
     lineTension: 0,
     pointRadius: 4,
@@ -82,21 +82,21 @@ export class StatsComponent implements OnInit, AfterViewInit {
   };
   public chartDatasets: any[] = [
     {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       label: `No data`,
       lineTension: 0,
       pointRadius: 4,
       hidden: false
     },
     {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       label: `No data`,
       lineTension: 0,
       pointRadius: 4,
       hidden: false
     },
     {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       label: `No data`,
       lineTension: 0,
       pointRadius: 4,
