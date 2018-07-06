@@ -204,11 +204,11 @@ export class StatsComponent implements OnInit, AfterViewInit {
             index: result.currentShardNumber,
             averageRoundTime: (result.averageRoundTime / 1000).toString(),
             liveRoundTime: (result.liveRoundTime / 1000).toString(),
-            totalNrProcessedTransactions: result.totalNrProcessedTransactions,
-            averageNrTxPerBlock: result.averageNrTxPerBlock,
+            totalNrProcessedTransactions: (result.totalNrProcessedTransactions).toString(),
+            averageNrTxPerBlock: (result.averageNrTxPerBlock).toString(),
             liveTps: Number(result.liveTps).toFixed(0),
             peakTps: Number(result.peakTps).toFixed(0),
-            liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock,
+            liveNrTransactionsPerBlock: (result.liveNrTransactionsPerBlock).toString(),
           };
         });
 
@@ -227,7 +227,6 @@ export class StatsComponent implements OnInit, AfterViewInit {
               pointRadius: 4,
               hidden: visibleChartIndex[i]
             });
-
         }
 
         const globalData = (this.chartDatasets[results.length] && this.chartDatasets[results.length].data) ? this.chartDatasets[results.length].data : this.xxx;
