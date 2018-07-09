@@ -195,31 +195,29 @@ export class StatsComponent implements OnInit, AfterViewInit {
       this.apiService.getStats().subscribe(results => {
 
         const cDataSet = [];
-        let peakTpsSum = 0;
-        let liveTpsSum = 0;
+
+        this.global.nrShards = results.nrShards;
+        this.global.activeNodes = results.networkActiveNodes;
+        this.global.peakTps = Number(results.globalPeakTps.toFixed(0));
+        this.global.liveTps = Number(results.globalLiveTps.toFixed(0));
 
         // tabs
-        this.shardDataList = results.map((result) => {
+        this.shardDataList = results.statisticList.map((result) => {
           return {
             index: result.currentShardNumber,
             averageRoundTime: (result.averageRoundTime / 1000).toString(),
             liveRoundTime: (result.liveRoundTime / 1000).toString(),
-            totalNrProcessedTransactions: (result.totalNrProcessedTransactions).toString(),
-            averageNrTxPerBlock: (result.averageNrTxPerBlock).toString(),
+            totalNrProcessedTransactions: result.totalNrProcessedTransactions,
+            averageNrTxPerBlock: result.averageNrTxPerBlock,
             liveTps: Number(result.liveTps).toFixed(0),
             peakTps: Number(result.peakTps).toFixed(0),
-            liveNrTransactionsPerBlock: (result.liveNrTransactionsPerBlock).toString(),
+            liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock,
           };
         });
 
-        for (let i = 0; i < results.length; i++) {
-          const result = results[i];
-
+        for (let i = 0; i < results.nrShards; i++) {
+          const result = results.statisticList[i];
           const cData = (this.chartDatasets[i] && this.chartDatasets[i].data) ? this.chartDatasets[i].data : this.xxx;
-          this.global.nrShards = results[0].nrShards;
-          peakTpsSum = peakTpsSum + results[i].peakTps;
-          liveTpsSum = liveTpsSum + results[i].liveTps;
-
           cDataSet.push({
               data: this.addData(cData, result.liveTps),
               label: `Shard ${i}`,
@@ -227,24 +225,20 @@ export class StatsComponent implements OnInit, AfterViewInit {
               pointRadius: 4,
               hidden: visibleChartIndex[i]
             });
+
         }
 
-        const globalData = (this.chartDatasets[results.length] && this.chartDatasets[results.length].data) ? this.chartDatasets[results.length].data : this.xxx;
+        const globalData = (this.chartDatasets[results.nrShards] && this.chartDatasets[results.nrShards].data) ? this.chartDatasets[results.nrShards].data : this.xxx;
 
         cDataSet.push(
           {
-            data: this.addData(globalData, liveTpsSum),
+            data: this.addData(globalData, this.global.liveTps),
             label: `Global`,
             lineTension: 0,
             pointRadius: 4,
             hidden: visibleChartIndex[1]
           }
-        );
-//console.log(results);
-        //this.global.activeNodes = 0;
-        this.global.activeNodes = results[0].shardActiveNodes + results[1].shardActiveNodes;
-        this.global.peakTps = Number(peakTpsSum.toFixed(0));
-        this.global.liveTps = Number(liveTpsSum.toFixed(0));
+        );//console.log(results);
 
         this.chartDatasets = cDataSet;
       });
