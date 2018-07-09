@@ -99,7 +99,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   getNodeStatus(): void {
     this.apiService.getStatus().subscribe((status) => {
-
       if (this.isNodeStarted !== status) {
         this.nodeDataService.set(status);
       }
@@ -139,32 +138,30 @@ export class NodeComponent implements OnInit, AfterViewInit {
   pingLocal() {
     const url = `ipAddress=${this.node.instanceIp}&port=${this.node.instancePort}`;
 
-    const error = {
-      title: 'Error',
-      message: 'Provided IP is not reachable.',
-    };
-
     const errorPort = {
       title: 'Error',
       message: 'Your Port is busy.',
     };
 
-    this.apiService.ping(url).subscribe(result => {
-      const {reachablePing, reachablePort, reponseTimeMs} = result;
+    this.apiService.ping(url).subscribe(res => {
+      const {success} = res;
 
-      const success = {
-        title: 'Success',
-        message: `Your IP & Port are reachable - response time: ${reponseTimeMs}ms`,
-      };
+      if (success) {
+        const {reachablePing, reachablePort, reponseTimeMs} = res.payload;
 
-      if (!reachablePing) {
-        this.toastr.show(error, 'error');
+        const successMesage = {
+          title: 'Success',
+          message: `Your IP & Port are reachable - response time: ${reponseTimeMs}ms`,
+        };
+
+        this.toastr.show(successMesage);
       } else {
-        if (reachablePort) {
-          this.toastr.show(errorPort, 'error');
-        } else {
-          this.toastr.show(success);
-        }
+        const error = {
+          title: 'Error',
+          message: res.message,
+        };
+
+        this.toastr.show(error, 'error');
       }
     });
   }
@@ -172,32 +169,31 @@ export class NodeComponent implements OnInit, AfterViewInit {
   pingPeer() {
     const url = `ipAddress=${this.node.peerIp}&port=${this.node.peerPort}`;
 
-    const error = {
-      title: 'Error',
-      message: 'Peer IP is not reachable',
-    };
-
     const errorPort = {
       title: 'Error',
       message: 'Peer Port is not open',
     };
 
-    this.apiService.ping(url).subscribe(result => {
-      const {reachablePing, reachablePort, reponseTimeMs} = result;
+    this.apiService.ping(url).subscribe(res => {
+      const {success} = res;
 
-      const success = {
-        title: 'Success',
-        message: `Peer IP & Port are reachable - response time: ${reponseTimeMs}ms`,
-      };
+      if (success && res.payload) {
+        const {reachablePing, reachablePort, reponseTimeMs} = res.payload;
 
-      if (!reachablePing) {
-        this.toastr.show(error, 'error');
+        const successMessage = {
+          title: 'Success',
+          message: `Peer IP & Port are reachable - response time: ${reponseTimeMs}ms`,
+        };
+
+        this.toastr.show(successMessage);
       } else {
-        if (!reachablePort) {
-          this.toastr.show(errorPort, 'error');
-        } else {
-          this.toastr.show(success);
-        }
+        const error = {
+          title: 'Error',
+          message: res.message,
+        };
+
+        this.toastr.show(error, 'error');
+        // this.toastr.show(errorPort, 'error');
       }
     });
   }
@@ -205,15 +201,15 @@ export class NodeComponent implements OnInit, AfterViewInit {
   generatePublicKeyAndPrivateKey(key?) {
     const payloadKey = (key) ? key : '';
 
-    this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((keys) => {
-      if (keys) {
+    this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((res) => {
+      if (res.success && res.payload) {
+        const {publicKey, privateKey} = res.payload;
         this.isKeyGenerated = true;
 
-        this.apiService.getShardOfAddress(keys.publicKey).subscribe((res) => {
-          this.node.privateKey = keys.privateKey;
-          this.node.publicKey = keys.publicKey;
-
-          this.node.allocatedShard = res;
+        this.apiService.getShardOfAddress(publicKey).subscribe((shardRes) => {
+          this.node.privateKey = privateKey;
+          this.node.publicKey = publicKey;
+          this.node.allocatedShard = shardRes.payload;
         });
       }
 

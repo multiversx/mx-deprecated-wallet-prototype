@@ -50,11 +50,10 @@ export class OperationsComponent implements OnInit {
 
     if (this.operationsFrom) {
       setInterval(() => {
-        this.apiService.getBalance(this.operationsFrom).subscribe(result => {
-          if (!result) {
-            result = 0;
-          }
-          this.operationsBalance = result;
+        this.apiService.getBalance(this.operationsFrom).subscribe(res => {
+          const {success, payload} = res;
+
+          this.operationsBalance = (success && payload) ? payload : 0;
         });
       }, 2000);
     }
@@ -71,7 +70,7 @@ export class OperationsComponent implements OnInit {
     }
 
     this.apiService.getShardOfAddress(address).subscribe((res) => {
-      this[field] = res;
+      this[field] = res.payload;
     });
   }
 
@@ -87,11 +86,10 @@ export class OperationsComponent implements OnInit {
     this.isCheckDisabled = true;
     this.loadingService.show();
 
-    this.apiService.getBalance(this.addressToCheck).subscribe(result => {
-      if (!result) {
-        result = 0;
-      }
-      this.balanceToCheck = result;
+    this.apiService.getBalance(this.addressToCheck).subscribe(res => {
+      const {success, payload} = res;
+
+      this.balanceToCheck = (success && payload) ? payload : 0;
       this.isCheckDisabled = false;
       this.loadingService.hideDelay();
     });
@@ -101,8 +99,10 @@ export class OperationsComponent implements OnInit {
     this.isSendDisabled = true;
     this.loadingService.show();
 
-    this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(result => {
-      if (result) {
+    this.apiService.sendBalance(this.operationsTo, this.operationsAmount).subscribe(res => {
+      const {success} = res;
+
+      if (success) {
         this.toastr.show({
           title: 'Success',
           message: `Transaction sent to the blockchain`,
@@ -112,7 +112,7 @@ export class OperationsComponent implements OnInit {
       } else {
         this.toastr.show({
           title: 'Fail',
-          message: `Transaction sending has failed`,
+          message: res.message,
         }, 'error');
       }
 

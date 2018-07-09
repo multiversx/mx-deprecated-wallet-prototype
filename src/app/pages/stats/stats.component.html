@@ -38,7 +38,8 @@
                 <div class="col-sm-6">
                   <ul class="live-list">
                     <li>
-                      Average Round time(seconds): <span class="value-label" *ngIf="shardDataList && shardDataList[0].averageRoundTime">{{shardDataList[0].averageRoundTime}}</span>
+                      Average Round time(seconds): <span class="value-label"
+                                                         *ngIf="shardDataList && shardDataList[0].averageRoundTime">{{shardDataList[0].averageRoundTime}}</span>
                     </li>
                     <li>
                       Peak TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[0].peakTps">{{shardDataList[0].peakTps}}</span>
@@ -47,7 +48,8 @@
                       Live TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[0].liveTps">{{shardDataList[0].liveTps}}</span>
                     </li>
                     <li>
-                      Tx: <span class="value-label" *ngIf="shardDataList && shardDataList[0].totalNrProcessedTransactions">{{shardDataList[0].totalNrProcessedTransactions}}</span>
+                      Tx: <span class="value-label"
+                                *ngIf="shardDataList && shardDataList[0].totalNrProcessedTransactions">{{shardDataList[0].totalNrProcessedTransactions}}</span>
                     </li>
                   </ul>
                 </div>
@@ -82,7 +84,8 @@
                 <div class="col-sm-6">
                   <ul class="live-list">
                     <li>
-                      Average Round time(seconds): <span class="value-label" *ngIf="shardDataList && shardDataList[1].averageRoundTime">{{shardDataList[1].averageRoundTime}}</span>
+                      Average Round time(seconds): <span class="value-label"
+                                                         *ngIf="shardDataList && shardDataList[1].averageRoundTime">{{shardDataList[1].averageRoundTime}}</span>
                     </li>
                     <li>
                       Peak TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[1].peakTps">{{shardDataList[1].peakTps}}</span>
@@ -91,7 +94,8 @@
                       Live TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[1].liveTps">{{shardDataList[1].liveTps}}</span>
                     </li>
                     <li>
-                      Tx: <span class="value-label" *ngIf="shardDataList && shardDataList[1].totalNrProcessedTransactions">{{shardDataList[1].totalNrProcessedTransactions}}</span>
+                      Tx: <span class="value-label"
+                                *ngIf="shardDataList && shardDataList[1].totalNrProcessedTransactions">{{shardDataList[1].totalNrProcessedTransactions}}</span>
                     </li>
                   </ul>
                 </div>
@@ -194,6 +198,8 @@
 
             <input type="text"
                    class="form-control"
+                   [dropSpecialCharacters]="false"
+                   mask="9*"
                    [(ngModel)]="benchmarkAmount">
           </div>
         </div>
@@ -206,12 +212,16 @@
 
             <input type="text"
                    class="form-control"
+                   [dropSpecialCharacters]="false"
+                   mask="9*"
                    [(ngModel)]="benchmarkNrTrans">
           </div>
         </div>
 
         <div class="col-sm-3 text-right" style="padding-top: 30px;">
-          <button type="button" class="btn btn-info" (click)="sendMultipleTransactions($event)">Benchmark
+          <button type="button" class="btn btn-info"
+                  [disabled]="benchmarkTo === '' || benchmarkNrTrans === '' || benchmarkAmount === ''"
+                  (click)="sendMultipleTransactions($event)">Benchmark
           </button>
         </div>
       </div>
