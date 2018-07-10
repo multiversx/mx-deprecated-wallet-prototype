@@ -14,7 +14,18 @@ const local = args.some(val => val === '--local');
 
 function startAPI() {
   const exec = require('child_process').exec;
-  const jarPath = (process.platform === 'darwin') ? './Contents/elrond-api-1.0-SNAPSHOT.jar' : 'elrond-api-1.0-SNAPSHOT.jar';
+  const defaultJarPath = 'elrond-api-1.0-SNAPSHOT.jar';
+  // const macJarPath = `${__dirname}/elrond-api-1.0-SNAPSHOT.jar`;
+  const macJarPath = `${__dirname}/Contents/elrond-api-1.0-SNAPSHOT.jar`;
+  const jarPath = (process.platform === 'darwin') ? macJarPath : defaultJarPath;
+
+  console.log('=========================');
+  console.log('JAR PATH: ', macJarPath);
+  console.log('mac PATH: ', macJarPath);
+  console.log('Dir PATH: ', __dirname);
+  console.log('PATH: ', path);
+
+  console.log('=========================');
 
   const child = exec('java -jar ' + jarPath,
     function (error, stdout, stderr) {
@@ -92,8 +103,6 @@ function createWindow() {
       slashes: true
     }));
   }
-
-  // splashWindow.loadURL(`file://${__dirname}/splash.html`);
 
   // Show win when all is set
   win.once('ready-to-show', () => {
