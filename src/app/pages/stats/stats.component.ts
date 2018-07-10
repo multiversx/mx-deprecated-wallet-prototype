@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Stats } from '../../models/stats';
 import { LoadingService } from '../../services/loading.service';
 import { ApiService } from '../../services/api.service';
@@ -12,7 +12,7 @@ const visibleChartIndex = [false, false];
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
-export class StatsComponent implements OnInit, AfterViewInit {
+export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public stats: Stats;
   public accountBalance = 0;
   public accountFrom: string;
@@ -117,6 +117,9 @@ export class StatsComponent implements OnInit, AfterViewInit {
     shard: ''
   };
 
+  private clearBalanceInterval = null;
+  private clearStatsInterval = null;
+
   @ViewChild('statsChart') public statsChart;
 
   constructor(private apiService: ApiService,
@@ -141,6 +144,16 @@ export class StatsComponent implements OnInit, AfterViewInit {
     this.changeDetectionRef.detectChanges();
   }
 
+  ngOnDestroy(): void {
+    if (this.clearStatsInterval) {
+      clearInterval(this.clearStatsInterval);
+    }
+
+    if (this.clearBalanceInterval) {
+      clearInterval(this.clearBalanceInterval);
+    }
+  }
+
   toggleDataset(index) {
     visibleChartIndex[index] = !visibleChartIndex[index];
   }
@@ -150,7 +163,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
     this.accountFrom = node.publicKey;
 
     if (this.accountFrom) {
-      setInterval(() => {
+      this.clearBalanceInterval = setInterval(() => {
         this.apiService.getBalance(this.accountFrom).subscribe(res => {
           const {success, payload} = res;
           this.accountBalance = (success && payload) ? payload : 0;
@@ -193,7 +206,7 @@ export class StatsComponent implements OnInit, AfterViewInit {
   }
 
   getStats() {
-    setInterval(() => {
+    this.clearStatsInterval = setInterval(() => {
       this.apiService.getStats().subscribe(res => {
         const {success, payload} = res;
 

@@ -27,6 +27,8 @@ npm run electron:windows	On a Windows OS, builds your application and creates an
 
 npm run electron:mac	On a MAC OS, builds your application and generates a .app file of your application that can be run on Mac
 
+npm run buildng  Builds the Angular app. Your built files are in the /dist folder.  
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
