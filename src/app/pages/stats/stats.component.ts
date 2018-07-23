@@ -69,12 +69,12 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       }]
     }
   };
-  public chartType = 'line';
+  public chartType = 'bar';
   public chartLegend = true;
-  public chartLabels: string[] = ['t-20', 't-19', 't-18', 't-17', 't-16', 't-15', 't-14', 't-13', 't-12', 't-11', 't-10', 't-9', 't-8', 't-7', 't-6', 't-5', 't-4', 't-3', 't-2', 't-1', 't'];
+  public chartLabels: string[] = ['Shard0', 'Shard1','Shard2','Shard3','Shard4','Shard5','Shard6','Shard7','Shard8','Shard9','Shard10'];
 
   public xxx = {
-    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     label: `No data`,
     lineTension: 0,
     pointRadius: 4,
@@ -82,21 +82,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   public chartDatasets: any[] = [
     {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      label: `No data`,
-      lineTension: 0,
-      pointRadius: 4,
-      hidden: false
-    },
-    {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      label: `No data`,
-      lineTension: 0,
-      pointRadius: 4,
-      hidden: false
-    },
-    {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       label: `No data`,
       lineTension: 0,
       pointRadius: 4,
@@ -213,53 +199,45 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (success) {
           const results = payload;
 
-          const cDataSet = [];
+          const mainDataSet = [];
+          const liveDataSet = [];
+          const peakDataSet = [];
 
           this.global.nrShards = results.nrShards;
           this.global.activeNodes = results.networkActiveNodes;
           this.global.peakTps = Number(results.globalPeakTps.toFixed(0));
           this.global.liveTps = Number(results.globalLiveTps.toFixed(0));
 
-          // tabs
-          this.shardDataList = results.statisticList.map((result) => {
-            return {
-              index: result.currentShardNumber,
-              averageRoundTime: (result.averageRoundTime / 1000).toString(),
-              liveRoundTime: (result.liveRoundTime / 1000).toString(),
-              totalNrProcessedTransactions: result.totalNrProcessedTransactions,
-              averageNrTxPerBlock: result.averageNrTxPerBlock.toString(),
-              liveTps: Number(result.liveTps).toFixed(0),
-              peakTps: Number(result.peakTps).toFixed(0),
-              liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock.toString(),
-            };
-          });
+
+
 
           for (let i = 0; i < results.nrShards; i++) {
             const result = results.statisticList[i];
-            const cData = (this.chartDatasets[i] && this.chartDatasets[i].data) ? this.chartDatasets[i].data : this.xxx;
-            cDataSet.push({
-              data: this.addData(cData, result.liveTps),
-              label: `Shard ${i}`,
-              lineTension: 0,
-              pointRadius: 4,
-              hidden: visibleChartIndex[i]
-            });
-
+            liveDataSet.push(result.liveTps);
+            peakDataSet.push(result.peakTps);
           }
 
-          const globalData = (this.chartDatasets[results.nrShards] && this.chartDatasets[results.nrShards].data) ? this.chartDatasets[results.nrShards].data : this.xxx;
-
-          cDataSet.push(
+          mainDataSet.push(
             {
-              data: this.addData(globalData, this.global.liveTps),
-              label: `Global`,
+              data: liveDataSet,
+              label: `Live TPS`,
               lineTension: 0,
               pointRadius: 4,
               hidden: visibleChartIndex[1]
             }
           );
 
-          this.chartDatasets = cDataSet;
+          mainDataSet.push(
+            {
+              data: peakDataSet,
+              label: `Peak TPS`,
+              lineTension: 0,
+              pointRadius: 4,
+              hidden: visibleChartIndex[1]
+            }
+          );
+
+          this.chartDatasets = mainDataSet;
         }
       });
     }, 2000);
