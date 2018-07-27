@@ -3,53 +3,29 @@
     <div class="col-sm-7 pr-5">
       <ng-container>
         <h3>Live Stats</h3>
+        <div class="select-wrapper">
+          <ng-select [items]="chartLabels"
+                     (change)="onChange()"
+                     [(ngModel)]="selectedShard">
+          </ng-select>
+        </div>
 
-        <ngb-tabset class="tab--small">
-          <ngb-tab>
-            <ng-template ngbTabTitle>
-              Global
-            </ng-template>
-
-            <ng-template ngbTabContent>
-              <ul class="live-list">
-                <li>
-                  Active Nodes: <span class="value-label">{{global.activeNodes}}</span>
-                </li>
-                <li>
-                  Shards: <span class="value-label">{{global.nrShards}}</span>
-                </li>
-                <li>
-                  Global Peak TPS: <span class="value-label">{{global.peakTps}}</span>
-                </li>
-                <li>
-                  Global Live TPS: <span class="value-label">{{global.liveTps}}</span>
-                </li>
-              </ul>
-            </ng-template>
-          </ngb-tab>
-
-          <ngb-tab>
-            <ng-template ngbTabTitle>
-              Shard 0
-            </ng-template>
-
-            <ng-template ngbTabContent>
               <div class="row">
                 <div class="col-sm-6">
                   <ul class="live-list">
                     <li>
                       Average Round time(seconds): <span class="value-label"
-                                                         *ngIf="shardDataList && shardDataList[0].averageRoundTime">{{shardDataList[0].averageRoundTime}}</span>
+                                                         *ngIf="selectedShardStatistic.averageRoundTime">{{selectedShardStatistic.averageRoundTime}}</span>
                     </li>
                     <li>
-                      Peak TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[0].peakTps">{{shardDataList[0].peakTps}}</span>
+                      Peak TPS: <span class="value-label" *ngIf="selectedShardStatistic.peakTps">{{selectedShardStatistic.peakTps}}</span>
                     </li>
                     <li>
-                      Live TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[0].liveTps">{{shardDataList[0].liveTps}}</span>
+                      Live TPS: <span class="value-label" *ngIf="selectedShardStatistic.liveTps">{{selectedShardStatistic.liveTps}}</span>
                     </li>
                     <li>
                       Tx: <span class="value-label"
-                                *ngIf="shardDataList && shardDataList[0].totalNrProcessedTransactions">{{shardDataList[0].totalNrProcessedTransactions}}</span>
+                                *ngIf="selectedShardStatistic.totalNrProcessedTransactions">{{selectedShardStatistic.totalNrProcessedTransactions}}</span>
                     </li>
                   </ul>
                 </div>
@@ -58,68 +34,19 @@
                   <ul class="live-list">
                     <li>
                       Live Round time(seconds):
-                      <span class="value-label" *ngIf="shardDataList && shardDataList[0].liveRoundTime">{{shardDataList[0].liveRoundTime}}</span>
+                      <span class="value-label" *ngIf="selectedShardStatistic.liveRoundTime">{{selectedShardStatistic.liveRoundTime}}</span>
                     </li>
                     <li>
                       Average Transactions / Block:
-                      <span class="value-label" *ngIf="shardDataList && shardDataList[0].averageNrTxPerBlock">{{shardDataList[0].averageNrTxPerBlock}}</span>
+                      <span class="value-label" *ngIf="selectedShardStatistic.averageNrTxPerBlock">{{selectedShardStatistic.averageNrTxPerBlock}}</span>
                     </li>
                     <li>
                       Transactions / Last Block:
-                      <span class="value-label" *ngIf="shardDataList && shardDataList[0].liveNrTransactionsPerBlock">{{shardDataList[0].liveNrTransactionsPerBlock}}</span>
+                      <span class="value-label" *ngIf="selectedShardStatistic.liveNrTransactionsPerBlock">{{selectedShardStatistic.liveNrTransactionsPerBlock}}</span>
                     </li>
                   </ul>
                 </div>
               </div>
-            </ng-template>
-          </ngb-tab>
-
-          <ngb-tab>
-            <ng-template ngbTabTitle>
-              Shard 1
-            </ng-template>
-
-            <ng-template ngbTabContent>
-              <div class="row">
-                <div class="col-sm-6">
-                  <ul class="live-list">
-                    <li>
-                      Average Round time(seconds): <span class="value-label"
-                                                         *ngIf="shardDataList && shardDataList[1].averageRoundTime">{{shardDataList[1].averageRoundTime}}</span>
-                    </li>
-                    <li>
-                      Peak TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[1].peakTps">{{shardDataList[1].peakTps}}</span>
-                    </li>
-                    <li>
-                      Live TPS: <span class="value-label" *ngIf="shardDataList && shardDataList[1].liveTps">{{shardDataList[1].liveTps}}</span>
-                    </li>
-                    <li>
-                      Tx: <span class="value-label"
-                                *ngIf="shardDataList && shardDataList[1].totalNrProcessedTransactions">{{shardDataList[1].totalNrProcessedTransactions}}</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="col-sm-6">
-                  <ul class="live-list">
-                    <li>
-                      Live Round time(seconds):
-                      <span class="value-label" *ngIf="shardDataList && shardDataList[1].liveRoundTime">{{shardDataList[1].liveRoundTime}}</span>
-                    </li>
-                    <li>
-                      Average Transactions / Block:
-                      <span class="value-label" *ngIf="shardDataList && shardDataList[1].averageNrTxPerBlock">{{shardDataList[1].averageNrTxPerBlock}}</span>
-                    </li>
-                    <li>
-                      Transactions / Last Block:
-                      <span class="value-label" *ngIf="shardDataList && shardDataList[1].liveNrTransactionsPerBlock">{{shardDataList[1].liveNrTransactionsPerBlock}}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
       </ng-container>
 
       <h3>Benchmark</h3>

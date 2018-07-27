@@ -25,6 +25,28 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isSendDisabled = false;
   public isNodeStarted = false;
+  public selectedShard = '';
+  public selectedShardNumber = 0;
+  public selectedShardStatistic = {
+      averageRoundTime: 0,
+      liveRoundTime: 0,
+      totalNrProcessedTransactions: 0,
+      averageNrTxPerBlock: 0,
+      liveTps: 0,
+      peakTps: 0,
+      liveNrTransactionsPerBlock: 0,
+    };
+  public selectNodeTypes = [
+    {
+      label: 'Start as a first node',
+      value: 1
+    },
+    {
+      label: 'Join the network as a peer node',
+      value: 2
+    }
+  ];
+
   public shardDataList = [
     {
       averageRoundTime: 0,
@@ -208,6 +230,21 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.global.peakTps = Number(results.globalPeakTps.toFixed(0));
           this.global.liveTps = Number(results.globalLiveTps.toFixed(0));
 
+          // tabs
+          this.shardDataList = results.statisticList.map((result) => {
+            return {
+              index: result.currentShardNumber,
+              averageRoundTime: (result.averageRoundTime / 1000).toString(),
+              liveRoundTime: (result.liveRoundTime / 1000).toString(),
+              totalNrProcessedTransactions: result.totalNrProcessedTransactions,
+              averageNrTxPerBlock: result.averageNrTxPerBlock.toString(),
+              liveTps: Number(result.liveTps).toFixed(0),
+              peakTps: Number(result.peakTps).toFixed(0),
+              liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock.toString(),
+            };
+          });
+
+          this.selectedShardStatistic = this.shardDataList[this.selectedShardNumber];
 
           for (let i = 0; i < results.nrShards; i++) {
             const result = results.statisticList[i];
@@ -263,5 +300,11 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isSendDisabled = false;
       this.loadingService.hideDelay();
     });
+  }
+
+  onChange() {
+    this.selectedShardNumber = Number(this.selectedShard.replace('Shard',''));
+    this.selectedShardStatistic = this.shardDataList[this.selectedShardNumber];
+    console.log(this.selectedShardStatistic);
   }
 }
