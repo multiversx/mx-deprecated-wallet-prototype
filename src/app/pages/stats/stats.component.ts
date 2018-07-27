@@ -71,7 +71,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   public chartType = 'bar';
   public chartLegend = true;
-  public chartLabels: string[] = ['Shard0', 'Shard1','Shard2','Shard3','Shard4','Shard5','Shard6','Shard7','Shard8','Shard9','Shard10'];
+  public chartLabels: string[] = ['Shard0', 'Shard1','Shard2','Shard3','Shard4','Shard5','Shard6','Shard7','Shard8','Shard9'];
 
   public xxx = {
     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -209,18 +209,16 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.global.liveTps = Number(results.globalLiveTps.toFixed(0));
 
 
-
-
           for (let i = 0; i < results.nrShards; i++) {
             const result = results.statisticList[i];
-            liveDataSet.push(result.liveTps);
-            peakDataSet.push(result.peakTps);
+            liveDataSet.push(result.liveTps.toFixed(2));
+            peakDataSet.push(result.peakTps.toFixed(2));
           }
 
           mainDataSet.push(
             {
               data: liveDataSet,
-              label: `Live TPS`,
+              label: `Live TPS: ` + results.globalLiveTps.toFixed(0),
               lineTension: 0,
               pointRadius: 4,
               hidden: visibleChartIndex[1]
@@ -230,7 +228,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
           mainDataSet.push(
             {
               data: peakDataSet,
-              label: `Peak TPS`,
+              label: `Peak TPS: `+ results.globalPeakTps.toFixed(0),
               lineTension: 0,
               pointRadius: 4,
               hidden: visibleChartIndex[1]
