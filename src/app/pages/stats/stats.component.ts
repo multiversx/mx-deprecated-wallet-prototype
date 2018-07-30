@@ -241,6 +241,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
               liveTps: Number(result.liveTps).toFixed(0),
               peakTps: Number(result.peakTps).toFixed(0),
               liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock.toString(),
+              currentBlockNonce: result.currentBlockNonce
             };
           });
 

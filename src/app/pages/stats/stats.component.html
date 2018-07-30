@@ -139,6 +139,10 @@
                       <span class="value-label" *ngIf="selectedShardStatistic.liveRoundTime">{{selectedShardStatistic.liveRoundTime}}</span>
                     </li>
                     <li>
+                    Current Block number:
+                    <span class="value-label" *ngIf="selectedShardStatistic.currentBlockNonce">{{selectedShardStatistic.currentBlockNonce}}</span>
+                  </li>
+                    <li>
                       Average Transactions / Block:
                       <span class="value-label" *ngIf="selectedShardStatistic.averageNrTxPerBlock">{{selectedShardStatistic.averageNrTxPerBlock}}</span>
                     </li>
