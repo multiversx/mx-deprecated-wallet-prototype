@@ -10,43 +10,7 @@
           </ng-select>
         </div>
 
-              <div class="row">
-                <div class="col-sm-6">
-                  <ul class="live-list">
-                    <li>
-                      Average Round time(seconds): <span class="value-label"
-                                                         *ngIf="selectedShardStatistic.averageRoundTime">{{selectedShardStatistic.averageRoundTime}}</span>
-                    </li>
-                    <li>
-                      Peak TPS: <span class="value-label" *ngIf="selectedShardStatistic.peakTps">{{selectedShardStatistic.peakTps}}</span>
-                    </li>
-                    <li>
-                      Live TPS: <span class="value-label" *ngIf="selectedShardStatistic.liveTps">{{selectedShardStatistic.liveTps}}</span>
-                    </li>
-                    <li>
-                      Tx: <span class="value-label"
-                                *ngIf="selectedShardStatistic.totalNrProcessedTransactions">{{selectedShardStatistic.totalNrProcessedTransactions}}</span>
-                    </li>
-                  </ul>
-                </div>
 
-                <div class="col-sm-6">
-                  <ul class="live-list">
-                    <li>
-                      Live Round time(seconds):
-                      <span class="value-label" *ngIf="selectedShardStatistic.liveRoundTime">{{selectedShardStatistic.liveRoundTime}}</span>
-                    </li>
-                    <li>
-                      Average Transactions / Block:
-                      <span class="value-label" *ngIf="selectedShardStatistic.averageNrTxPerBlock">{{selectedShardStatistic.averageNrTxPerBlock}}</span>
-                    </li>
-                    <li>
-                      Transactions / Last Block:
-                      <span class="value-label" *ngIf="selectedShardStatistic.liveNrTransactionsPerBlock">{{selectedShardStatistic.liveNrTransactionsPerBlock}}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
       </ng-container>
 
       <h3>Benchmark</h3>
@@ -159,6 +123,35 @@
       <div class="chart-header">
         <h3>Live TPS chart</h3>
       </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <ul class="live-list">
+                    <li>
+                      Average Round time(seconds): <span class="value-label"
+                                                         *ngIf="selectedShardStatistic.averageRoundTime">{{selectedShardStatistic.averageRoundTime}}</span>
+                    </li>
+                    <li>
+                      Live Round time(seconds):
+                      <span class="value-label" *ngIf="selectedShardStatistic.liveRoundTime">{{selectedShardStatistic.liveRoundTime}}</span>
+                    </li>
+                    <li>
+                      Average Transactions / Block:
+                      <span class="value-label" *ngIf="selectedShardStatistic.averageNrTxPerBlock">{{selectedShardStatistic.averageNrTxPerBlock}}</span>
+                    </li>
+                    <li>
+                      Transactions / Last Block:
+                      <span class="value-label" *ngIf="selectedShardStatistic.liveNrTransactionsPerBlock">{{selectedShardStatistic.liveNrTransactionsPerBlock}}</span>
+                    </li>
+                    <li>
+                      Processed Transactions: <span class="value-label"
+                                *ngIf="selectedShardStatistic.totalNrProcessedTransactions">{{selectedShardStatistic.totalNrProcessedTransactions}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+
       <div class="chart-wrapper" *ngIf="chartDatasets && chartDatasets.length > 0">
         <canvas #statsChart baseChart
                 [datasets]="chartDatasets"

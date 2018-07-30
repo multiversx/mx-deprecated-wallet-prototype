@@ -28,16 +28,22 @@ $border__color: #C6C6C6;
       padding-right: 20px;
     }
   }
+  .select-wrapper {
+    margin:40px 0;
+  }
+
 
   .chart-wrapper {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     justify-content: center;
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    max-width: 650px;
+    max-height: 250px;
   }
 
   .live-list {
@@ -45,6 +51,7 @@ $border__color: #C6C6C6;
     padding: 0;
     list-style: none;
     font-size: (12/16 + rem);
+    padding-top: 20px;
 
     li {
       padding: 0;
@@ -54,6 +61,10 @@ $border__color: #C6C6C6;
     .value-label {
       color: $brand-blue;
     }
+  }
+
+  .form-control.-material, .ng-select .-material.ng-select-container {
+    height: 40px;
   }
 
 }
