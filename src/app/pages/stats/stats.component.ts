@@ -25,7 +25,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isSendDisabled = false;
   public isNodeStarted = false;
-  public selectedShard = '';
+  public selectedShard = 'Shard0';
   public selectedShardNumber = 0;
   public selectedShardStatistic = {
       averageRoundTime: 0,
@@ -290,6 +290,30 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.toastr.show({
           title: 'Success',
           message: `Multi Transaction sent to the blockchain`,
+        });
+      } else {
+        this.toastr.show({
+          title: 'Fail',
+          message: res.message,
+        }, 'error');
+      }
+
+      this.isSendDisabled = false;
+      this.loadingService.hideDelay();
+    });
+  }
+
+sendMultipleTransactionsToAllShards(e): void {
+    this.isSendDisabled = true;
+    this.loadingService.show();
+
+    this.apiService.sendMultipleTransactionsToAllShards(this.benchmarkAmount, this.benchmarkNrTrans).subscribe(res => {
+      const {success} = res;
+
+      if (success) {
+        this.toastr.show({
+          title: 'Success',
+          message: `Multi Transaction sent to multiple shards of the blockchain`,
         });
       } else {
         this.toastr.show({

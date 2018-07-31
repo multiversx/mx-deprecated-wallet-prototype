@@ -115,6 +115,13 @@
                   (click)="sendMultipleTransactions($event)">Benchmark
           </button>
         </div>
+
+        <div class="col-sm-3 text-right" style="padding-top: 30px;">
+          <button type="button" class="btn btn-info"
+                  [disabled]=" benchmarkNrTrans === '' || benchmarkAmount === ''"
+                  (click)="sendMultipleTransactionsToAllShards($event)">Benchmark All Shards
+          </button>
+        </div>
       </div>
 
     </div>
