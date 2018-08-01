@@ -106,30 +106,34 @@ export class NodeComponent implements OnInit, AfterViewInit {
       if (status) {
         this.step = 3;
         this.wizard.navigation.goToStep(this.step);
+
+        if (this.node.publicKey === ''){
+          this.apiService.getPrivatePublicKeyShard().subscribe((res) => {
+          const {success, message, payload} = res;
+
+          if (!success) {
+            const payloadToast = {
+              title: 'Error',
+              message: `${message}`,
+            };
+
+            this.toastr.show(payloadToast, 'error');
+          } else {
+            this.node.privateKey = payload[0];
+            this.node.publicKey = payload[1];
+            this.node.allocatedShard = payload[2];
+          }
+
+          this.onChange();
+          this.nodeDataService.save('start', this.node);
+      });
+    }
+
+
       }
     });
 
-    if (this.node.publicKey === ''){
-      this.apiService.getPrivatePublicKeyShard().subscribe((res) => {
-        const {success, message, payload} = res;
 
-        if (!success) {
-          const payloadToast = {
-            title: 'Error',
-            message: `${message}`,
-          };
-
-          this.toastr.show(payloadToast, 'error');
-        } else {
-          this.node.privateKey = payload[0];
-          this.node.publicKey = payload[1];
-          this.node.allocatedShard = payload[2];
-        }
-
-        this.onChange();
-        this.nodeDataService.save('start', this.node);
-      });
-    }
   }
 
   ngAfterViewInit(): void {
