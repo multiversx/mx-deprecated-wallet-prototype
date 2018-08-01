@@ -4,7 +4,7 @@
       <ng-container>
         <h3>Live Stats</h3>
         <div class="select-wrapper">
-          <ng-select [items]="chartLabels"
+          <ng-select [items]="dropDowntLabels"
                      (change)="onChange()"
                      [(ngModel)]="selectedShard">
           </ng-select>
@@ -135,7 +135,7 @@
                 <div class="col-sm-12">
                   <ul class="live-list">
                     <li>
-                      Active Nodes: <span class="value-label">{{global.activeNodes}}</span>
+                      Active Nodes: <span class="value-label">{{selectedShardStatistic.activeNodes}}</span>
                     </li>
                     <li>
                       Average Round time(seconds): <span class="value-label"

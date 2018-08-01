@@ -25,30 +25,25 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isSendDisabled = false;
   public isNodeStarted = false;
-  public selectedShard = 'Shard0';
+
+  public selectedShard = 'All Shards';
   public selectedShardNumber = 0;
   public selectedShardStatistic = {
-      averageRoundTime: 0,
-      liveRoundTime: 0,
-      totalNrProcessedTransactions: 0,
-      averageNrTxPerBlock: 0,
-      liveTps: 0,
-      peakTps: 0,
-      liveNrTransactionsPerBlock: 0,
-    };
-  public selectNodeTypes = [
-    {
-      label: 'Start as a first node',
-      value: 1
-    },
-    {
-      label: 'Join the network as a peer node',
-      value: 2
-    }
-  ];
+    index: 0,
+    averageRoundTime: 0,
+    liveRoundTime: 0,
+    totalNrProcessedTransactions: 0,
+    averageNrTxPerBlock: 0,
+    liveTps: 0,
+    peakTps: 0,
+    liveNrTransactionsPerBlock: 0,
+    activeNodes:0,
+    currentBlockNonce:0
+  };
 
   public shardDataList = [
     {
+      index: 0,
       averageRoundTime: 0,
       liveRoundTime: 0,
       totalNrProcessedTransactions: 0,
@@ -56,15 +51,8 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
       liveTps: 0,
       peakTps: 0,
       liveNrTransactionsPerBlock: 0,
-    },
-    {
-      averageRoundTime: 0,
-      liveRoundTime: 0,
-      totalNrProcessedTransactions: 0,
-      averageNrTxPerBlock: 0,
-      liveTps: 0,
-      peakTps: 0,
-      liveNrTransactionsPerBlock: 0,
+      activeNodes:0,
+      currentBlockNonce:0
     }
   ];
 
@@ -94,6 +82,7 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
   public chartType = 'bar';
   public chartLegend = true;
   public chartLabels: string[] = ['Shard0', 'Shard1','Shard2','Shard3','Shard4','Shard5','Shard6','Shard7','Shard8','Shard9'];
+  public dropDowntLabels: string[] = ['All Shards', 'Shard0', 'Shard1','Shard2','Shard3','Shard4','Shard5','Shard6','Shard7','Shard8','Shard9'];
 
   public xxx = {
     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -241,14 +230,16 @@ export class StatsComponent implements OnInit, AfterViewInit, OnDestroy {
               liveTps: Number(result.liveTps).toFixed(0),
               peakTps: Number(result.peakTps).toFixed(0),
               liveNrTransactionsPerBlock: result.liveNrTransactionsPerBlock.toString(),
-              currentBlockNonce: result.currentBlockNonce
+              activeNodes: result.shardActiveNodes,
+              currentBlockNonce: result.currentBlockNonce,
             };
           });
+
 
           this.selectedShardStatistic = this.shardDataList[this.selectedShardNumber];
 
           for (let i = 0; i < results.nrShards; i++) {
-            const result = results.statisticList[i];
+            const result = results.statisticList[i+1];
             liveDataSet.push(result.liveTps.toFixed(2));
             peakDataSet.push(result.peakTps.toFixed(2));
           }
@@ -328,8 +319,13 @@ sendMultipleTransactionsToAllShards(e): void {
   }
 
   onChange() {
-    this.selectedShardNumber = Number(this.selectedShard.replace('Shard',''));
+    if(this.selectedShard == this.dropDowntLabels[0]){
+      this.selectedShardNumber = 0;
+    }
+    else {
+      this.selectedShardNumber = Number(this.selectedShard.replace('Shard', '')) + 1;
+    }
     this.selectedShardStatistic = this.shardDataList[this.selectedShardNumber];
-    console.log(this.selectedShardStatistic);
+
   }
 }
