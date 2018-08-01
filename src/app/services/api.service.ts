@@ -122,6 +122,15 @@ export class ApiService {
       );
   }
 
+  getPrivatePublicKeyShard(): Observable<any> {
+    const url = `${this.url}/getprivatepublickeyshard`;
+
+    return this.http.get<any[]>(url)
+      .pipe(
+        catchError(this.handleError('getprivatepublickeyshard', ''))
+      );
+  }
+
   startNode(nodeName,
             port,
             masterPeerPort,
