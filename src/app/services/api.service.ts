@@ -91,6 +91,7 @@ export class ApiService {
 
   sendMultipleTransactionsToAllShards(value, nrtranzactions): Observable<any> {
     const url = `${this.url}/sendMultipleTransactionsToAllShards?value=${value}&nrTransactions=${nrtranzactions}`;
+    console.log(url);
     return this.http.get<any[]>(url)
       .pipe(
         catchError(this.handleError('send', null))

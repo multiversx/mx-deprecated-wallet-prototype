@@ -308,7 +308,7 @@ sendMultipleTransactionsToAllShards(e): void {
     this.loadingService.show();
 
     this.apiService.sendMultipleTransactionsToAllShards(this.benchmarkAmount, this.benchmarkNrTrans).subscribe(res => {
-      const {success} = res;
+      const {success, message} = res;
 
       if (success) {
         this.toastr.show({
@@ -318,7 +318,7 @@ sendMultipleTransactionsToAllShards(e): void {
       } else {
         this.toastr.show({
           title: 'Fail',
-          message: res.message,
+          message: `${message}`,
         }, 'error');
       }
 
