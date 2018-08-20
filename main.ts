@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, Menu } from 'electron';
+import { app, BrowserWindow, screen, Menu, globalShortcut } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -119,6 +119,8 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
+
+  globalShortcut.register('f5', () => win.reload());
 
   // startAPI();
 }

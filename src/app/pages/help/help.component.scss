@@ -1,0 +1,37 @@
+// Wallet page
+//
+
+// Vars
+//
+
+@import "../../../styles/base/variables";
+$border__color: #C6C6C6;
+
+// Base
+//
+
+:host {
+  display: block;
+  margin-bottom: 140px;
+  position: relative;
+  height: calc(100% - 137px);
+
+  h3 {
+    margin: 0 0 10px;
+    width: auto;
+  }
+
+  .container-fluid {
+    padding: 15px $content__padding 0;
+    height: 100%;
+
+    &.-right {
+      padding-right: 20px;
+    }
+  }
+
+  .form-control.-material, .ng-select .-material.ng-select-container {
+    height: 40px;
+  }
+
+}

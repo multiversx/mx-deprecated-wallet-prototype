@@ -103,6 +103,7 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null;
     });
+    electron_1.globalShortcut.register('f5', function () { return win.reload(); });
     // startAPI();
 }
 try {

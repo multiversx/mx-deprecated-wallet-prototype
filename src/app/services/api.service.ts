@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError} from 'rxjs/operators';
 
 import { MessageService } from './message.service';
 import { AppConfig } from '../../environments/environment';
+import {ResponseContentType} from '@angular/http';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -161,6 +162,35 @@ export class ApiService {
     return this.http.get<boolean>(url)
       .pipe(
         catchError(this.handleError('status', false))
+      );
+  }
+
+  saveNodeLogs(shard: string = '', destination: string = '') {
+    const url = `${this.url}/getNodeLogs/${shard}`;
+    return this.http.get(url, {
+        responseType: 'blob'
+      }).subscribe(res => {
+        const objurl = window.URL.createObjectURL(res);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = objurl;
+        a.download = destination;
+        a.click();
+        window.URL.revokeObjectURL(objurl);
+        a.remove(); // remove the element
+      }, error => {
+        console.warn('download error:', JSON.stringify(error));
+      }, () => {
+        console.log('Completed file download...');
+      });
+  }
+
+  saveNodeLogsTest(shard: string = '', destination: string = ''): Observable<any> {
+    const url = `${this.url}/getNodeLogs/${shard}`;
+    return this.http.get<any>(url)
+      .pipe(
+        catchError(this.handleError('status', {}))
       );
   }
 
