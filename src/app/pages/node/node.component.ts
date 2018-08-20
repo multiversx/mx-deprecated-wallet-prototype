@@ -230,7 +230,6 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.apiService.generatePublicKeyAndPrivateKey(payloadKey).subscribe((res) => {
       if (res.success && res.payload) {
         const {publicKey, privateKey} = res.payload;
-        this.isKeyGenerated = true;
 
         this.apiService.getShardOfAddress(publicKey).subscribe((shardRes) => {
           this.node.privateKey = privateKey;
@@ -249,32 +248,33 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   canGoNext(step) {
-    // switch (step) {
-    //   case 1: {
-    //     return (this.node.instanceName !== '' &&
-    //       this.node.instanceIp !== '' &&
-    //       this.node.instancePort
-    //     );
-    //   }
-    //   case 2: {
-    //     if (this.node.selectedNodeType === 2) {
-    //       return true;
-    //     }
-    //
-    //     return (this.node.selectedNodeType);
-    //   }
-    //   case 3: {
-    //     return this.node.selectedNodeType === 1;
-    //   }
-    //   case 4: {
-    //     return (this.node.privateKey !== '' && this.node.publicKey !== '');
-    //   }
-    //   default: {
-    //     return false;
-    //   }
-    // }
+    switch (step) {
+      // case 1: {
+      //   return (this.node.instanceName !== '' &&
+      //     this.node.instanceIp !== '' &&
+      //     this.node.instancePort
+      //   );
+      // }
+      // case 2: {
+      //   if (this.node.selectedNodeType === 2) {
+      //     return true;
+      //   }
+      //
+      //   return (this.node.selectedNodeType);
+      // }
+      // case 3: {
+      //   return this.node.selectedNodeType === 1;
+      // }
+      case 4: {
+        return (this.node.privateKey !== '' && this.node.publicKey !== '' &&
+          (this.node.selectedNodeType != 1 || this.node.allocatedShard == 0));
+      }
+      default: {
+        return true;
+      }
+    }
 
-    return true;
+    //return true;
   }
 
   onStepEnter(event) {
@@ -309,7 +309,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
       port,
       masterPeerPort,
       masterPeerIpAddress,
-      privateKey
+      privateKey,
+      isSeedNode
     ).subscribe(result => {
       if (result) {
         this.toastr.show({

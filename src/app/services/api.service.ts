@@ -136,9 +136,10 @@ export class ApiService {
             port,
             masterPeerPort,
             masterPeerIpAddress,
-            privateKey): Observable<any> {
+            privateKey,
+            isSeedNode): Observable<any> {
 
-    const url = `${this.url}/start?nodeName=${nodeName}&port=${port}&masterPeerPort=${masterPeerPort}&masterPeerIpAddress=${masterPeerIpAddress}&privateKey=${privateKey}`;
+    const url = `${this.url}/start?nodeName=${nodeName}&port=${port}&masterPeerPort=${masterPeerPort}&masterPeerIpAddress=${masterPeerIpAddress}&privateKey=${privateKey}&isSeedNode=${isSeedNode}`;
 
     return this.http.get<any[]>(url)
       .pipe(
