@@ -12,7 +12,7 @@ export class HelpComponent implements OnInit {
   protected isNodeStarted = false;
   protected downloadInProgress = false;
   protected selectShards = [
-    {label: 'Current node', value: 'current'},
+    {label: 'Current node', value: ''},
     {label: 'Shard 0', value: 0},
     {label: 'Shard 1', value: 1},
     {label: 'Shard 2', value: 2},
