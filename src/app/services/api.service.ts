@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import { catchError} from 'rxjs/operators';
 
 import { MessageService } from './message.service';
@@ -165,25 +165,12 @@ export class ApiService {
       );
   }
 
-  saveNodeLogs(shard: string = '', destination: string = '') {
+  saveNodeLogs(shard: string = '') {
     const url = `${this.url}/getNodeLogs/${shard}`;
     return this.http.get(url, {
         responseType: 'blob'
-      }).subscribe(res => {
-        const objurl = window.URL.createObjectURL(res);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = objurl;
-        a.download = destination;
-        a.click();
-        window.URL.revokeObjectURL(objurl);
-        a.remove(); // remove the element
-      }, error => {
-        console.warn('download error:', JSON.stringify(error));
-      }, () => {
-        console.log('Completed file download...');
-      });
+      })
+      .pipe(catchError(this.handleError('status', false)));
   }
 
   saveNodeLogsTest(shard: string = '', destination: string = ''): Observable<any> {

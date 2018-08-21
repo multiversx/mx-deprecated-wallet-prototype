@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NodeDataService} from '../../services/node-data.service';
 import {ApiService} from '../../services/api.service';
+import {ToastrMessageService} from '../../services/toastr.service';
 
 @Component({
   selector: 'app-help',
@@ -26,7 +27,20 @@ export class HelpComponent implements OnInit {
   ];
   protected selectedShard;
   constructor(private apiService: ApiService,
-              private nodeDataService: NodeDataService) {
+              private nodeDataService: NodeDataService,
+              private toastr: ToastrMessageService) {
+  }
+
+  static downloadBlobFile(file) {
+    const objurl = window.URL.createObjectURL(file);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = objurl;
+    a.download = 'logs.zip';
+    a.click();
+    window.URL.revokeObjectURL(objurl);
+    a.remove();
   }
 
   ngOnInit() {
@@ -44,7 +58,24 @@ export class HelpComponent implements OnInit {
 
   downloadLogs(): void {
     this.downloadInProgress = true;
-    this.apiService.saveNodeLogs(this.selectedShard, 'logs.zip');
+    this.apiService.saveNodeLogs(this.selectedShard)
+      .subscribe(res => {
+        if ( !res || res['size'] === 0 ) {
+          return this.toastr.show({
+            title: 'Error',
+            message: `There are no logs to download`,
+          }, 'error');
+        }
+        HelpComponent.downloadBlobFile(res);
+        this.toastr.show({
+          title: 'Success',
+          message: `Logs are ready for download`,
+        });
+      }, error => {
+        console.warn(error);
+      });
     this.downloadInProgress = false;
   }
+
+
 }
