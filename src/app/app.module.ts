@@ -32,6 +32,7 @@ import { LoggerComponent } from './layout/logger/logger.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { IsLoadingComponent } from './components/is-loading/is-loading.component';
 import { LoadingService } from './services/loading.service';
+import { HelpComponent } from './pages/help/help.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -49,6 +50,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     LoggerComponent,
     WelcomeComponent,
     IsLoadingComponent,
+    HelpComponent,
   ],
   imports: [
     BrowserModule,

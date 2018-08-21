@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import { ApiService } from '../../services/api.service';
 import { ToastrMessageService } from '../../services/toastr.service';
@@ -11,7 +10,7 @@ import { LoadingService } from '../../services/loading.service';
   templateUrl: './operations.component.html',
   styleUrls: ['./operations.component.scss']
 })
-export class OperationsComponent implements OnInit {
+export class OperationsComponent implements OnInit, OnDestroy {
   public operationsBalance = 0;
   public operationsFrom: string;
   public operationsShard: number;
@@ -27,6 +26,7 @@ export class OperationsComponent implements OnInit {
   public isSendDisabled = false;
   public isCheckDisabled = false;
   isNodeStarted = false;
+  clearBalanceInterval = null;
 
   constructor(private apiService: ApiService,
               private nodeDataService: NodeDataService,
@@ -49,7 +49,7 @@ export class OperationsComponent implements OnInit {
     this.operationsFrom = node.publicKey;
 
     if (this.operationsFrom) {
-      setInterval(() => {
+      this.clearBalanceInterval = setInterval(() => {
         this.apiService.getBalance(this.operationsFrom).subscribe(res => {
           const {success, payload} = res;
 
@@ -119,5 +119,11 @@ export class OperationsComponent implements OnInit {
       this.isSendDisabled = false;
       this.loadingService.hideDelay();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.clearBalanceInterval) {
+      clearInterval(this.clearBalanceInterval);
+    }
   }
 }

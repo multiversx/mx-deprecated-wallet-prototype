@@ -1,0 +1,34 @@
+<div class="container-fluid -right" *ngIf="isNodeStarted">
+  <div class="row">
+    <div class="col-sm-7 pr-5">
+      <ng-container>
+        <h2>Help</h2>
+      </ng-container>
+      <h3>Log helpers</h3>
+      <div class="row" style="padding-top: 30px;">
+        <div class="col-md-7">
+          <div class="select-wrapper">
+            <ng-select [items]="selectShards"
+                       bindLabel="label"
+                       bindValue="value"
+                       placeholder="Select which logs to download ..."
+                       [(ngModel)]="selectedShard">
+            </ng-select>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <button type="button" class="btn btn-info"
+                [disabled]="downloadInProgress"
+                (click)="downloadLogs($event)">Download
+        </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="no-message text-center" style="display: flex; flex: 1; justify-content: center; align-items: center;width: 100%; height: 100%;"
+     *ngIf="!isNodeStarted">
+  <h2>Node is not started</h2>
+</div>
+
+<span class="circle-bottom-right circle-large circle-graphic circle-light-blue"></span>

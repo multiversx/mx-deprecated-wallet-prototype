@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {Observable, of, Subscription} from 'rxjs';
+import { catchError} from 'rxjs/operators';
 
 import { MessageService } from './message.service';
 import { AppConfig } from '../../environments/environment';
+import {ResponseContentType} from '@angular/http';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -162,6 +163,22 @@ export class ApiService {
     return this.http.get<boolean>(url)
       .pipe(
         catchError(this.handleError('status', false))
+      );
+  }
+
+  saveNodeLogs(shard: string = '') {
+    const url = `${this.url}/getNodeLogs/${shard}`;
+    return this.http.get(url, {
+        responseType: 'blob'
+      })
+      .pipe(catchError(this.handleError('status', false)));
+  }
+
+  saveNodeLogsTest(shard: string = '', destination: string = ''): Observable<any> {
+    const url = `${this.url}/getNodeLogs/${shard}`;
+    return this.http.get<any>(url)
+      .pipe(
+        catchError(this.handleError('status', {}))
       );
   }
 

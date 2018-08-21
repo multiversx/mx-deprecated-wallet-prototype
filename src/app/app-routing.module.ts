@@ -7,6 +7,7 @@ import { StatsComponent } from './pages/stats/stats.component';
 import { SearchComponent } from './pages/search/search.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoggerComponent } from './layout/logger/logger.component';
+import {HelpComponent} from './pages/help/help.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'stats',
     component: StatsComponent,
+  },
+  {
+    path: 'help',
+    component: HelpComponent
   },
   {
     path: 'search',
