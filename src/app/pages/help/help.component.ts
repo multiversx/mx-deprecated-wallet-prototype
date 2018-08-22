@@ -10,7 +10,7 @@ import {ToastrMessageService} from '../../services/toastr.service';
 })
 export class HelpComponent implements OnInit {
 
-  protected isNodeStarted = false;
+  public isNodeStarted = false;
   protected downloadInProgress = false;
   protected selectShards = [
     {label: 'Current node', value: ''},
