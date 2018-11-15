@@ -1,5 +1,5 @@
 # Elrond Wallet (UI-Prototype)
-Simple Setup-Wizzard for Elrond Prototype, Wallet and Protocol Banchmarking
+Simple Setup-Wizard for Elrond Node Prototype, Wallet and Protocol Benchmarking
 
 ![elrond-wallet](https://cdn-images-1.medium.com/max/2000/1*CJd6EpaGPJH8T4tFEZesgg.jpeg)
 
