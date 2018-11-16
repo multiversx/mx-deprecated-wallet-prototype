@@ -25,7 +25,7 @@ Elrond Prototype overview - [Progress update #2 - Medium](https://medium.com/elr
 -   [Troubleshooting](#troubleshooting)
 
 ## Design goal
-The purpose of this project is to implement a simple and friendly user-interface providing a new experience for testing purposes, connecting to the [Elrond-Prototype](https://github.com/ElrondNetwork/elrond-core) and providing out of the box 1-click application integrating the the prototype as a JVM cross-platform operating tool.
+The purpose of this project is to implement a simple and friendly user-interface providing a new experience for testing purposes, connecting to the [Elrond-Node-Prototype](https://github.com/ElrondNetwork/elrond-node-prototype) and providing out of the box 1-click application integrating the the prototype as a JVM cross-platform operating tool.
 
 ## What to expect
 This is a new, well-functioning user interface, Elrond Wallet bundles the following app sections:
